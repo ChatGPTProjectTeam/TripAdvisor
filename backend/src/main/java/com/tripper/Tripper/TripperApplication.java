@@ -3,6 +3,7 @@ package com.tripper.Tripper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+//openAI imports
 
 // application.properties에 DB 정보 설정 안하여 임시적으로 넣음
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
