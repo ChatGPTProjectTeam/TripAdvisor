@@ -24,4 +24,9 @@
     border-radius: 5px;
 }
 
+.addButton {
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: 10px;
+}
+
 

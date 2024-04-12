@@ -12,7 +12,10 @@ function Sidebar() {
 
     return (
         <div className="sidebar">
-            <button onClick={addNewTab}>New</button>
+            <div className="addButton">
+                <button onClick={addNewTab}>New</button>
+
+            </div>
             <ul>
                 {tabs.map((tab, index) => (
                     <li key={index}>

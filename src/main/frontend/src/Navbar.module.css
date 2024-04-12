@@ -23,6 +23,7 @@ a {
     align-items: center;
     gap: 40px;
     min-height: 70px;
+    border-bottom: 1px solid #ffffff;
 }
 
 
