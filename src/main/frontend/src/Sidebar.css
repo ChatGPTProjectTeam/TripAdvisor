@@ -1,0 +1,27 @@
+/* src/components/Sidebar.css */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #120f0b;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar button {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+    background-color: #242424;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
