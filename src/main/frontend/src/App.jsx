@@ -17,7 +17,7 @@ function App() {
       <div className="App-main">
           <Navbar/>
           <div>
-              <a href="https://vitejs.dev" target="_blank">
+              <a href="" target="_blank">
                   <img src={tripperLogo} className="logo" alt="Vite logo"/>
               </a>
 
