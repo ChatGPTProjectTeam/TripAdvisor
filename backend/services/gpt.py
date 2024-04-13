@@ -3,7 +3,7 @@ from openai import OpenAI
 from backend.dtos import TripInfo
 from backend.settings import settings
 
-
+# TODO: 프롬프트 잘 작성하기
 SYSTEM_PROMPT = """
 너는 여행에서 할 활동들을 추천해주어야해.
 
@@ -23,6 +23,9 @@ class GPTService:
         self.openai = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     def generate_activities(self, trip_info: TripInfo) -> list[str]:
+        """
+        여행 정보를 바탕으로 여행 활동을 생성합니다.
+        """
         response = self.openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -37,6 +40,9 @@ class GPTService:
                 },
             ],
         )
+        """
+        GPT 에서 내려주는 활동의 개수와 실제 일정의 개수가 다른 경우 처리가 필요함    
+        """
         return [
             activity
             for activity in response.choices[0].message.content.split("\n")
