@@ -1,0 +1,2 @@
+class RestaurantService:
+    pass
