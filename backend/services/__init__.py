@@ -1,7 +1,14 @@
+from .day_plan import DayPlanService
 from .plan import PlanService
-from .restaurant import RestaurantService
 from .skyscanner import SkyscannerService
 
 plan_service = PlanService()
-restaurant_service = RestaurantService()
 skyscanner_service = SkyscannerService()
+day_plan_service = DayPlanService()
+
+
+__all__ = [
+    "plan_service",
+    "skyscanner_service",
+    "day_plan_service",
+]
