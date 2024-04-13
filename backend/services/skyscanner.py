@@ -1,0 +1,2 @@
+class SkyscannerService:
+    pass
