@@ -1,10 +1,22 @@
+from typing import TYPE_CHECKING
+
 from backend.database import SessionLocal
 from backend.dtos import TripPlan, TripInfo, PlanComponent, PlaneInfo, AccommodationInfo
 from backend.models import Plan
-from backend.services import skyscanner_service, day_plan_service
+
+if TYPE_CHECKING:
+    from backend.services import DayPlanService, SkyscannerService
 
 
 class PlanService:
+    def __init__(
+        self,
+        day_plan_service: "DayPlanService",
+        skyscanner_service: "SkyscannerService",
+    ):
+        self.day_plan_service = day_plan_service
+        self.skyscanner_service = skyscanner_service
+
     def create_plan(self, trip_info: TripInfo) -> TripPlan:
         plan = Plan()
         plan_info = self._create_plan(trip_info)
@@ -12,18 +24,18 @@ class PlanService:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        plan_info.trip_plan_id = plan.id
+        plan_info.trip_plan_id = plan.plan_id
         return plan_info
 
     def _create_plan(self, trip_info: TripInfo) -> TripPlan:
         (
             plane_info,
             accommodation_info,
-        ) = skyscanner_service.get_plane_and_accommodation_info(
+        ) = self.skyscanner_service.get_plane_and_accommodation_info(
             trip_info.province, trip_info.days, trip_info.start_date
         )
 
-        day_plan_list = day_plan_service.create_day_plan_list(trip_info)
+        day_plan_list = self.day_plan_service.create_day_plan_list(trip_info)
 
         return TripPlan(
             trip_plan=[
@@ -45,7 +57,6 @@ class PlanService:
             component_type="plane",
             plane_info=plane_info,
             accommodation_info=None,
-            plan=[],
         )
 
     def _create_accommodation_component(
@@ -57,5 +68,4 @@ class PlanService:
             component_type="accommodation",
             plane_info=None,
             accommodation_info=accommodation_info,
-            plan=[],
         )

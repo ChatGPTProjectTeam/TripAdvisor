@@ -36,13 +36,13 @@ class RestaurantInfo(BaseModel):
 
 
 class SubPlan(BaseModel):
-    activity: str
+    activity: str = ""
     restaurant: RestaurantInfo | None
 
 
 class DayPlan(BaseModel):
     plan_id: int
-    date: str
+    date: date
     morning: SubPlan
     afternoon: SubPlan
     evening: SubPlan
@@ -53,7 +53,7 @@ class PlanComponent(BaseModel):
     component_type: str
     plane_info: PlaneInfo | None
     accommodation_info: AccommodationInfo | None
-    day_plan_list: list[DayPlan]
+    day_plan_list: list[DayPlan] = []
 
 
 class TripPlan(BaseModel):

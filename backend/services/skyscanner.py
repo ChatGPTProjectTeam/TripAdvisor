@@ -19,6 +19,3 @@ class SkyscannerService:
             rating=4.5,
         )
         return plane_info, accommodation_info
-
-
-x
