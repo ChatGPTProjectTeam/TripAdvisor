@@ -10,6 +10,11 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/api/v1/plans")
+def create_plan():
+    return {}
+
+
+@app.patch("/api/v1/plan/{plan_id}")
+def read_item(plan_id: int, q: Union[str, None] = None):
+    return {}
