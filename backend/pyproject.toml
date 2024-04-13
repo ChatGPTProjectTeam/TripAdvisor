@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 fastapi = "^0.110.1"
 uvicorn = "^0.29.0"
+sqlalchemy = "^2.0.29"
 
 
 [build-system]
