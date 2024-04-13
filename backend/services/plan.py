@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
-from backend.dtos import TripPlan, TripInfo, PlanComponent, PlaneInfo, AccommodationInfo
+from backend.dtos import TripPlan, TripInfo, PlanComponent
 from backend.models import Plan
 
 if TYPE_CHECKING:
@@ -18,8 +18,10 @@ class PlanService:
         self.skyscanner_service = skyscanner_service
 
     def create_plan(self, trip_info: TripInfo) -> TripPlan:
-        plan = Plan()
         plan_info = self._create_plan(trip_info)
+        plan = Plan(
+            plan_info=plan_info.json(exclude_none=True),
+        )
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
@@ -28,44 +30,34 @@ class PlanService:
         return plan_info
 
     def _create_plan(self, trip_info: TripInfo) -> TripPlan:
+        # 비행기와 숙소 정보를 가져옵니다.
         (
             plane_info,
             accommodation_info,
-        ) = self.skyscanner_service.get_plane_and_accommodation_info(
+        ) = self.skyscanner_service.create_plane_and_accommodation_info(
             trip_info.province, trip_info.days, trip_info.start_date
         )
-
+        # 날짜별 일정을 생성합니다.
         day_plan_list = self.day_plan_service.create_day_plan_list(trip_info)
 
         return TripPlan(
             trip_plan=[
-                self._create_plane_component(plane_info),
-                self._create_accommodation_component(accommodation_info),
+                PlanComponent(
+                    component_id=1,
+                    component_type="plane",
+                    plane_info=plane_info,
+                    accommodation_info=None,
+                ),
+                PlanComponent(
+                    component_id=2,
+                    component_type="accommodation",
+                    plane_info=None,
+                    accommodation_info=accommodation_info,
+                ),
                 PlanComponent(
                     component_id=3,
                     component_type="activity",
                     day_plan_list=day_plan_list,
                 ),
             ]
-        )
-
-    def _create_plane_component(self, plane_info: PlaneInfo) -> PlanComponent:
-        # TODO: skyscanner 에서 가져오기
-
-        return PlanComponent(
-            component_id=1,
-            component_type="plane",
-            plane_info=plane_info,
-            accommodation_info=None,
-        )
-
-    def _create_accommodation_component(
-        self, accommodation_info: AccommodationInfo
-    ) -> PlanComponent:
-        # TODO: 숙소 정보 가져오기
-        return PlanComponent(
-            component_id=2,
-            component_type="accommodation",
-            plane_info=None,
-            accommodation_info=accommodation_info,
         )

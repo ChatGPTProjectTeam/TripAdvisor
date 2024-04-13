@@ -4,7 +4,7 @@ from backend.dtos import PlaneInfo, AccommodationInfo
 
 
 class SkyscannerService:
-    def get_plane_and_accommodation_info(
+    def create_plane_and_accommodation_info(
         self, province: str, days: int, start_date: date
     ) -> tuple[PlaneInfo, AccommodationInfo]:
         # TODO: 스카이스캐너 API를 이용해 실제 정보를 가져오기

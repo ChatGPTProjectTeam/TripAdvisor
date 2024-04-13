@@ -9,10 +9,3 @@ day_plan_service = DayPlanService(gpt_service=gpt_service)
 plan_service = PlanService(
     day_plan_service=day_plan_service, skyscanner_service=skyscanner_service
 )
-
-
-__all__ = [
-    "plan_service",
-    "skyscanner_service",
-    "day_plan_service",
-]
