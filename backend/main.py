@@ -1,20 +1,15 @@
-from typing import Union
-
 from fastapi import FastAPI
+
+from dtos import TripInfo
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
 @app.post("/api/v1/plans")
-def create_plan():
+def create_plan(trip_info: TripInfo):
     return {}
 
 
 @app.patch("/api/v1/plan/{plan_id}")
-def read_item(plan_id: int, q: Union[str, None] = None):
+def edit_plan(plan_id: int, trip_info: TripInfo):
     return {}
