@@ -28,11 +28,13 @@ packaging==24.0
 pexpect==4.9.0
 pkginfo==1.10.0
 platformdirs==4.2.0
+poetry==1.8.2
 poetry-core==1.9.0
 poetry-plugin-export==1.7.1
 ptyprocess==0.7.0
 pycparser==2.22
-pydantic==2.7.0
+pydantic==1.10.0
+pydantic-settings==2.2.1
 pydantic_core==2.18.1
 pyproject_hooks==1.0.0
 python-dotenv==1.0.1
