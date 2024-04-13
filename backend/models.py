@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, JSON
 
-from .database import Base
+from backend.database import Base
 
 
 class Plan(Base):
