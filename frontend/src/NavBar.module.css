@@ -15,7 +15,9 @@ a {
 /* Navbar styles */
 .navbar {
   background-color: aliceblue;
-  padding: 0px 20px;
+  /*padding: 0px 20px;*/
+  padding-left: 10px;
+  padding-right: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,17 +77,45 @@ a {
     width: 100%;
     transition: 0.7s ease-in-out;
     background-color: aliceblue;
-    padding: 10px;
+    padding: 10px 20px;
     text-align: center; /* Center items horizontally */
   }
 
   /* Active state styles for menu */
   .navMenu.active {
-    top: 8%; /* Slide down when active */
+    top: 5% /* Slide down when active */
   }
 
   /* Menu item styles */
   .navMenu li {
     margin: 16px auto;
+    position: relative; /* Added */
   }
+}
+
+.descriptionBox {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Positioned just below the nav item */
+  min-width: 300px; /* Ensure it has enough space */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  z-index: 20; /* Higher z-index to ensure it overlaps other content */
+  padding: 10px;
+  display: none; /* Start hidden */
+}
+
+/* This will apply only if descriptionBox is inside the button or another element marked with navLink */
+.navLink.active .descriptionBox {
+  display: block; /* Show when active */
+}
+
+
+/* Adjust arrow icon size and placement if needed */
+.arrow-up, .arrow-down {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
 }
