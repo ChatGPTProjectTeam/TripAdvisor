@@ -22,6 +22,7 @@ a {
   justify-content: space-between;
   align-items: center;
   min-height: 40px;
+  border-bottom: 2px solid black;
 }
 
 /* Logo styles */

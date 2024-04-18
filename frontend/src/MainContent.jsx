@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import './SideBar.css'
+import './Sidebar.module.css'
 
 function Maincontents() {
 
