@@ -1,0 +1,19 @@
+.sidebar {
+  width: 250px; /* Set the width of the sidebar */
+  height: 100vh; /* Full-view height */
+  background-color: #f4f4f4; /* Light grey background */
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for depth */
+}
+.sidebar-button {
+  display: block; /* Stack buttons vertically */
+  width: 100%; /* Full width of the sidebar */
+  padding: 10px;
+  margin-bottom: 10px; /* Space between buttons */
+  background-color: #007bff; /* Bootstrap primary blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}

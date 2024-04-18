@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import styles from './NavBar.module.css';
-// import { TEDropdown, TEDropdownToggle, TEDropdownMenu, TEDropdownItem } from 'tw-elements-react';
-import './Test.jsx';
-import TestDropdown from "./Test.jsx";
 import {TEDropdown, TEDropdownItem, TEDropdownMenu, TEDropdownToggle} from "tw-elements-react";
 
 function Navbar() {
@@ -82,7 +79,6 @@ function Navbar() {
                               <h2>서비스 가이드라인</h2>
                               <h3>{descriptionInfo}</h3>
                           </div>
-
                       </div>
                   </li>
               </ul>
