@@ -51,7 +51,9 @@ function Navbar() {
       <header>
           <nav className={`${styles.navbar}`}>
               <div className={`${styles.logo}`}>
-                  <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
+                  <a href="/">
+                      <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
+                  </a>
               </div>
               <div className={`${styles.hamburger} ${isActive ? styles.active : ''}`} onClick={toggleActiveClass}>
                   <span className={`${styles.bar}`}></span>
