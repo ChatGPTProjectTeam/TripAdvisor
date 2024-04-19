@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import styles from './Sidebar.module.css'
 import './App.css'
+import dummy from './frontDB/chatLog.json'
+import ChatList from "./test.jsx";
 
 function Sidebar() {
     const handleNewChat = () => {
     console.log("Creating a new chat...");
+
     // Add logic to create a new chat
   };
     return(
@@ -16,7 +19,6 @@ function Sidebar() {
                     </button>
                 </div>
                 <div>
-
                 </div>
             </div>
 
