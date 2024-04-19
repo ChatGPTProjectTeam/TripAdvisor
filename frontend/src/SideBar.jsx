@@ -10,10 +10,9 @@ function Sidebar() {
     return(
         <div style={{flex: 1}} className={`${styles.sidebar}`}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div className={`${styles.sidebarNewChatBox}`}>
-
-                    <button onClick={handleNewChat} className={`button-74 ${styles.sidebarButton}`}>
-                        New Chat
+                <div style={{display: 'flex'}} className={`${styles.sidebarNewChatBox}`}>
+                    <button onClick={handleNewChat} className={`button-64 ${styles.sidebarButton}`}>
+                        <span className="text">New Chat</span>
                     </button>
                 </div>
                 <div>
