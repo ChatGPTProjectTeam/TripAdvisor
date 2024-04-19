@@ -1,20 +1,8 @@
 {
-  "chats" : [
-    {
-      "id": 1,
-      "isOpen": false
-    },
-    {
-      "id": 2,
-      "isOpen": false
-    },
-    {
-      "id": 3,
-      "isOpen": false
-    },
-    {
-      "id": 4,
-      "isOpen": false
-    }
+  "chats": [
+    {"id": 1, "title": "Tokyo", "isOpen": false},
+    {"id": 2, "title": "Osaka", "isOpen": false},
+    {"id": 3, "title": "Kyoto", "isOpen": false},
+    {"id": 4, "title": "Asahi", "isOpen": false}
   ]
 }
