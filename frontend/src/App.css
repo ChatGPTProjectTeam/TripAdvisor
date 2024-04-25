@@ -100,7 +100,7 @@
   font-size: 20px;
   justify-content: center;
   line-height: 1em;
-  max-width: 100%;
+  width: 260px;
   min-width: 140px;
   padding: 3px;
   text-decoration: none;
@@ -157,6 +157,10 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  max-width: 280px;
+  width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .button-80:not(:disabled):hover {
@@ -207,15 +211,14 @@
 @media (max-width: 1350px) {
   .button-64 {
     font-size: 24px;
-    width: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
+    width: 216px;
+
   }
   .button-80 {
     font-size: 24px;
-    width: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
+    width: 216px;
+    margin-left: 25px;
+    margin-right: 25px;
 
   }
   .subTitleText {

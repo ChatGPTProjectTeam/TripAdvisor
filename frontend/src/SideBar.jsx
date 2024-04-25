@@ -14,6 +14,7 @@ function Sidebar() {
                 <ChatCreateButton/>
                 <ChatList/>
                 <div>
+                {/*    this is for main chat */}
                 </div>
             </div>
         </div>

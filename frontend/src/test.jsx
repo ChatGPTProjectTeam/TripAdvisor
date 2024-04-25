@@ -6,7 +6,7 @@ export default function ChatList() {
     console.log(dummy);
     const [chats, setChats] = useState([]);
     useEffect(() => {
-        // In a real scenario, you would fetch this data from a server
+        // getting data from server?
         setChats(dummy.chats);
     }, []);
     return (

@@ -20,10 +20,9 @@ function Navbar() {
   );
 
   const toggleDescription = (e) => {
-    e.stopPropagation(); // Stop event propagation
+    e.stopPropagation();
     setShowDescription(!showDescription);
   };
-  // Function to toggle active class
   const toggleActiveClass = () => {
     setIsActive(!isActive);
   };

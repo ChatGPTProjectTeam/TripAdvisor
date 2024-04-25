@@ -17,16 +17,14 @@
 
 .sidebarNewChatBox {
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 25px;
   border-bottom: 2px solid black;
   justify-content: center;
 }
 
 .sidebarChatBox {
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 20px;
   justify-content: center;
 }
 

@@ -7,8 +7,6 @@ import SideBar from "./SideBar.jsx";
 import Maincontents from "./MainContent.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
       <div>
           <div>

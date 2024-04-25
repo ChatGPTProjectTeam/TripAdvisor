@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import './Sidebar.module.css'
 
+// this is main contents
 function Maincontents() {
 
     return(
@@ -9,5 +10,4 @@ function Maincontents() {
         </div>
     )
 }
-
 export default Maincontents;
