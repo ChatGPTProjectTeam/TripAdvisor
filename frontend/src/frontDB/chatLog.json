@@ -4,5 +4,11 @@
     {"id": 2, "title": "Osaka", "isOpen": false},
     {"id": 3, "title": "Kyoto", "isOpen": false},
     {"id": 4, "title": "Asahi", "isOpen": false}
+  ],
+  "form": [
+    {"id": 1, "region":  "Tokyo"},
+    {"id": 2, "region":  "Osaka"},
+    {"id": 3, "region":  "Kyoto"},
+    {"id": 4, "region":  "Asahi"}
   ]
 }

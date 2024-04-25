@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import styles from './NavBar.module.css';
+import styles from '../NavBar.module.css';
 import {TEDropdown, TEDropdownItem, TEDropdownMenu, TEDropdownToggle} from "tw-elements-react";
 
 function Navbar() {
@@ -47,7 +47,7 @@ function Navbar() {
       <header>
           <nav className={`${styles.navbar}`}>
               <div className={`${styles.logo}`}>
-                  <a href="/">
+                  <a href="/frontend/public">
                       <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
                   </a>
               </div>
