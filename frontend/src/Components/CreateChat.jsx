@@ -2,20 +2,20 @@
 
 export async function CreateChat() {
     try {
-        // Assume you have endpoints that return all chats and forms to find the max ID
+        // assign this for fetching
         const chatsResponse = await fetch(`http://localhost:5050/chats`);
         const formsResponse = await fetch(`http://localhost:5050/form`);
 
         if (!chatsResponse.ok || !formsResponse.ok) {
-            throw new Error('Failed to fetch data');
+            alert('Failed to fetch data');
         }
 
         const chatsData = await chatsResponse.json();
-        // Calculate new ID based on the existing data
+        // make id
         const newChatId = Math.max(...chatsData.map(chat => chat.id)) + 1;
         const newFormId = newChatId;
 
-        // Post to create a new chat with a new ID
+        // add new data
         const chatResponse = await fetch(`http://localhost:5050/chats`, {
             method: "POST",
             headers: {
@@ -29,10 +29,10 @@ export async function CreateChat() {
         });
 
         if (!chatResponse.ok) {
-            throw new Error('Failed to post new chat');
+            alert('Failed to post new chat');
         }
 
-        // Post to create a new form with a new ID
+        // post to make new form
         const formResponse = await fetch(`http://localhost:5050/form`, {
             method: "POST",
             headers: {
@@ -40,15 +40,15 @@ export async function CreateChat() {
             },
             body: JSON.stringify({
                 id: newFormId,
-                chatId: newChatId,  // Link new form to new chat
+                chatId: newChatId,
                 region: "region added"
             }),
         });
 
-        if (!formResponse.ok) throw new Error('Failed to post new form');
-
+        if (!formResponse.ok) {
+            alert('Failed to post new form');
+        }
         alert("New chat and form created successfully!");
-
         return {
             chat: await chatResponse.json(),
             form: await formResponse.json(),

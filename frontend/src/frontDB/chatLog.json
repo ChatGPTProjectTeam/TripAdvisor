@@ -19,16 +19,6 @@
       "id": "4",
       "title": "Asahi",
       "isOpen": false
-    },
-    {
-      "id": 5,
-      "title": "chat added",
-      "isOpen": false
-    },
-    {
-      "id": 6,
-      "title": "chat added",
-      "isOpen": false
     }
   ],
   "form": [
@@ -47,16 +37,6 @@
     {
       "id": "4",
       "region": "Asahi"
-    },
-    {
-      "id": 5,
-      "chatId": 5,
-      "region": "region added"
-    },
-    {
-      "id": 6,
-      "chatId": 6,
-      "region": "region added"
     }
   ]
 }

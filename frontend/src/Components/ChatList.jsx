@@ -21,7 +21,6 @@ export default function ChatList() {
                             <div style={{color: '#ffffff', fontSize: '16px'}}>새 여행코스</div>
                         </Link>
                     </div>
-
                 </li>
             ))}
         </ul>
