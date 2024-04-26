@@ -24,7 +24,6 @@ function App() {
                       <Route path="/create_chat" element={<CreateChat/>} />
                     <Route path="*" element={<EmptyPage/>} />
                   </Routes>
-
               </div>
           </div>
       </BrowserRouter>

@@ -1,8 +1,4 @@
-# React + Vite
+# 프론트 참고사항
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 현재 json-server를 통해서 백 부분을 테스팅 중 입니다.
+- 프론트 테스팅을 위해서 터미널에서 따로 "json-server --watch ./frontend/src/frontDB/chatLog.json --port 5050" 실행 하셔야 합니다.
