@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import styles from '../NavBar.module.css';
 import {TEDropdown, TEDropdownItem, TEDropdownMenu, TEDropdownToggle} from "tw-elements-react";
+import {Link} from "react-router-dom";
 
 function Navbar() {
   // Adding the state for active class
@@ -47,9 +48,9 @@ function Navbar() {
       <header>
           <nav className={`${styles.navbar}`}>
               <div className={`${styles.logo}`}>
-                  <a href="/frontend/public">
+                  <Link to="/">
                       <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
-                  </a>
+                  </Link>
               </div>
               <div className={`${styles.hamburger} ${isActive ? styles.active : ''}`} onClick={toggleActiveClass}>
                   <span className={`${styles.bar}`}></span>

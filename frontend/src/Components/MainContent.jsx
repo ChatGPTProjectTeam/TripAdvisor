@@ -1,17 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import {useParams} from "react-router-dom";
 import '../Sidebar.module.css'
-import dummy from '../frontDB/chatLog.json'
 import './TripForm.jsx'
 import TripForm from "./TripForm.jsx";
+import useFetch from "../hooks/loadData.jsx";
 
 
 // this is main contents
 function MainContents() {
-    // const regionData = dummy.form.find(item => item.id === id);
+    const targetForm = parseInt(useParams().id, 10)
+        const forms = useFetch(`http://localhost:5050/form?id=${targetForm}`)
+
 
     return (
         <div style={{flex: 4}}>
-            <TripForm/>
+            {/*<TripForm/>*/}
+            {forms.map(place=> (
+            <div>
+                    <h1>{place.region}</h1>
+            </div>
+            ))}
         </div>
     );
 }

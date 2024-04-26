@@ -7,7 +7,6 @@ function TripForm() {
       <div>
           <h1>hello</h1>
       </div>
-
   )
 }
 

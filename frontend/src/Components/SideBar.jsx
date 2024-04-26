@@ -4,7 +4,7 @@ import '../App.css'
 import dummy from '../frontDB/chatLog.json'
 import ChatList from "./ChatList.jsx";
 import './ChatButton.jsx'
-import {ChatCreateButton} from "./ChatButton.jsx";
+import ChatCreateButton from "./ChatButton.jsx";
 
 function Sidebar() {
 
