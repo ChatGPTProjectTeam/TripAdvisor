@@ -42,7 +42,7 @@ function Navbar() {
     };
   }, []);
 
-  const descriptionInfo = "this is the guideline for this application";
+  const descriptionInfo = "this is the guideline for this application\n\n 1.click 'new chat' to create chat\n";
 
   return (
       <header>

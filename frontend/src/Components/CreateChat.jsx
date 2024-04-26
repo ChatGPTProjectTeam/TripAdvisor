@@ -2,7 +2,7 @@
 
 export async function CreateChat() {
     try {
-        // assign this for fetching
+        // check for fetching
         const chatsResponse = await fetch(`http://localhost:5050/chats`);
         const formsResponse = await fetch(`http://localhost:5050/form`);
 
