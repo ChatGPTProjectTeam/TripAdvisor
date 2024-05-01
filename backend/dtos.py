@@ -1,7 +1,15 @@
 from datetime import date
-from typing import Literal,Union
+from typing import Literal, Union
 from pydantic_settings import BaseSettings
 from pydantic import BaseModel, Field
+
+
+class ChatInfo(BaseModel):
+    chat_id: int
+    title: str
+    created_date: date
+    updated_date: date
+    isOpen: bool
 
 
 # class TripInfo(BaseModel):
@@ -13,6 +21,7 @@ from pydantic import BaseModel, Field
 #     trip_style_text: str
 #     start_time_preference: Literal["day"] = Field(..., alias="startTimePreference")
 class TripInfo(BaseModel):
+    chat_id: int
     mbti: str
     province: Literal["Tokyo"]
     days: int
@@ -21,8 +30,10 @@ class TripInfo(BaseModel):
     trip_style_text: str
     start_time_preference: Literal["day"] = Field(..., alias="startTimePreference")
 
+
 class PlaneInfo(BaseModel):
     # 스카이스캐너에서 가져온 비행 정보 예시 필드
+    chat_id: int
     departure: str
     arrival: str
     airline: str
@@ -30,15 +41,20 @@ class PlaneInfo(BaseModel):
 
 class AccommodationInfo(BaseModel):
     # 스카이스캐너에서 가져온 숙소 정보 예시 필드
+    chat_id: int
     name: str
     location: str
     rating: float
-    market: Union[str,None]
+    market: Union[str, None]
     locale: str
     currency: str
-#숙소 관련해서 request response 보내는 api에 따라
+
+
+# 숙소 관련해서 request response 보내는 api에 따라
+# 가장 우선순위 마지막
 class RestaurantInfo(BaseModel):
     # 데이터베이스에서 가져온 식당 정보 예시 필드
+    chat_id: int
     name: str
     cuisine: str
     rating: float
@@ -58,6 +74,7 @@ class DayPlan(BaseModel):
 
 
 class PlanComponent(BaseModel):
+    chat_id: int
     component_id: int
     component_type: str
     plane_info: PlaneInfo | None
@@ -66,9 +83,10 @@ class PlanComponent(BaseModel):
 
 
 class TripPlan(BaseModel):
-    chat_id : int
+    chat_id: int
     trip_plan_id: int | None
     trip_plan: list[PlanComponent]
+
 
 class UserInput(BaseModel):
     msg: str

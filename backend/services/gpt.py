@@ -53,18 +53,13 @@ class GPTService:
             if activity
         ]
 
-    def user_msg(self, user_input:UserInput):
-        #아래 코드는 프론트 단에서 입력한 정보 받아오는 것으로 바꾸기
+    def user_msg(self, user_input: UserInput):
+        # 아래 코드는 프론트 단에서 입력한 정보 받아오는 것으로 바꾸기
 
         # GPT에서 응답이 오도록 하는 부분
         response = self.openai.chat.completions.create(
             model="gpt-4",
-            messages=[
-                {
-                    "role": "user",
-                    "content": user_input.msg
-                }
-            ],
+            messages=[{"role": "user", "content": user_input.msg}],
             # stream = True
         )
         # 출력한 값을 저장은 해야 하고, 값 출력은 이제 프론트 쪽에서 요청 시에 보내줘야 하는데 이때 별도의 rest api 호출 x
