@@ -1,80 +1,80 @@
 {
   "chats": [
     {
-      "id": "1",
+      "id": 1,
       "title": "Tokyo",
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
     },
     {
-      "id": "2",
+      "id": 2,
       "title": "Osaka",
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
     },
     {
-      "id": "3",
+      "id": 3,
       "title": "Kyoto",
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
     },
     {
-      "id": "4",
+      "id": 4,
       "title": "Asahi",
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
     },
     {
-      "id": "5",
+      "id": 5,
       "title": "chat added",
-      "createdAt": "2024-05-01T01:59:59.545Z",
-      "updatedAt": "2024-05-01T01:59:59.545Z",
+      "createdAt": "2024-05-01T03:22:39.792Z",
+      "updatedAt": "2024-05-01T03:22:39.792Z",
       "isOpen": false
     }
   ],
   "form": [
     {
-      "id": "1",
-      "mbti": "istj",
+      "id": 1,
+      "mbti": "T",
       "province": "Tokyo",
       "days": "3",
-      "start_date": "2024/04/01",
+      "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "편안한"
     },
     {
-      "id": "2",
-      "mbti": "estj",
+      "id": 2,
+      "mbti": "F",
       "province": "Osaka",
       "days": "3",
-      "start_date": "2024/04/01",
+      "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "불편한"
     },
     {
-      "id": "3",
-      "mbti": "enfp",
+      "id": 3,
+      "mbti": "F",
       "province": "Kyoto",
       "days": "3",
-      "start_date": "2024/04/01",
+      "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "안락한"
     },
     {
-      "id": "4",
-      "mbti": "intp",
+      "id": 4,
+      "mbti": "F",
       "province": "Asahi",
       "days": "3",
-      "start_date": "2024/04/01",
+      "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "뭐뭐한"
     },
     {
-      "id": "5",
+      "id": 5,
       "mbti": "none",
       "province": "none",
       "days": "none",

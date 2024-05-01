@@ -12,7 +12,7 @@ export async function CreateChat() {
 
         const chatsData = await chatsResponse.json();
         // make id
-        const newChatId = String(Math.max(...chatsData.map(chat => chat.id)) + 1);
+        const newChatId = Math.max(...chatsData.map(chat => chat.id)) + 1;
         const newFormId = newChatId;
         //timestamp
         const timestamp = new Date().toISOString();

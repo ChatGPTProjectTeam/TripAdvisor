@@ -3,6 +3,7 @@ import '../Sidebar.module.css'
 import './TripForm.jsx'
 import TripForm from "./TripForm.jsx";
 import useFetch from "../hooks/loadData.jsx";
+import FlightPlan from "./FlightPlan.jsx";
 
 
 // this is main contents
@@ -14,10 +15,11 @@ function MainContents() {
     return (
         <div style={{flex: 4}}>
             {/*<TripForm/>*/}
-            {forms.map(place=> (
-            <div>
+            {forms.map((place, id)=> (
+                <div key={id}>
                     <h1>{place.province}</h1>
-            </div>
+                    <TripForm/>
+                </div>
             ))}
         </div>
     );
