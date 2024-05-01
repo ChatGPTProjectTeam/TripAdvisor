@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../Sidebar.module.css'
 import '../App.css'
 import chatData from '../frontDB/chatLog.json';
-import {CreateChat} from "./CreateChat.jsx";
+import {CreateForm} from "./CreateForm.jsx";
 
 export default function ChatCreateButton() {
     const [chats, setChats] = useState(chatData.chats);
     const navigate = useNavigate();
     function handleCreateChat() {
-        CreateChat().then(updatedChats => {
+        CreateForm().then(updatedChats => {
             console.log("New chat is added", updatedChats);
             setChats(prevChats => [...prevChats, updatedChats]);
             navigate('/');

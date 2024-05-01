@@ -7,7 +7,7 @@ import SideBar from "./Components/SideBar.jsx";
 import Maincontents from "./Components/MainContent.jsx";
 import IntroPage from "./Components/IntroPage.jsx";
 import EmptyPage from "./Components/EmptyPage.jsx";
-import {CreateChat} from "./Components/CreateChat.jsx"
+import {CreateForm} from "./Components/CreateForm.jsx"
 
 import { BrowserRouter, Route , Routes } from 'react-router-dom';
 import FlightPlan from "./Components/FlightPlan.jsx";
@@ -22,7 +22,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<IntroPage/>} />
                     <Route path="/chat/:id" element={<Maincontents/>} />
-                      <Route path="/create_chat" element={<CreateChat/>} />
+                      <Route path="/create_chat" element={<CreateForm/>} />
                       <Route path="/flight" element={<FlightPlan/>} />
                     <Route path="*" element={<EmptyPage/>} />
                   </Routes>
