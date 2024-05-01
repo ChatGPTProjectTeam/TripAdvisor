@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from backend.dtos import TripInfo
+from backend.dtos import TripInfo, UserInput
 from backend.settings import settings
 
 # TODO: 프롬프트 잘 작성하기
@@ -53,7 +53,7 @@ class GPTService:
             if activity
         ]
 
-    def user_msg(self, user_input):
+    def user_msg(self, user_input:UserInput):
         #아래 코드는 프론트 단에서 입력한 정보 받아오는 것으로 바꾸기
 
         # GPT에서 응답이 오도록 하는 부분
@@ -62,7 +62,7 @@ class GPTService:
             messages=[
                 {
                     "role": "user",
-                    "content": user_input
+                    "content": user_input.msg
                 }
             ],
             # stream = True
