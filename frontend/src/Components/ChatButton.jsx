@@ -6,17 +6,33 @@ import '../App.css'
 import chatData from '../frontDB/chatLog.json';
 import {CreateForm} from "./CreateForm.jsx";
 
+// export default function ChatCreateButton() {
+//     const [chats, setChats] = useState(chatData.chats);
+//     const navigate = useNavigate();
+//     function handleCreateChat() {
+//         CreateForm().then(updatedChats => {
+//             console.log("New chat is added", updatedChats);
+//             setChats(prevChats => [...prevChats, updatedChats]);
+//             navigate('/');
+//         }).catch(error => {
+//             console.error("Failed to create chat", error);
+//         });
+//     }
+//
+//     return (
+//         <div style={{display: 'flex'}} className={`${styles.sidebarNewChatBox}`}>
+//             <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
+//                 <span className="text">New Chat</span>
+//             </button>
+//         </div>
+//     );
+// }
+
 export default function ChatCreateButton() {
     const [chats, setChats] = useState(chatData.chats);
     const navigate = useNavigate();
     function handleCreateChat() {
-        CreateForm().then(updatedChats => {
-            console.log("New chat is added", updatedChats);
-            setChats(prevChats => [...prevChats, updatedChats]);
-            navigate('/');
-        }).catch(error => {
-            console.error("Failed to create chat", error);
-        });
+        navigate('/create_form');
     }
 
     return (

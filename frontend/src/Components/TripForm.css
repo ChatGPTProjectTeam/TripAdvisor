@@ -1,6 +1,6 @@
 .sub-font {
     font-size: 20px;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .option {
@@ -31,7 +31,7 @@
   transform: translateY(0rem);
 }
 .text-box {
-  /*max-width: 300px;*/
+  /*max-width: 190px;*/
 }
 
 .form__input {
@@ -52,6 +52,9 @@
   visibility: hidden;
   -webkit-transform: translateY(-4rem);
   transform: translateY(-4rem);
+}
+.input_area {
+  min-height: 60px;
 }
 
 

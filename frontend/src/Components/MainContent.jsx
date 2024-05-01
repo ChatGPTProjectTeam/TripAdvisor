@@ -7,7 +7,7 @@ import FlightPlan from "./FlightPlan.jsx";
 
 
 // this is main contents
-function MainContents() {
+export default function MainPlanContents() {
     const targetForm = parseInt(useParams().id, 10)
         const forms = useFetch(`http://localhost:5050/form?id=${targetForm}`)
 
@@ -18,10 +18,18 @@ function MainContents() {
             {forms.map((place, id)=> (
                 <div key={id}>
                     <h1>{place.province}</h1>
-                    <TripForm/>
+                    {/*<TripForm/>*/}
+                    fetch trip plan here
                 </div>
             ))}
         </div>
     );
 }
-export default MainContents;
+
+export function MainFormContents() {
+    return (
+        <div style={{flex: 4, marginTop:'40px'}}>
+            <TripForm/>
+        </div>
+    );
+}
