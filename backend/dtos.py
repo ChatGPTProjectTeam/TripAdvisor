@@ -66,5 +66,9 @@ class PlanComponent(BaseModel):
 
 
 class TripPlan(BaseModel):
+    chat_id : int
     trip_plan_id: int | None
     trip_plan: list[PlanComponent]
+
+class UserInput(BaseModel):
+    msg: str

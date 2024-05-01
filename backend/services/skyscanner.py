@@ -8,7 +8,6 @@ class SkyscannerService:
         self, province: str, days: int, start_date: date
     ) -> tuple[PlaneInfo, AccommodationInfo]:
         # TODO: 스카이스캐너 API를 이용해 실제 정보를 가져오기
-        rapidapi_key = "624765a753mshb85d115a65c6345p13f6dfjsnf28f2552e32e"
         rapidapi_host= "skyscanner80.p.rapidapi.com"
         plane_info = PlaneInfo(
             departure="Seoul",
