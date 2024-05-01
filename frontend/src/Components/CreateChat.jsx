@@ -12,8 +12,11 @@ export async function CreateChat() {
 
         const chatsData = await chatsResponse.json();
         // make id
-        const newChatId = Math.max(...chatsData.map(chat => chat.id)) + 1;
+        const newChatId = String(Math.max(...chatsData.map(chat => chat.id)) + 1);
         const newFormId = newChatId;
+        //timestamp
+        const timestamp = new Date().toISOString();
+
 
         // add new data
         const chatResponse = await fetch(`http://localhost:5050/chats`, {
@@ -24,9 +27,13 @@ export async function CreateChat() {
             body: JSON.stringify({
                 id: newChatId,
                 title: "chat added",
+                createdAt: timestamp,
+                updatedAt: timestamp,
                 isOpen: false
             }),
         });
+
+
 
         if (!chatResponse.ok) {
             alert('Failed to post new chat');
@@ -40,8 +47,13 @@ export async function CreateChat() {
             },
             body: JSON.stringify({
                 id: newFormId,
-                chatId: newChatId,
-                region: "region added"
+                mbti: "none",
+                province: "none",
+                days: "none",
+                start_date: "none",
+                trip_member_num: "none",
+                trip_style_text: "none"
+
             }),
         });
 

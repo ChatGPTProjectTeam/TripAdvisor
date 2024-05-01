@@ -16,7 +16,7 @@ function MainContents() {
             {/*<TripForm/>*/}
             {forms.map(place=> (
             <div>
-                    <h1>{place.region}</h1>
+                    <h1>{place.province}</h1>
             </div>
             ))}
         </div>

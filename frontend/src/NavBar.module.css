@@ -100,7 +100,8 @@ a {
 
   /* Active state styles for menu */
   .navMenu.active {
-    top: 5% /* Slide down when active */
+    top: 4% /* Slide down when active */;
+    z-index: 3;
   }
 
   /* Menu item styles */

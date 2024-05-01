@@ -14,7 +14,7 @@ import { BrowserRouter, Route , Routes } from 'react-router-dom';
 function App() {
   return (
       <BrowserRouter>
-          <div>
+          <div style={{position:"relative"}}>
               <div><NavBar/></div>
               <div style={{display: "flex"}}>
                   <SideBar/>
