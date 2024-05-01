@@ -1,6 +1,8 @@
-from datetime import date
+from datetime import date, timedelta
 
-from backend.dtos import PlaneInfo, AccommodationInfo
+from backend.dtos import PlaneInfo, AccommodationInfo, TripInfo
+
+import requests
 
 
 class SkyscannerService:
@@ -19,3 +21,44 @@ class SkyscannerService:
             rating=4.5,
         )
         return plane_info, accommodation_info
+    
+    def _search_airport(self, trip_info: TripInfo) -> str:
+        url = "https://skyscanner80.p.rapidapi.com/api/v1/flights/auto-complete"
+
+        querystring = {"query":trip_info.province,"market":"KR","locale":"ko-KR"}
+
+        headers = {
+	        "X-RapidAPI-Key": "ce3430f31dmshe7136743678161cp1a6574jsn992de6afc191",
+	        "X-RapidAPI-Host": "skyscanner80.p.rapidapi.com"
+        }
+
+        response = requests.get(url, headers=headers, params=querystring)
+        airport_id: str
+        airport_id = response
+        return airport_id
+    
+    def create_plane_info(self, trip_info: TripInfo) -> PlaneInfo:
+        
+        airport_id = self._search_airport(TripInfo)
+        
+        return_date = trip_info.start_date() + timedelta(days = trip_info.days)
+        
+        url = "https://sky-scanner3.p.rapidapi.com/flights/search-one-way"
+
+        querystring = {"fromEntityId":"eyJlIjoiOTU1NjUwODUiLCJzIjoiQkNOIiwiaCI6IjI3NTQ4MjgzIn0=","toEntityId":"eyJlIjoiOTU2NzM3NDQiLCJzIjoiTlVFIiwiaCI6IjI3NTQ1MTYyIn0=","departDate":"<REQUIRED>"}
+
+        headers = {
+	        "X-RapidAPI-Key": "ce3430f31dmshe7136743678161cp1a6574jsn992de6afc191",
+	        "X-RapidAPI-Host": "sky-scanner3.p.rapidapi.com"
+        }
+
+        response = requests.get(url, headers=headers, params=querystring)
+
+        print(response.json())
+        
+        plane_info = PlaneInfo(
+            departure="Seoul",
+            arrival="Tokyo",
+            airline="korean air",
+        )
+        return plane_info
