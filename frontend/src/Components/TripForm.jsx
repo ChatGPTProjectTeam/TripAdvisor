@@ -13,8 +13,19 @@ function TripForm() {
     const [personChecked, setPersonChecked] = useState(false);
     const [styleChecked, setStyleChecked] = useState(false);
     const [selectedLaunch, setSelectedLaunch] = useState(null);
+    const [inputDay, setInputDay] = useState('');
+    const [inputPerson, setInputPerson] = useState('');
+    const [inputStyle, setInputStyle] = useState('');
 
-
+    function handleDayInput(event) {
+        setInputDay(event.target.value);
+    }
+    function handlePersonInput(event) {
+        setInputPerson(event.target.value);
+    }
+    function handleStyleInput(event) {
+        setInputStyle(event.target.value);
+    }
     function handleMbtiOption(value) {
         setSelectedMbti(value);
     }
@@ -25,6 +36,7 @@ function TripForm() {
     function onSubmit(e) {
         e.preventDefault();
         console.log('Form submission:', selectedMbti, selectedProvince, selectedLaunch);
+        console.log('first input: ',inputPerson )
         console.log('Checkbox states:', dayChecked, personChecked, styleChecked);
         console.log('Data from fetch:', chats);
     }
@@ -56,10 +68,10 @@ function TripForm() {
                 <div className='sub-font'>Day Details</div>
                 <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                     <div className="text-box">
-                        <input type="text" className="form__input" id="name-1" placeholder="Full name" required=""/>
+                        <input type="text" className="form__input" id="name-1" placeholder="Full name" value={inputDay} required="" onChange={handleDayInput}/>
                         <label htmlFor="name-1" className="form__label">Full Name</label>
                     </div>
-                    <div style={{paddingLeft: '10px', paddingTop: '5px'}} className="checkbox-wrapper-47">
+                    <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
                         <input type="checkbox" name="day" id="cb-day" checked={dayChecked}
                                onChange={() => setDayChecked(!dayChecked)}/>
                         <label htmlFor="cb-day">너가 정해</label>
@@ -68,10 +80,10 @@ function TripForm() {
                 <div className='sub-font'>Personal Details</div>
                 <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                     <div className="text-box">
-                        <input type="text" className="form__input" id="name-2" placeholder="Full name" required=""/>
+                        <input type="text" className="form__input" id="name-2" placeholder="Full name" value={inputPerson} required="" onChange={handlePersonInput}/>
                         <label htmlFor="name-1" className="form__label">Full Name</label>
                     </div>
-                    <div style={{paddingLeft: '10px', paddingTop: '5px'}} className="checkbox-wrapper-47">
+                    <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
                         <input type="checkbox" name="person" id="cb-person" checked={personChecked}
                                onChange={() => setPersonChecked(!personChecked)}/>
                         <label htmlFor="cb-person">나 혼자 가</label>
@@ -81,10 +93,10 @@ function TripForm() {
                 <div className='sub-font'>Style Details</div>
                 <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                     <div className="text-box">
-                        <input type="text" className="form__input" id="name-3" placeholder="Full name" required=""/>
-                        <label htmlFor="name-2" className="form__label">Full Name</label>
+                        <input type="text" className="form__input" id="name-3" placeholder="Full name" value={inputStyle} required="" onChange={handleStyleInput}/>
+                        <label htmlFor="name-3" className="form__label">Full Name</label>
                     </div>
-                    <div style={{paddingLeft: '10px', paddingTop: '5px'}} className="checkbox-wrapper-47">
+                    <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
                         <input type="checkbox" name="style" id="cb-style" checked={styleChecked}
                                onChange={() => setStyleChecked(!styleChecked)}/>
                         <label htmlFor="cb-style">너가 정해</label>

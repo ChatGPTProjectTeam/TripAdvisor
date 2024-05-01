@@ -71,4 +71,6 @@ export async function CreateChat() {
         alert("Failed to create new chat and form.");
         throw error;
     }
+
+
 }

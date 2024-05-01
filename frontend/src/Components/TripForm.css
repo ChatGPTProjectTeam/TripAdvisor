@@ -39,7 +39,7 @@
   color: #333;
   font-size: 1.2rem;
 	margin: 0 auto;
-  padding: 0.5rem 0.5rem;
+  padding: 0.2rem 0.2rem;
   border-radius: 0.2rem;
   background-color: rgb(255, 255, 255);
   border: none;
@@ -94,7 +94,7 @@
     width: 100%;
     height: 2em;
     background: #FFC3C3;
-    border-color: #FFC3C3;
+    border-color: #120f0b;
   }
 
   .checkbox-wrapper-47 label,
