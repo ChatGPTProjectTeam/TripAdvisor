@@ -1,51 +1,50 @@
-import {useParams} from "react-router-dom";
-import '../Sidebar.module.css'
-import './TripForm.jsx'
-import TripForm from "./TripForm.jsx";
-import useFetch from "../hooks/loadData.jsx";
-import FlightPlan from "./FlightPlan.jsx";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import useFetch from '../hooks/loadData.jsx'; // Assuming you have a custom hook for fetching data
 
-
-// this is main contents
 export default function MainPlanContents() {
-    const targetPlan = parseInt(useParams().id, 10);
-    const tripData = useFetch(`http://localhost:5050/tripPlan`);
+    const { courseId } = useParams(); // Get the chat ID from the URL params
+    const tripData = useFetch(`http://localhost:5050/PlanData`);
 
+    // Filter the trip plan data based on the chat ID using map
+    const targetPlans = tripData.filter(plan => plan.chatId === parseInt(courseId, 10)); // Rename chatId to dataId
 
     return (
-        <div>
+        <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
             <h1>Trip Plan Details</h1>
-            {tripData.TripPlan?.map((plan, index) => (
-                <div key={index}>
-                    <h2>Trip ID: {plan.tripPlanId}</h2>
-                    {plan.tripPlan?.map((component, compIndex) => (
-                        <div key={compIndex}>
-                            <h3>{component.componentType}</h3>
-                            {component.planeInfo && (
-                                <div>
-                                    <p>Flight Number: {component.planeInfo.flight_number}</p>
-                                </div>
-                            )}
-                            {component.accommodationInfo && (
-                                <div>
-                                    <p>Hotel Name: {component.accommodationInfo.name}</p>
-                                </div>
-                            )}
-                            {component.plan?.map((day, dayIndex) => (
-                                <div key={dayIndex}>
-                                    <h4>Date: {day.date}</h4>
-                                    <p>Morning Activity: {day.morning?.activity}</p>
-                                    <p>Afternoon Activity: {day.afternoon?.activity}</p>
-                                    <p>Evening Activity: {day.evening?.activity}</p>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            ))}
+            {targetPlans.length > 0 ? (
+                targetPlans.map((targetPlan, index) => (
+                    <div key={index}>
+                        <h2>Trip Plan ID: {targetPlan.tripPlanId}</h2>
+                        {/* Render other details of the target plan */}
+                        {/* Example: Render trip plan components */}
+                        {targetPlan.tripPlan.map((component, index) => (
+                            <div key={index}>
+                                <h3>Component {index + 1}</h3>
+                                <p>Type: {component.componentType}</p>
+                                {/* Render other details based on the component type */}
+                                {/* Example: If componentType is '항공편', render PlaneInfo details */}
+                                {component.componentType === '항공편' && (
+                                    <div>
+                                        <p>Price: {component.PlaneInfo.price}</p>
+                                        <p>Origin: {component.PlaneInfo.origin}</p>
+                                        {/* Render other PlaneInfo properties */}
+                                    </div>
+                                )}
+                                {/* Handle other component types similarly */}
+                            </div>
+                        ))}
+                    </div>
+                ))
+            ) : (
+                <p>No trip plan found for chat ID {courseId}</p>
+            )}
         </div>
-    )
+    );
 }
+
+
+
 
 export function MainFormContents() {
     return (

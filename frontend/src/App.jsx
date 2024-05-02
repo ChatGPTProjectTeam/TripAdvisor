@@ -23,7 +23,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<IntroPage/>} />
                     <Route path="/create_form" element={<MainFormContents/>} />
-                      <Route path="/chat/:id" element={<MainPlanContents/>} />
+                      <Route path="/chat/:courseId" element={<MainPlanContents/>} />
                       <Route path="/create_chat" element={<CreateForm/>} />
                       <Route path="/flight" element={<FlightPlan/>} />
                     <Route path="*" element={<EmptyPage/>} />

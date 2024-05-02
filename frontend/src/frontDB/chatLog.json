@@ -27,6 +27,13 @@
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
+    },
+    {
+      "id": "9b09",
+      "title": "chat added",
+      "createdAt": "2024-05-02T11:04:37.006Z",
+      "updatedAt": "2024-05-02T11:04:37.006Z",
+      "isOpen": false
     }
   ],
   "form": [
@@ -65,49 +72,78 @@
       "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "뭐뭐한"
+    },
+    {
+      "id": "9b09",
+      "mbti": "T",
+      "province": "간사이 지방",
+      "trip_member_num": "혼",
+      "start_date": "2024/05/08",
+      "trip_style_text": "몰라",
+      "days": "너가정해"
     }
   ],
-  "tripPlan": [
+  "PlanData": [
     {
       "chatId": 1,
       "tripPlanId": 1,
       "tripPlan": [
         {
           "componentId": 1,
-          "componentType": "비행기",
-          "planeInfo": {
+          "componentType": "항공편",
+          "PlaneInfo": {
+            "price": "₩368,277",
+            "origin": "인천국제공항",
+            "destination": "도쿄 하네다",
+            "departure": "2024-05-02T21:10:00",
+            "arrival": "2024-05-02T23:30:00",
+            "airline": "아시아나항공"
           }
         },
         {
           "componentId": 2,
           "componentType": "숙소",
           "accommodationInfo": {
+            "name": "사토 산스 레스트",
+            "stars": "no_stars",
+            "lowest_price": "₩116,550",
+            "rating": "5",
+            "location": "Arakawa-ku, Minamisenju 1-21-2, Arakawa, 116-0003 Tokyo, Japan"
           }
         },
         {
           "componentId": 3,
           "componentType": "일정",
-          "plan": [
+          "day_plan_list": [
             {
-              "componentId": 4,
-              "componentType": "day_plan",
-              "dayPlan": {
-                "date": "2024-03-12",
-                "morning": {
-                  "activity": "아사쿠사에서 센소지 사원 방문",
-                  "restaurant": null
-                },
-                "afternoon": {
-                  "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
-                  "restaurant": null
-                },
-                "evening": {
-                  "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
-                  "restaurant": null
-                }
+              "planId": 1,
+              "date": "2024-03-12",
+              "morning": {
+                "activity": "아사쿠사에서 센소지 사원 방문",
+                "restaurant": null
+              },
+              "afternoon": {
+                "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
+                "restaurant": null
+              },
+              "evening": {
+                "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
+                "restaurant": null
               }
             }
           ]
+        },
+        {
+          "componentId": 4,
+          "componentType": "항공편",
+          "PlaneInfo": {
+            "price": "₩368,277",
+            "origin": "인천국제공항",
+            "destination": "도쿄 하네다",
+            "departure": "2024-05-02T21:10:00",
+            "arrival": "2024-05-02T23:30:00",
+            "airline": "아시아나항공"
+          }
         }
       ]
     }

@@ -71,11 +71,12 @@ function TripForm() {
             //// Place your form submission logic here if the input is valid
             const formData = {
                 mbti: selectedMbti,
-                start_date: whenFilter,
                 province: selectedProvince,
-                days: dayFilter,
                 trip_member_num: personFilter,
+                start_date: whenFilter,
                 trip_style_text: styleFilter,
+                days: dayFilter,
+
             };
             const result = await CreateForm(formData);
             console.log(result);
