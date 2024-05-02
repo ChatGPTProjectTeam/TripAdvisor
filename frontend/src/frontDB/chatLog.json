@@ -29,10 +29,10 @@
       "isOpen": false
     },
     {
-      "id": "9b09",
-      "title": "chat added",
-      "createdAt": "2024-05-02T11:04:37.006Z",
-      "updatedAt": "2024-05-02T11:04:37.006Z",
+      "id": "a6e1",
+      "title": "간토 지방",
+      "createdAt": "2024-05-02T17:43:03.102Z",
+      "updatedAt": "2024-05-02T17:43:03.102Z",
       "isOpen": false
     }
   ],
@@ -74,12 +74,12 @@
       "trip_style_text": "뭐뭐한"
     },
     {
-      "id": "9b09",
+      "id": "a6e1",
       "mbti": "T",
-      "province": "간사이 지방",
-      "trip_member_num": "혼",
-      "start_date": "2024/05/08",
-      "trip_style_text": "몰라",
+      "province": "간토 지방",
+      "trip_member_num": "나 혼자 가",
+      "start_date": "너가 정해",
+      "trip_style_text": "너가 정해",
       "days": "너가정해"
     }
   ],
@@ -138,11 +138,11 @@
           "componentType": "항공편",
           "PlaneInfo": {
             "price": "₩368,277",
-            "origin": "인천국제공항",
-            "destination": "도쿄 하네다",
+            "origin": "도쿄 하네다",
+            "destination": "인천국제공항",
             "departure": "2024-05-02T21:10:00",
             "arrival": "2024-05-02T23:30:00",
-            "airline": "아시아나항공"
+            "airline": "대한항공"
           }
         }
       ]

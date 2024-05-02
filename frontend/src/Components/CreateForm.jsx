@@ -11,7 +11,7 @@ export async function CreateForm(formData) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                title: "chat added",
+                title: formData.province,
                 createdAt: timestamp,
                 updatedAt: timestamp,
                 isOpen: false
