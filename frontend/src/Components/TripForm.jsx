@@ -5,6 +5,8 @@ import useFetch from "../hooks/loadData.jsx";
 import styles from "../Sidebar.module.css";
 import '../App.css';
 import {CreateForm} from "./CreateForm.jsx";
+import CalendarComp from "./CalendarComp.jsx";
+import './CalendarComp.css';
 
 function TripForm() {
     const chats = useFetch("http://localhost:5050/chats");
@@ -16,6 +18,7 @@ function TripForm() {
     // States to store the selected values for each option and checkbox states
     const [selectedMbti, setSelectedMbti] = useState(null);
     const [selectedProvince, setSelectedProvince] = useState(null);
+    const [whenChecked, setWhenChecked] = useState(false);
     const [dayChecked, setDayChecked] = useState(false);
     const [personChecked, setPersonChecked] = useState(false);
     const [styleChecked, setStyleChecked] = useState(false);
@@ -23,6 +26,7 @@ function TripForm() {
     const [inputDay, setInputDay] = useState('');
     const [inputPerson, setInputPerson] = useState('');
     const [inputStyle, setInputStyle] = useState('');
+
 
     function handleDayInput(event) {
         setInputDay(event.target.value);
@@ -40,27 +44,41 @@ function TripForm() {
         setSelectedLaunch(value);
     }
 
+    const [selectedDate, setSelectedDate] = useState('');
+
+    // Function to handle the selected date from CalendarComp
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+        console.log(selectedDate);
+    }
+
 
     async function onSubmit(e) {
         e.preventDefault();
         if ((inputDay && dayChecked) || (inputPerson && personChecked) || (inputStyle && styleChecked)) {
             alert("Please choose either to fill in the text box or select the checkbox, not both.");
         } else {
-            console.log('Form submission:', selectedMbti, selectedProvince, selectedLaunch);
+            console.log('Form submission:', selectedMbti, selectedDate, selectedProvince, selectedLaunch);
             console.log('first input: ', inputPerson);
-            console.log('Checkbox states:', dayChecked, personChecked, styleChecked);
+            console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
             console.log('Data from fetch:', chats);
-            // Place your form submission logic here if the input is valid
+
+            const dayFilter = dayChecked ? "너가정해" : inputDay;
+            const personFilter = personChecked ? "나 혼자 가" : inputPerson;
+            const styleFilter = styleChecked ? "너가 정해" : inputStyle;
+            //// Place your form submission logic here if the input is valid
             const formData = {
-                mbti,
-                province,
-                days,
-                start_date: startDate,
-                trip_member_num: memberNum,
-                trip_style_text: styleText,
+                mbti: selectedMbti,
+                province: selectedProvince,
+                start_date: dayFilter,
+                trip_member_num: personFilter,
+                trip_style_text: styleFilter,
             };
             const result = await CreateForm(formData);
             console.log(result);
+            // console.log(dayFilter);
+            // console.log(personFilter);
+            // console.log(styleFilter);
         }
 
     }
@@ -82,22 +100,19 @@ function TripForm() {
                 </div>
                 <div className='sub-font'>언제 출발하는 걸 선호 하시나요?</div>
                 <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
-                    <div className="text-box">
-                        <input type="text" className="form__input" id="name-1" placeholder="Full name" value={inputDay}
-                               required="" onChange={handleDayInput}/>
-                        <label htmlFor="name-1" className="form__label" style={{fontSize: '10px'}}>숫자만 작성 해주세요!</label>
-                    </div>
+
+                        <CalendarComp onSelect={handleDateSelect} />
                     <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
-                        <input type="checkbox" name="day" id="cb-day" checked={dayChecked}
-                               onChange={() => setDayChecked(!dayChecked)}/>
-                        <label htmlFor="cb-day">너가 정해</label>
+                        <input type="checkbox" name="when" id="cb-when" checked={whenChecked}
+                               onChange={() => setWhenChecked(!whenChecked)}/>
+                        <label htmlFor="cb-when">너가 정해</label>
                     </div>
                 </div>
                 <div className='sub-font'>해당지역중 원하는 지역을 골라주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                 <div className='second-option'>
                     {provinceLabels.map((label, index) => (
                         <button key={index} type="button"
-                                className={`option ${selectedProvince === label ? 'active' : ''}`}
+                                className={`province-option ${selectedProvince === label ? 'active' : ''}`}
                                 onClick={() => setSelectedProvince(label)}>{label}
                         </button>
                     ))}
@@ -157,9 +172,10 @@ function TripForm() {
                     </button>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                    <button className={`button-64 ${styles.sidebarButton}`} style={{height: '60px'}}
+                    <button className="button-48" style={{height: '60px'}}
                             type="submit ">Submit
                     </button>
+
                 </div>
             </div>
         </form>
