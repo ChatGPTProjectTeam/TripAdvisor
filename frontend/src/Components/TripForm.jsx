@@ -63,14 +63,17 @@ function TripForm() {
             console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
             console.log('Data from fetch:', chats);
 
+            const whenFilter = whenChecked ? "너가 정해" : selectedDate
             const dayFilter = dayChecked ? "너가정해" : inputDay;
             const personFilter = personChecked ? "나 혼자 가" : inputPerson;
             const styleFilter = styleChecked ? "너가 정해" : inputStyle;
+
             //// Place your form submission logic here if the input is valid
             const formData = {
                 mbti: selectedMbti,
+                start_date: whenFilter,
                 province: selectedProvince,
-                start_date: dayFilter,
+                days: dayFilter,
                 trip_member_num: personFilter,
                 trip_style_text: styleFilter,
             };

@@ -27,13 +27,6 @@
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
-    },
-    {
-      "id": "9539",
-      "title": "chat added",
-      "createdAt": "2024-05-02T04:20:02.245Z",
-      "updatedAt": "2024-05-02T04:20:02.245Z",
-      "isOpen": false
     }
   ],
   "form": [
@@ -72,14 +65,51 @@
       "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "뭐뭐한"
-    },
+    }
+  ],
+  "tripPlan": [
     {
-      "id": "9539",
-      "mbti": "T",
-      "province": "간사이 지방",
-      "start_date": "너가정해",
-      "trip_member_num": "여친이랑 감",
-      "trip_style_text": "딱히 없음"
+      "chatId": 1,
+      "tripPlanId": 1,
+      "tripPlan": [
+        {
+          "componentId": 1,
+          "componentType": "비행기",
+          "planeInfo": {
+          }
+        },
+        {
+          "componentId": 2,
+          "componentType": "숙소",
+          "accommodationInfo": {
+          }
+        },
+        {
+          "componentId": 3,
+          "componentType": "일정",
+          "plan": [
+            {
+              "componentId": 4,
+              "componentType": "day_plan",
+              "dayPlan": {
+                "date": "2024-03-12",
+                "morning": {
+                  "activity": "아사쿠사에서 센소지 사원 방문",
+                  "restaurant": null
+                },
+                "afternoon": {
+                  "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
+                  "restaurant": null
+                },
+                "evening": {
+                  "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
+                  "restaurant": null
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }
