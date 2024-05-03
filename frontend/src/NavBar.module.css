@@ -58,6 +58,8 @@ a {
 
 
 @media screen and (max-width: 610px) {
+
+
   /* Hamburger icon styles */
   .hamburger {
     display: block;

@@ -4,6 +4,7 @@ import useFetch from '../hooks/loadData.jsx';
 import FlightPlan from "./FlightPlan.jsx";
 import TripForm from "./TripForm.jsx";
 import AccommodationPlan from "./AccommodationPlan.jsx";
+import DayPlan from "./DayPlan.jsx";
 
 export default function MainPlanContents() {
     const { courseId } = useParams();
@@ -20,7 +21,9 @@ export default function MainPlanContents() {
                         <h2>Trip Plan ID: {targetPlan.tripPlanId}</h2>
                         {targetPlan.tripPlan.map((component, index) => (
                             <div key={index}>
+
                                 <h3>Component {index + 1}</h3>
+                                <DayPlan component={component} courseId={courseId} />
                                 <FlightPlan component={component} courseId={courseId} />
                                 <AccommodationPlan component={component} courseId={courseId}/>
 
