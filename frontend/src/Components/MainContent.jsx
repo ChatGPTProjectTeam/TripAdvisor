@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import useFetch from '../hooks/loadData.jsx';
 import FlightPlan from "./FlightPlan.jsx";
@@ -8,13 +8,26 @@ import DayPlan from "./DayPlan.jsx";
 
 export default function MainPlanContents() {
     const { courseId } = useParams();
+    const [targetFormData, setTargetFormData] = useState([]);
     const tripData = useFetch(`http://localhost:5050/PlanData`);
-
+    useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://localhost:5050/form/${courseId}`);
+            const data = await response.json();
+            setTargetFormData(data)
+        } catch (error) {
+            console.error("Fetching error:", error);
+        }
+    };
+    fetchData();
+}, [courseId]);
+    console.log(targetFormData.province);
+    const provinceName = targetFormData.province;
     const targetPlans = tripData.filter(plan => plan.chatId === parseInt(courseId, 10));
-
     return (
         <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
-            <h1>Trip Plan Details</h1>
+            <h1> {provinceName} Plan</h1>
             {targetPlans.length > 0 ? (
                 targetPlans.map((targetPlan, index) => (
                     <div key={index}>
