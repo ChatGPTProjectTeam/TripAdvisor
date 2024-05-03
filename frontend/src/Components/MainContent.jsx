@@ -53,9 +53,10 @@ export default function MainPlanContents() {
                             <div key={index}>
 
                                 <h3>Component {index + 1}</h3>
-                                <DayPlan component={component} courseId={courseId}/>
                                 <FlightPlan component={component} courseId={courseId}/>
                                 <AccommodationPlan component={component} courseId={courseId}/>
+                                <DayPlan component={component} courseId={courseId}/>
+
                             </div>
                         ))}
                     </div>

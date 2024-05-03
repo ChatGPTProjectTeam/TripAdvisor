@@ -24,6 +24,7 @@ a {
   min-height: 40px;
   border-bottom: 2px solid black;
   width: 100%;
+  /*position: fixed;*/
 }
 
 /* Logo styles */

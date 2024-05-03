@@ -1,0 +1,76 @@
+.info-container {
+    background-color: #FFFFFF;
+    max-width: 980px;
+    display: flex;
+    justify-content: center;
+}
+.title-container {
+    display: flex;
+    align-items: flex-start;
+    background-color: #FFA4A4;
+    padding-left: 5px;
+    border-radius: 3px;
+}
+
+/*Flight plan*/
+
+.flight-info-left-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+}
+.flight-line {
+  border-top: 4px solid black; /* Adjust color and thickness as needed */
+    width: 300px;
+}
+
+.moving-svg-container {
+  width: 100%;
+  overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.moving-svg {
+  animation: moveLeftToRight 20s linear infinite;
+  transform: translateX(-100%);
+}
+
+@keyframes moveLeftToRight {
+  0% {
+    transform: translateX(-140%);
+  }
+  100% {
+    transform: translateX(calc(100% + 300px));
+  }
+}
+
+/*Accommodation plan*/
+.place-name {
+    font-size: 20px;
+    margin-top: 10px;
+}
+.place-location {
+    font-size: 10px;
+}
+
+/*Day plan*/
+.day-plan-container {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 0 auto;
+    justify-content: flex-start;
+
+
+}
+.day-plan-category {
+    display: flex;
+    font-size: 20px;
+    justify-content: flex-start;
+}
+.day-plan-info {
+
+}
+
+
