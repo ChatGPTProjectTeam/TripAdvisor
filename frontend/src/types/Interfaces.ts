@@ -39,6 +39,8 @@ export interface Component {
 export interface TripPlan {
     chatId: number;
     tripPlanId: number;
+    province: string;
+    created_at: string;
     tripPlan: Component[];
 }
 

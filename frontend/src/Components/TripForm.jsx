@@ -28,6 +28,7 @@ function TripForm() {
     const [inputStyle, setInputStyle] = useState('');
 
 
+
     function handleDayInput(event) {
         setInputDay(event.target.value);
     }
@@ -51,6 +52,15 @@ function TripForm() {
         setSelectedDate(date);
         console.log(selectedDate);
     }
+    function validateForm(validations) {
+    for (const validation of validations) {
+        if (!validation.condition) {
+            alert(validation.message);
+            return false;
+        }
+    }
+    return true;
+}
 
 
     async function onSubmit(e) {
@@ -58,6 +68,20 @@ function TripForm() {
         if ((inputDay && dayChecked) || (inputPerson && personChecked) || (inputStyle && styleChecked)) {
             alert("Please choose either to fill in the text box or select the checkbox, not both.");
         } else {
+
+            const validations = [
+                { condition: selectedMbti, message: "Please select MBTI preference." },
+                { condition: selectedDate || whenChecked, message: "Please select either a date or check '너가 정해' for preferred departure time." },
+                { condition: selectedProvince, message: "Please select a province." },
+                { condition: inputDay || dayChecked, message: "Please enter the number of nights or check '너가 정해' for preferred number of nights." },
+                { condition: inputPerson || personChecked, message: "Please enter the number of travel members or check '나 혼자 가' if traveling alone." },
+                { condition: inputStyle || styleChecked, message: "Please enter your preferred travel style or check '너가 정해' if undecided." },
+                { condition: selectedLaunch, message: "Please select preferred departure time (낮 or 밤)." }
+            ];
+            if (!validateForm(validations)) {
+                return;
+            }
+
             console.log('Form submission:', selectedMbti, selectedDate, selectedProvince, selectedLaunch);
             console.log('first input: ', inputPerson);
             console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);

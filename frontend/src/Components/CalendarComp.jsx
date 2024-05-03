@@ -15,6 +15,7 @@ const CalendarComp = ({ onSelect }) => {
         setCalendar(format(new Date(), 'yyyy/MM/dd'))
         document.addEventListener("click", hideOnClick, true)
     }, [])
+    console.log(calendar);
 
     const handleSelect = (date) => {
         setCalendar(format(date, 'yyyy/MM/dd'))

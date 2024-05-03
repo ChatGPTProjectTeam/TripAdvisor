@@ -2,38 +2,16 @@
 
 export async function CreateForm(formData) {
     try {
-        const timestamp = new Date().toISOString();
 
-        // POST request to create a new chat
-        const chatResponse = await fetch(`http://localhost:5050/chats`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title: formData.province,
-                createdAt: timestamp,
-                updatedAt: timestamp,
-                isOpen: false
-            }),
-        });
-
-        if (!chatResponse.ok) {
-            alert('Failed to post new chat');
-            return; // Stop execution if the chat POST fails
-        }
-
-        const chatData = await chatResponse.json();
-        const newChatId = chatData.id; // Assuming the server returns the new ID
-
-        // POST request to create a new form using chat ID
+        // you need to doublecheck for posting to form and then get response from same api form
+        // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'http://localhost:5050/PlanData'
+        // DO NOT FORGET TO CHANGE PlanData API FROM MainContent.jsx
         const formResponse = await fetch(`http://localhost:5050/form`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id: newChatId,
                 ...formData
             }),
         });
@@ -45,7 +23,6 @@ export async function CreateForm(formData) {
 
         alert("New chat and form created successfully!");
         return {
-            chat: chatData,
             form: await formResponse.json(),
         };
 

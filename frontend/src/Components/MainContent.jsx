@@ -8,23 +8,14 @@ import DayPlan from "./DayPlan.jsx";
 
 export default function MainPlanContents() {
     const { courseId } = useParams();
-    const [targetFormData, setTargetFormData] = useState([]);
+    //THIS IS TEMPORAL JSON SERVER DATA
+    //YOU MUST ADJUST THIS API FOR DEMO!!!
     const tripData = useFetch(`http://localhost:5050/PlanData`);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`http://localhost:5050/form/${courseId}`);
-                const data = await response.json();
-                setTargetFormData(data)
-            } catch (error) {
-                console.error("Fetching error:", error);
-            }
-        };
-        fetchData();
-        }, [courseId]);
-    console.log(targetFormData.province);
-    const provinceName = targetFormData.province;
     const targetPlans = tripData.filter(plan => plan.chatId === parseInt(courseId, 10));
+    console.log("hello thadasdasd", targetPlans);
+    const provinceName = targetPlans.map(targetPlan => targetPlan.province);
+    console.log(provinceName)
+
     const PlanTitleLogo = () => (
         <div style={{display:'flex', alignItems:'center', marginLeft:'5px',marginRight:'5px'}}>
             <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">

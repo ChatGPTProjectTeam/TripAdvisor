@@ -27,13 +27,6 @@
       "createdAt": "2024-04-25T12:00:00Z",
       "updatedAt": "2024-04-25T12:00:00Z",
       "isOpen": false
-    },
-    {
-      "id": "a6e1",
-      "title": "간토 지방",
-      "createdAt": "2024-05-02T17:43:03.102Z",
-      "updatedAt": "2024-05-02T17:43:03.102Z",
-      "isOpen": false
     }
   ],
   "form": [
@@ -72,21 +65,14 @@
       "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "뭐뭐한"
-    },
-    {
-      "id": "a6e1",
-      "mbti": "T",
-      "province": "간토 지방",
-      "trip_member_num": "나 혼자 가",
-      "start_date": "너가 정해",
-      "trip_style_text": "너가 정해",
-      "days": "너가정해"
     }
   ],
   "PlanData": [
     {
       "chatId": 1,
       "tripPlanId": 1,
+      "province": "간토 지방",
+      "created_at": "2024-05-02T21:10:00",
       "tripPlan": [
         {
           "componentId": 1,
@@ -143,6 +129,71 @@
             "departure": "2024-05-02T21:10:00",
             "arrival": "2024-05-02T23:30:00",
             "airline": "대한항공"
+          }
+        }
+      ]
+    },
+    {
+      "chatId": 2,
+      "tripPlanId": 2,
+      "province": "간사이지방",
+      "created_at": "2024-05-01T21:10:00",
+      "tripPlan": [
+        {
+          "componentId": 1,
+          "componentType": "항공편",
+          "PlaneInfo": {
+            "price": "₩368,277",
+            "origin": "인천국제공항",
+            "destination": "오사카 간사이",
+            "departure": "2024-05-02T21:10:00",
+            "arrival": "2024-05-02T23:30:00",
+            "airline": "아시아나항공"
+          }
+        },
+        {
+          "componentId": 2,
+          "componentType": "숙소",
+          "accommodationInfo": {
+            "name": "사토 산스 레스트",
+            "stars": "no_stars",
+            "lowest_price": "₩116,550",
+            "rating": "5",
+            "location": "Arakawa-ku, Minamisenju 1-21-2, Arakawa, 116-0003 Tokyo, Japan"
+          }
+        },
+        {
+          "componentId": 3,
+          "componentType": "일정",
+          "day_plan_list": [
+            {
+              "planId": 1,
+              "date": "2024-03-12",
+              "morning": {
+                "activity": "아사쿠사에서 센소지 사원 방문",
+                "restaurant": null
+              },
+              "afternoon": {
+                "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
+                "restaurant": null
+              },
+              "evening": {
+                "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
+                "restaurant": null
+              }
+            }
+          ]
+        },
+        {
+          "componentId": 4,
+          "componentType": "항공편",
+          "PlaneInfo": {
+            "price": "₩368,277",
+            "origin": "오사카 간사이",
+            "destination": "인천국제공항",
+            "departure": "2024-05-02T21:10:00",
+            "arrival": "2024-05-02T23:30:00",
+            "airline": "델타항공"
           }
         }
       ]
