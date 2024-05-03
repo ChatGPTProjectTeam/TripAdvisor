@@ -64,8 +64,9 @@ a {
   .hamburger {
     display: block;
     cursor: pointer;
-  }
+        z-index: 4;
 
+  }
   /* Hamburger bar styles */
   .bar {
     background-color: #120f0b;
@@ -102,7 +103,7 @@ a {
 
   /* Active state styles for menu */
   .navMenu.active {
-    top: 4% /* Slide down when active */;
+    top: 0 /* Slide down when active */;
     z-index: 3;
   }
 
