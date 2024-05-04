@@ -1,17 +1,6 @@
 from datetime import date
-from typing import Literal
 
 from pydantic import BaseModel, Field
-
-
-# Deprecated
-class TripInfo(BaseModel):
-    mbti: str
-    province: str
-    days: int
-    start_date: date
-    trip_member_num: int
-    trip_style_text: str
 
 
 class PlaneInfo(BaseModel):
@@ -98,3 +87,24 @@ class PlanListResponseDTO(BaseModel):
 
 class UserInput(BaseModel):
     msg: str
+
+
+# Deprecated
+class TripInfo(BaseModel):
+    mbti: str
+    province: str
+    days: int
+    start_date: date
+    trip_member_num: int
+    trip_style_text: str
+
+    @classmethod
+    def from_form_request_dto(cls, form_request_dto: FormRequestDTO) -> "TripInfo":
+        return cls(
+            mbti=form_request_dto.mbti,
+            province=form_request_dto.province,
+            days=form_request_dto.days,
+            start_date=form_request_dto.start_date,
+            trip_member_num=form_request_dto.trip_member_num,
+            trip_style_text=form_request_dto.trip_style_text,
+        )

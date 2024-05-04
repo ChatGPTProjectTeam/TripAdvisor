@@ -1,7 +1,13 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from backend.dtos import TripInfo, PlanDTO, UserInput
+from backend.dtos import (
+    TripInfo,
+    PlanDTO,
+    UserInput,
+    FormRequestDTO,
+    PlanListResponseDTO,
+)
 
 load_dotenv()
 app = FastAPI()
@@ -10,12 +16,22 @@ messages = [{"role": "system", "content": "You are a kind helpful assistant"}]
 user_msg = ""
 
 
-@app.post("/api/v1/plans")
-def create_plan(trip_info: TripInfo) -> PlanDTO:
+@app.get("/api/v1/plans")
+def get_plans() -> PlanListResponseDTO:
     from backend.services import day_plan_service
 
-    return day_plan_service.create_subplan_activities(trip_info)
-    # return plan_service.create_plan(trip_info)
+    trip_info = TripInfo.from_form_request_dto(form_request_dto)
+    day_plan_service.create_subplan_activities(trip_info)
+    return {}
+
+
+@app.post("/api/v1/plans")
+def create_plan(form_request_dto: FormRequestDTO):
+    from backend.services import day_plan_service
+
+    trip_info = TripInfo.from_form_request_dto(form_request_dto)
+    day_plan_service.create_subplan_activities(trip_info)
+    return {}
 
 
 @app.patch("/api/v1/plan/{plan_id}")
