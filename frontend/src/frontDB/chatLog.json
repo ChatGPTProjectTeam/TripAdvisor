@@ -116,6 +116,22 @@
                 "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
                 "restaurant": null
               }
+            },
+            {
+              "planId": 2,
+              "date": "2024-03-13",
+              "morning": {
+                "activity": "아사쿠사에서 센소지 사원 방문",
+                "restaurant": null
+              },
+              "afternoon": {
+                "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
+                "restaurant": null
+              },
+              "evening": {
+                "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
+                "restaurant": null
+              }
             }
           ]
         },

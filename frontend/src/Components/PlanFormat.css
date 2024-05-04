@@ -105,6 +105,13 @@
   transition: all 0.3s;
   height: 100%;
     width: 270px;
+
+}
+input[type="text"]:focus,
+textarea:focus
+{
+    outline: none;
+    border: none; /* Optionally remove the border as well */
 }
 
 .message__input:placeholder-shown + .message__label {
@@ -115,6 +122,14 @@
 }
 .message_area {
   min-height: 60px;
+}
+
+.reload-button {
+    padding: 0 0;
+    display: flex;
+    width: 20px;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0);
 }
 
 

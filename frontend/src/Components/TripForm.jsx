@@ -103,10 +103,7 @@ function TripForm() {
 
             };
             const result = await CreateForm(formData);
-            console.log(result);
-            // console.log(dayFilter);
-            // console.log(personFilter);
-            // console.log(styleFilter);
+            console.log('check this out brother',result);
         }
 
     }
@@ -203,7 +200,6 @@ function TripForm() {
                     <button className="button-48" style={{height: '60px'}}
                             type="submit ">Submit
                     </button>
-
                 </div>
             </div>
         </form>

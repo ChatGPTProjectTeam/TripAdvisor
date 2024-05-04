@@ -38,11 +38,11 @@ export default function MainPlanContents() {
         <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
             <div style={{display:'flex', justifyContent:'center'}}>
                 <div>
-                   <div style={{display: "flex", justifyContent: 'center',maxWidth:'980px'}}>
-                <PlanTitleLogo/>
-                <h1> {provinceName} Plan</h1>
-                <PlanTitleLogo/>
-                </div>
+                   <div style={{display: "flex", justifyContent: 'center',maxWidth:'980px',marginBottom:'20px'}}>
+                       <PlanTitleLogo/>
+                       <h1 style={{fontSize:'30px'}}> {provinceName} Plan</h1>
+                       <PlanTitleLogo/>
+                   </div>
             {targetPlans.length > 0 ? (
                 targetPlans.map((targetPlan, index) => (
                     <div key={index}>

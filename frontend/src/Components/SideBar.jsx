@@ -10,7 +10,7 @@ function Sidebar() {
 
     return(
         <div style={{flex: 1}} className={`${styles.sidebar}`}>
-            <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+            <div style={{display: 'flex', flexDirection: 'column', width: '100%', minHeight:'1080'}}>
                 <ChatCreateButton/>
                 <ChatList/>
             </div>
