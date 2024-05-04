@@ -47,3 +47,13 @@ export interface TripPlan {
 export interface PlanData {
     PlanData: TripPlan[];
 }
+
+export interface Form {
+  id: string;
+  mbti: string;
+  province: string;
+  days: string;
+  start_date: string;
+  trip_member_num: string;
+  trip_style_text: string;
+}

@@ -12,7 +12,6 @@ import {CreateForm} from "./Components/CreateForm.jsx"
 import { BrowserRouter, Route , Routes } from 'react-router-dom';
 import FlightPlan from "./Components/FlightPlan.jsx";
 import TripForm from "./Components/TripForm.jsx";
-
 function App() {
   return (
       <BrowserRouter>

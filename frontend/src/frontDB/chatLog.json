@@ -29,7 +29,7 @@
       "isOpen": false
     }
   ],
-  "form": [
+  "Form": [
     {
       "id": "1",
       "mbti": "T",
@@ -147,7 +147,8 @@
             "airline": "대한항공"
           }
         }
-      ]
+      ],
+      "id": "ddc6"
     },
     {
       "chatId": 2,

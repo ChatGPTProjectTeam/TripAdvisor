@@ -1,18 +1,18 @@
  import useFetch from "../hooks/loadData.jsx";
 
-export async function CreateForm(formData) {
+export async function SendChat(fixedRequestedData) {
     try {
 
         // you need to doublecheck for posting to form and then get response from same api form
         // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'http://localhost:5050/PlanData'
         // DO NOT FORGET TO CHANGE PlanData API FROM MainContent.jsx
-        const formResponse = await fetch(`http://localhost:5050/Form`, {
+        const formResponse = await fetch(`http://localhost:5050/PlanData`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                ...formData
+                ...fixedRequestedData
             }),
         });
 
@@ -21,9 +21,9 @@ export async function CreateForm(formData) {
             return; // Stop execution if the form POST fails
         }
 
-        alert("New chat and form created successfully!");
+        alert("response arrived");
         return {
-            PlanData: await formResponse.json(),
+            FixedData: await formResponse.json(),
         };
 
     } catch (error) {

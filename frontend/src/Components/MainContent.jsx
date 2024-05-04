@@ -33,6 +33,7 @@ export default function MainPlanContents() {
             </svg>
         </div>
 
+
     );
     return (
         <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
@@ -53,7 +54,7 @@ export default function MainPlanContents() {
                                 {/*<h3>Component {index + 1}</h3>*/}
                                 <FlightPlan component={component} courseId={courseId}/>
                                 <AccommodationPlan component={component} courseId={courseId}/>
-                                <DayPlan component={component} courseId={courseId}/>
+                                <DayPlan component={component} courseId={courseId} componentId={index + 1}/>
 
                             </div>
                         ))}
