@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from backend.dtos import TripInfo, DayPlan, SubPlan
+from backend.dtos import TripInfo, DayPlanDTO, TimePlanDTO
 
 if TYPE_CHECKING:
     from backend.services.gpt import GPTService
@@ -15,21 +15,21 @@ class DayPlanService:
     def __init__(self, gpt_service: "GPTService"):
         self.gpt_service = gpt_service
 
-    def create_day_plan_list(self, trip_info: TripInfo) -> list[DayPlan]:
+    def create_day_plan_list(self, trip_info: TripInfo) -> list[DayPlanDTO]:
         day_plan_list = []
         activities = self.create_subplan_activities(trip_info)
         for i in range(trip_info.days):
             day_plan_list.append(
-                DayPlan(
+                DayPlanDTO(
                     plan_id=i + 1,
                     date=trip_info.start_date + timedelta(days=i),
-                    morning=SubPlan(
+                    morning=TimePlanDTO(
                         activity=self._get_activity((3 * i), activities),
                     ),
-                    afternoon=SubPlan(
+                    afternoon=TimePlanDTO(
                         activity=self._get_activity((3 * i + 1), activities),
                     ),
-                    evening=SubPlan(
+                    evening=TimePlanDTO(
                         activity=self._get_activity((3 * i + 2), activities),
                     ),
                 )
