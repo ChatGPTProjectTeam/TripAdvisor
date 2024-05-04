@@ -12,9 +12,7 @@ export default function MainPlanContents() {
     //YOU MUST ADJUST THIS API FOR DEMO!!!
     const tripData = useFetch(`http://localhost:5050/PlanData`);
     const targetPlans = tripData.filter(plan => plan.chatId === parseInt(courseId, 10));
-    console.log("hello thadasdasd", targetPlans);
     const provinceName = targetPlans.map(targetPlan => targetPlan.province);
-    console.log(provinceName)
 
     const PlanTitleLogo = () => (
         <div style={{display:'flex', alignItems:'center', marginLeft:'5px',marginRight:'5px'}}>
@@ -48,11 +46,11 @@ export default function MainPlanContents() {
             {targetPlans.length > 0 ? (
                 targetPlans.map((targetPlan, index) => (
                     <div key={index}>
-                        <h2>Trip Plan ID: {targetPlan.tripPlanId}</h2>
+                        {/*<h2>Trip Plan ID: {targetPlan.tripPlanId}</h2>*/}
                         {targetPlan.tripPlan.map((component, index) => (
                             <div key={index}>
 
-                                <h3>Component {index + 1}</h3>
+                                {/*<h3>Component {index + 1}</h3>*/}
                                 <FlightPlan component={component} courseId={courseId}/>
                                 <AccommodationPlan component={component} courseId={courseId}/>
                                 <DayPlan component={component} courseId={courseId}/>

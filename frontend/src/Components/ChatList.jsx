@@ -19,7 +19,7 @@ export default function ChatList() {
 }
 
     return (
-        <ul>
+        <ul style={{listStyleType: 'none'}}>
             {chats.map(chat => (
                 <li key={chat.chatId}>
                     {/*<ChatButton title={chat.title}/>*/}
@@ -29,7 +29,7 @@ export default function ChatList() {
                                 <span className="text">Target: {chat.province}</span>
                                 <span>생성일자: {dateFilter(chat.created_at)}</span> {/* You might want to replace ??시간 with actual dynamic data if available */}
                             </div>
-                            <div style={{color: '#ffffff', fontSize: '16px'}}>새 여행코스</div>
+                            <div style={{color: '#ffffff', fontSize: '16px'}}>{chat.province} 여행코스</div>
                         </Link>
                     </div>
                 </li>

@@ -17,7 +17,7 @@ const FlightPlan = ({ component, courseId }) => {
     return (
         <div>
             <div className='title-container'><p>비행기{flightInfo}정보</p></div>
-            <div className='flight-info-left-container'>
+            <div className='flight-info-container'>
                 <div style={{fontSize: '12px'}}>
                     <p>{PlaneInfo.origin}</p>
                     <p>{PlaneInfo.departure}</p>

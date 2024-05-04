@@ -11,7 +11,7 @@ const AccommodationPlan = ({ component, courseId }) => {
 
     return (
         <div>
-            <div>
+            <div style={{marginBottom:'20px'}}>
                 <div className='title-container'><p>숙소 정보</p></div>
                 <p className='place-name'>{accommodationInfo.name}</p>
                 <p className='place-location'>Rating: {accommodationInfo.rating}</p>
