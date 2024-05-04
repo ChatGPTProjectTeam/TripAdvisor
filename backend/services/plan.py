@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
-from backend.dtos import TripPlan, TripInfo, PlanComponent
+from backend.dtos import PlanDTO, TripInfo, PlanComponentDTO
 from backend.models import Plan
 
 if TYPE_CHECKING:
@@ -17,7 +17,7 @@ class PlanService:
         self.day_plan_service = day_plan_service
         self.skyscanner_service = skyscanner_service
 
-    def create_plan(self, trip_info: TripInfo) -> TripPlan:
+    def create_plan(self, trip_info: TripInfo) -> PlanDTO:
         plan_info = self._create_plan(trip_info)
         plan = Plan(
             plan_info=plan_info.json(exclude_none=True),
@@ -29,7 +29,7 @@ class PlanService:
         plan_info.trip_plan_id = plan.plan_id
         return plan_info
 
-    def _create_plan(self, trip_info: TripInfo) -> TripPlan:
+    def _create_plan(self, trip_info: TripInfo) -> PlanDTO:
         # 비행기와 숙소 정보를 가져옵니다.
         (
             plane_info,
@@ -40,21 +40,21 @@ class PlanService:
         # 날짜별 일정을 생성합니다.
         day_plan_list = self.day_plan_service.create_day_plan_list(trip_info)
 
-        return TripPlan(
+        return PlanDTO(
             trip_plan=[
-                PlanComponent(
+                PlanComponentDTO(
                     component_id=1,
                     component_type="plane",
                     plane_info=plane_info,
                     accommodation_info=None,
                 ),
-                PlanComponent(
+                PlanComponentDTO(
                     component_id=2,
                     component_type="accommodation",
                     plane_info=None,
                     accommodation_info=accommodation_info,
                 ),
-                PlanComponent(
+                PlanComponentDTO(
                     component_id=3,
                     component_type="activity",
                     day_plan_list=day_plan_list,
