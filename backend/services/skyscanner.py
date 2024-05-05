@@ -79,8 +79,7 @@ class SkyscannerService:
         """
         airport_id = self._search_airport(trip_info)
 
-        # 가는 비행기인지 오는 비행기인지 판단
-        if direction == 0:
+        if direction == 0:  # 가는 비행기
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
                 {
@@ -93,7 +92,7 @@ class SkyscannerService:
                     "adults": trip_info.trip_member_num,
                 },
             )
-        elif direction == 1:
+        elif direction == 1:  # 오는 비행기
             return_date = trip_info.start_date + timedelta(days=trip_info.days)
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
