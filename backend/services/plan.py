@@ -5,16 +5,14 @@ from backend.dtos import PlanDTO, TripInfo, PlanComponentDTO
 from backend.models import Plan
 
 if TYPE_CHECKING:
-    from backend.services import DayPlanService, SkyscannerService
+    from backend.services import SkyscannerService
 
 
 class PlanService:
     def __init__(
         self,
-        day_plan_service: "DayPlanService",
         skyscanner_service: "SkyscannerService",
     ):
-        self.day_plan_service = day_plan_service
         self.skyscanner_service = skyscanner_service
 
     def create_plan(self, trip_info: TripInfo) -> PlanDTO:

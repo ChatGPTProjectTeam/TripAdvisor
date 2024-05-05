@@ -52,31 +52,12 @@ class RestaurantInfo(BaseModel):
         orm_mode = True
 
 
-class TimePlanDTO(BaseModel):
-    time_plan_id: int | None
-    activity: str = ""
-    restaurant: RestaurantInfo | None
-
-    class Config:
-        orm_mode = True
-
-
-class DayPlanDTO(BaseModel):
-    date: date
-    morning: TimePlanDTO
-    afternoon: TimePlanDTO
-    evening: TimePlanDTO
-
-    class Config:
-        orm_mode = True
-
-
 class PlanComponentDTO(BaseModel):
     component_id: int
     component_type: str
     plane_info: PlaneInfoDTO | None
     accommodation_info: AccommodationInfo | None
-    day_plan_list: list[DayPlanDTO] = []
+    activity: str
 
     class Config:
         orm_mode = True
