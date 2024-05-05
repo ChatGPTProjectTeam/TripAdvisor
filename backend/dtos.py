@@ -19,7 +19,7 @@ class PlaneInfoDTO(BaseModel):
         orm_mode = True
 
 
-class AccommodationInfo(BaseModel):
+class AccommodationInfoDTO(BaseModel):
     """
     skyscanner accomodation info
     """
@@ -55,7 +55,7 @@ class PlanComponentDTO(BaseModel):
     component_id: int
     component_type: str
     plane_info: PlaneInfoDTO | None
-    accommodation_info: AccommodationInfo | None
+    accommodation_info: AccommodationInfoDTO | None
     activity: str
 
     class Config:

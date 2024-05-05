@@ -4,4 +4,6 @@ from .skyscanner import SkyscannerService
 
 gpt_service = GPTService()
 skyscanner_service = SkyscannerService()
-plan_service = PlanService(skyscanner_service=skyscanner_service)
+plan_service = PlanService(
+    skyscanner_service=skyscanner_service, gpt_service=gpt_service
+)

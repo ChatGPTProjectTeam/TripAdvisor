@@ -2,58 +2,59 @@ from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
 from backend.dtos import PlanDTO, TripInfo, PlanComponentDTO
-from backend.models import Plan
+from backend.models import Plan, PlanComponent
 
 if TYPE_CHECKING:
-    from backend.services import SkyscannerService
+    from backend.services import SkyscannerService, GPTService
 
 
 class PlanService:
     def __init__(
         self,
         skyscanner_service: "SkyscannerService",
+        gpt_service: "GPTService",
     ):
         self.skyscanner_service = skyscanner_service
+        self.gpt_service = gpt_service
 
     def initiate_plan(self, trip_info: TripInfo) -> PlanDTO:
-        plan_info = self._create_plan(trip_info)
-        plan = Plan(
-            plan_info=plan_info.json(exclude_none=True),
-        )
+        plan = Plan()
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        plan_info.trip_plan_id = plan.plan_id
-        return plan_info
+        self._create_plan(plan, trip_info)
+        return
 
-    def _create_plan(self, trip_info: TripInfo) -> PlanDTO:
-        # TODO(@shmoon): 코드 정리
+    def _create_plan(self, plan: Plan, trip_info: TripInfo):
         (
-            plane_info,
+            from_plane_info,
+            to_plane_info,
             accommodation_info,
-        ) = self.skyscanner_service.create_plane_and_accommodation_info(
-            trip_info.province, trip_info.days, trip_info.start_date
+        ) = self.skyscanner_service.create_plane_and_accommodation_info(trip_info)
+
+        activities = self.gpt_service.generate_activities(trip_info)
+
+        from_plane_component = PlanComponent(
+            component_type="plane_info", plane_info=from_plane_info, plan=plan
+        )
+        to_plane_component = PlanComponent(
+            component_type="plane_info", plane_info=from_plane_info, plan=plan
+        )
+        accommodation_component = PlanComponent(
+            component_type="accommodation_info",
+            accommodation_info=accommodation_info,
+            plan=plan,
+        )
+        activity_component = PlanComponent(
+            component_type="activity",
+            activity=activities,
+            plan=plan,
         )
 
-        return PlanDTO(
-            trip_plan=[
-                PlanComponentDTO(
-                    component_id=1,
-                    component_type="plane",
-                    plane_info=plane_info,
-                    accommodation_info=None,
-                ),
-                PlanComponentDTO(
-                    component_id=2,
-                    component_type="accommodation",
-                    plane_info=None,
-                    accommodation_info=accommodation_info,
-                ),
-                PlanComponentDTO(
-                    component_id=3,
-                    component_type="activity",
-                    day_plan_list=day_plan_list,
-                ),
-            ]
-        )
+        with SessionLocal() as session:
+            session.add(from_plane_component)
+            session.add(to_plane_component)
+            session.add(accommodation_component)
+            session.add(activity_component)
+            session.commit()

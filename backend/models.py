@@ -32,7 +32,7 @@ class PlanComponent(Base):
         ForeignKey("accommodation_info.accommodation_info_id")
     )
     accommodation_info = relationship("AccommodationInfo")
-    activity = Column(Text)
+    activity = Column(Text, nullable=True)
 
 
 class AccommodationInfo(Base):

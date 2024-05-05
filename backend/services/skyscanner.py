@@ -2,12 +2,55 @@ from datetime import timedelta
 
 import requests
 
-from backend.dtos import PlaneInfoDTO, AccommodationInfo, TripInfo
+from backend.database import SessionLocal
+from backend.dtos import PlaneInfoDTO, AccommodationInfoDTO, TripInfo
+from backend.models import PlaneInfo, AccommodationInfo
 from backend.settings import settings
 
 
 class SkyscannerService:
-    def create_accomodation_info(self, trip_info: TripInfo) -> AccommodationInfo:
+    def create_plane_and_accommodation_info(
+        self, trip_info: TripInfo
+    ) -> tuple[PlaneInfo, PlaneInfo, AccommodationInfo]:
+        from_plane_info_data = self.create_plan_info_dto(trip_info, 0)
+        to_plane_info_data = self.create_plan_info_dto(trip_info, 1)
+        accommodation_info_data = self.create_accomodation_info(trip_info)
+
+        from_plane_info = PlaneInfo(
+            price=from_plane_info_data.price,
+            origin=from_plane_info_data.origin,
+            destination=from_plane_info_data.destination,
+            departure=from_plane_info_data.departure,
+            arrival=from_plane_info_data.arrival,
+            airline=from_plane_info_data.airline,
+        )
+        to_plane_info = PlaneInfo(
+            price=to_plane_info_data.price,
+            origin=to_plane_info_data.origin,
+            destination=to_plane_info_data.destination,
+            departure=to_plane_info_data.departure,
+            arrival=to_plane_info_data.arrival,
+            airline=to_plane_info_data.airline,
+        )
+        accommodation_info = AccommodationInfo(
+            name=accommodation_info_data.name,
+            stars=accommodation_info_data.stars,
+            lowest_price=accommodation_info_data.lowest_price,
+            rating=accommodation_info_data.rating,
+            location=accommodation_info_data.location,
+        )
+
+        with SessionLocal() as session:
+            session.add(from_plane_info)
+            session.add(to_plane_info)
+            session.add(accommodation_info)
+            session.commit()
+            session.refresh(from_plane_info)
+            session.refresh(to_plane_info)
+            session.refresh(accommodation_info)
+        return from_plane_info, to_plane_info, accommodation_info
+
+    def create_accomodation_info(self, trip_info: TripInfo) -> AccommodationInfoDTO:
         """
         https://rapidapi.com/ntd119/api/sky-scanner3 에서 hotels/search api 에 해당합니다.
         숙소에 관한 정보를 가져옵니다.
@@ -44,7 +87,7 @@ class SkyscannerService:
             {"id": accomandation_id},
         )
 
-        return AccommodationInfo(
+        return AccommodationInfoDTO(
             name=data["data"]["results"]["hotelCards"][0]["name"],
             stars=data["data"]["results"]["hotelCards"][0]["stars"],
             lowest_price=data["data"]["results"]["hotelCards"][0]["lowestPrice"][
