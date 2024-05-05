@@ -3,17 +3,21 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 
-class PlaneInfo(BaseModel):
+class PlaneInfoDTO(BaseModel):
+
     """
     # 스카이스캐너에서 가져온 비행 정보 예시 필드
     """
 
-    price: str  # 가격
-    origin: str  # 출발지
-    destination: str  # 목적지
-    departure: str  # 출발일
-    arrival: str  # 도착일
-    airline: str  # 항공사
+    price: str = Field(description="가격")
+    origin: str = Field(description="출발지")
+    destination: str = Field(description="목적지")
+    departure: str = Field(description="출발일")
+    arrival: str = Field(description="도착일")
+    airline: str = Field(description="항공사")
+
+    class Config:
+        orm_mode = True
 
 
 class AccommodationInfo(BaseModel):
@@ -21,11 +25,16 @@ class AccommodationInfo(BaseModel):
     스카이스캐너에서 가져온 숙소 정보 예시 필드
     """
 
-    name: str  # 숙소 이름
-    stars: str  # 몇 성 호텔인지 (없을 경우에 "no_stars")
-    lowest_price: str  # 여러 SKYSCANNER 제휴 숙소 앱 중 해당 숙소를 가장 싸게 예약할 수 있는 가격
-    rating: str  # 리뷰 평균 평점
-    location: str  # 주소
+    name: str = Field(description="숙소 이름")
+    stars: str = Field(description="몇 성 호텔인지 (없을 경우에 'no_stars')")
+    lowest_price: str = Field(
+        description="여러 SKYSCANNER 제휴 숙소 앱 중 해당 숙소를 가장 싸게 예약할 수 있는 가격"
+    )
+    rating: str = Field(description="리뷰 평균 평점")
+    location: str = Field(description="주소")
+
+    class Config:
+        orm_mode = True
 
 
 class RestaurantInfo(BaseModel):
@@ -39,10 +48,17 @@ class RestaurantInfo(BaseModel):
     cuisine: str
     rating: float
 
+    class Config:
+        orm_mode = True
+
 
 class TimePlanDTO(BaseModel):
+    time_plan_id: int | None
     activity: str = ""
     restaurant: RestaurantInfo | None
+
+    class Config:
+        orm_mode = True
 
 
 class DayPlanDTO(BaseModel):
@@ -51,13 +67,19 @@ class DayPlanDTO(BaseModel):
     afternoon: TimePlanDTO
     evening: TimePlanDTO
 
+    class Config:
+        orm_mode = True
+
 
 class PlanComponentDTO(BaseModel):
     component_id: int
     component_type: str
-    plane_info: PlaneInfo | None
+    plane_info: PlaneInfoDTO | None
     accommodation_info: AccommodationInfo | None
     day_plan_list: list[DayPlanDTO] = []
+
+    class Config:
+        orm_mode = True
 
 
 class PlanDTO(BaseModel):
@@ -65,6 +87,9 @@ class PlanDTO(BaseModel):
     province: str
     created_at: date = Field(default_factory=date.today)
     plan_component_list: list[PlanComponentDTO]
+
+    class Config:
+        orm_mode = True
 
 
 """

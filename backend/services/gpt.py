@@ -26,7 +26,7 @@ class GPTService:
         ]
         print(self.openai)
 
-    def generate_activities(self, trip_info: TripInfo) -> list[str]:
+    def generate_activities(self, trip_info: TripInfo) -> str:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
@@ -47,11 +47,20 @@ class GPTService:
         """
         GPT 에서 내려주는 활동의 개수와 실제 일정의 개수가 다른 경우 처리가 필요함    
         """
-        return [
-            activity
-            for activity in response.choices[0].message.content.split("\n")
-            if activity
-        ]
+        return response.choices[0].message.content
+
+    def edit_activities(self, previous_activities: str, message: str) -> str:
+        """
+        여행 정보를 바탕으로 여행 활동을 생성합니다.
+        """
+        response = self.openai.chat.completions.create(
+            model="gpt-4",
+            messages=[],
+        )
+        """
+        GPT 에서 내려주는 활동의 개수와 실제 일정의 개수가 다른 경우 처리가 필요함    
+        """
+        return response.choices[0].message.content
 
     def user_msg(self, user_input: UserInput):
         # 아래 코드는 프론트 단에서 입력한 정보 받아오는 것으로 바꾸기
