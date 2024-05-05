@@ -14,7 +14,11 @@ app = FastAPI()
 
 @app.get("/api/v1/plans")
 def get_plans() -> PlanListResponseDTO:
-    return PlanListResponseDTO(plan_list=[])
+    from backend.services import plan_service
+
+    plan_list = plan_service.get_plans()
+
+    return PlanListResponseDTO(plan_list=plan_list)
 
 
 @app.post("/api/v1/plans")

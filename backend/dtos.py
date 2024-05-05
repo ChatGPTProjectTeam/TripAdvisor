@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from pydantic import BaseModel, Field
 
@@ -16,7 +16,7 @@ class PlaneInfoDTO(BaseModel):
     airline: str = Field(description="항공사")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AccommodationInfoDTO(BaseModel):
@@ -33,7 +33,7 @@ class AccommodationInfoDTO(BaseModel):
     location: str = Field(description="주소")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class RestaurantInfo(BaseModel):
@@ -48,7 +48,7 @@ class RestaurantInfo(BaseModel):
     rating: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PlanComponentDTO(BaseModel):
@@ -56,20 +56,20 @@ class PlanComponentDTO(BaseModel):
     component_type: str
     plane_info: PlaneInfoDTO | None
     accommodation_info: AccommodationInfoDTO | None
-    activity: str
+    activity: str | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PlanDTO(BaseModel):
-    plan_id: int | None
+    trip_plan_id: int | None
     province: str
-    created_at: date = Field(default_factory=date.today)
+    created_at: datetime
     plan_component_list: list[PlanComponentDTO]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 """

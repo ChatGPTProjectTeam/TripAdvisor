@@ -16,6 +16,7 @@ class Plan(Base):
 
     trip_plan_id = Column(Integer, primary_key=True)
     province = Column(String(100))
+    plan_component_list = relationship("PlanComponent")
     created_at = Column(DateTime)
 
 

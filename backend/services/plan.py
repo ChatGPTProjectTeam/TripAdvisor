@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
-from backend.dtos import TripInfo
+from backend.dtos import TripInfo, PlanDTO
 from backend.models import Plan, PlanComponent
 
 if TYPE_CHECKING:
@@ -16,6 +16,12 @@ class PlanService:
     ):
         self.skyscanner_service = skyscanner_service
         self.gpt_service = gpt_service
+
+    def get_plans(self) -> list[PlanDTO]:
+        with SessionLocal() as session:
+            plans = session.query(Plan).all()
+            plan_list = [PlanDTO.from_orm(plan) for plan in plans]
+        return plan_list
 
     def initiate_plan(self, trip_info: TripInfo):
         plan = Plan()
