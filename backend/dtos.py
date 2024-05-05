@@ -4,9 +4,8 @@ from pydantic import BaseModel, Field
 
 
 class PlaneInfoDTO(BaseModel):
-
     """
-    # 스카이스캐너에서 가져온 비행 정보 예시 필드
+    skyscanner plane info
     """
 
     price: str = Field(description="가격")
@@ -22,7 +21,7 @@ class PlaneInfoDTO(BaseModel):
 
 class AccommodationInfo(BaseModel):
     """
-    스카이스캐너에서 가져온 숙소 정보 예시 필드
+    skyscanner accomodation info
     """
 
     name: str = Field(description="숙소 이름")

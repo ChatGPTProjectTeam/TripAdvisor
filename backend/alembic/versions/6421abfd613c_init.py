@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 1c940714f70a
+Revision ID: 6421abfd613c
 Revises: 
-Create Date: 2024-05-05 15:28:01.631139
+Create Date: 2024-05-05 15:50:52.193326
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '1c940714f70a'
+revision: str = '6421abfd613c'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -30,10 +30,10 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('accommodation_info_id')
     )
     op.create_table('plan',
-    sa.Column('plan_id', sa.Integer(), nullable=False),
-    sa.Column('plan_info', sa.JSON(), nullable=True),
+    sa.Column('trip_plan_id', sa.Integer(), nullable=False),
+    sa.Column('province', sa.String(length=100), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('plan_id')
+    sa.PrimaryKeyConstraint('trip_plan_id')
     )
     op.create_table('plane_info',
     sa.Column('plane_info_id', sa.Integer(), nullable=False),
@@ -48,13 +48,13 @@ def upgrade() -> None:
     op.create_table('plan_component',
     sa.Column('component_id', sa.Integer(), nullable=False),
     sa.Column('component_type', sa.String(length=50), nullable=True),
-    sa.Column('plan_id', sa.Integer(), nullable=False),
+    sa.Column('trip_plan_id', sa.Integer(), nullable=False),
     sa.Column('plane_info_id', sa.Integer(), nullable=True),
     sa.Column('accommodation_info_id', sa.Integer(), nullable=True),
     sa.Column('activity', sa.Text(), nullable=True),
     sa.ForeignKeyConstraint(['accommodation_info_id'], ['accommodation_info.accommodation_info_id'], ),
-    sa.ForeignKeyConstraint(['plan_id'], ['plan.plan_id'], ),
     sa.ForeignKeyConstraint(['plane_info_id'], ['plane_info.plane_info_id'], ),
+    sa.ForeignKeyConstraint(['trip_plan_id'], ['plan.trip_plan_id'], ),
     sa.PrimaryKeyConstraint('component_id')
     )
     # ### end Alembic commands ###

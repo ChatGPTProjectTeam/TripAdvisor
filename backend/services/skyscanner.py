@@ -3,11 +3,11 @@ from datetime import timedelta
 import requests
 
 from backend.dtos import PlaneInfoDTO, AccommodationInfo, TripInfo
-from backend.settings import settings  # for skyscanner
+from backend.settings import settings
 
 
 class SkyscannerService:
-    def create_AccomodationInfo(self, trip_info: TripInfo) -> AccommodationInfo:
+    def create_accomodation_info(self, trip_info: TripInfo) -> AccommodationInfo:
         """
         https://rapidapi.com/ntd119/api/sky-scanner3 에서 hotels/search api 에 해당합니다.
         숙소에 관한 정보를 가져옵니다.
@@ -70,7 +70,7 @@ class SkyscannerService:
 
         return location_id
 
-    def create_PlaneInfoDTO(self, trip_info: TripInfo, direction: int) -> PlaneInfoDTO:
+    def create_plan_info_dto(self, trip_info: TripInfo, direction: int) -> PlaneInfoDTO:
         """
         flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.
         왕복대신 편도를 쓴 이유는 왕복으로 찾을 경우 갈 때 가격, 올 때 가격을 따로 계산하지 않고 합쳐서 계산하기 때문에

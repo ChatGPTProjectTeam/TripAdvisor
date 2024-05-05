@@ -19,10 +19,10 @@ def get_plans() -> PlanListResponseDTO:
 
 @app.post("/api/v1/plans")
 def create_plan(form_request_dto: FormRequestDTO):
-    from backend.services import day_plan_service
+    from backend.services import plan_service
 
     trip_info = TripInfo.from_form_request_dto(form_request_dto)
-    day_plan_service.create_subplan_activities(trip_info)
+    plan_service.initiate_plan(trip_info)
     return {}
 
 

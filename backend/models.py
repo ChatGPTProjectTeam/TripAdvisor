@@ -1,6 +1,5 @@
 from sqlalchemy import (
     Column,
-    JSON,
     DateTime,
     String,
     Text,
@@ -15,8 +14,8 @@ from backend.database import Base
 class Plan(Base):
     __tablename__ = "plan"
 
-    plan_id = Column(Integer, primary_key=True)
-    plan_info = Column(JSON)
+    trip_plan_id = Column(Integer, primary_key=True)
+    province = Column(String(100))
     created_at = Column(DateTime)
 
 
@@ -25,7 +24,7 @@ class PlanComponent(Base):
 
     component_id = Column(Integer, primary_key=True)
     component_type = Column(String(50))
-    plan_id: Mapped[int] = mapped_column(ForeignKey("plan.plan_id"))
+    trip_plan_id: Mapped[int] = mapped_column(ForeignKey("plan.trip_plan_id"))
     plan: Mapped["Plan"] = relationship("Plan", back_populates="plan_component_list")
     plane_info_id = mapped_column(ForeignKey("plane_info.plane_info_id"))
     plane_info = relationship("PlaneInfo")

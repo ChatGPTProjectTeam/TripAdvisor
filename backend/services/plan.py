@@ -15,7 +15,7 @@ class PlanService:
     ):
         self.skyscanner_service = skyscanner_service
 
-    def create_plan(self, trip_info: TripInfo) -> PlanDTO:
+    def initiate_plan(self, trip_info: TripInfo) -> PlanDTO:
         plan_info = self._create_plan(trip_info)
         plan = Plan(
             plan_info=plan_info.json(exclude_none=True),
@@ -28,15 +28,13 @@ class PlanService:
         return plan_info
 
     def _create_plan(self, trip_info: TripInfo) -> PlanDTO:
-        # 비행기와 숙소 정보를 가져옵니다.
+        # TODO(@shmoon): 코드 정리
         (
             plane_info,
             accommodation_info,
         ) = self.skyscanner_service.create_plane_and_accommodation_info(
             trip_info.province, trip_info.days, trip_info.start_date
         )
-        # 날짜별 일정을 생성합니다.
-        day_plan_list = self.day_plan_service.create_day_plan_list(trip_info)
 
         return PlanDTO(
             trip_plan=[
