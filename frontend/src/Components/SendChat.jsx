@@ -6,7 +6,7 @@ export async function SendChat(fixedRequestedData) {
         // you need to doublecheck for posting to form and then get response from same api form
         // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'http://localhost:5050/PlanData'
         // DO NOT FORGET TO CHANGE PlanData API FROM MainContent.jsx
-        const formResponse = await fetch(`http://localhost:5050/PlanData`, {
+        const formResponse = await fetch(`http://localhost:5050/test`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,8 @@ export async function SendChat(fixedRequestedData) {
 
         alert("response arrived");
         return {
-            FixedData: await formResponse.json(),
+            // NewMessage: await formResponse.json()
+            NewMessage: "new message received"
         };
 
     } catch (error) {

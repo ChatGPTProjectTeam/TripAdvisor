@@ -59,7 +59,7 @@
 .day-plan-container {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 400px;
     margin: 0 auto;
     justify-content: flex-start;
 
@@ -74,6 +74,8 @@
     display: flex;
     font-size: 14px;
     justify-content: flex-start;
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 .message__label {
@@ -86,11 +88,13 @@
   transform: translateY(0rem);
 }
 .plan-text-box {
-  width: 100%;
+  /*width: 100%;*/
     display: flex;
     border: 1.2px solid black;
     border-radius: 4px;
     height: 24px;
+    width: 300px;
+    margin: auto;
 }
 
 .message__input {

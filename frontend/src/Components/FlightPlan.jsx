@@ -2,15 +2,15 @@ import React, {useEffect, useState} from 'react';
 import './PlanFormat.css'
 import Plane from "./Plane.jsx";
 
-const FlightPlan = ({ component, targetId }) => {
+const FlightPlan = ({ component, courseId }) => {
     // Check if the component is of type '항공편' before rendering
     if (component.component_type !== 'plane_info') {
         return null;
     }
     const [flightInfo, setFlightInfo] = useState('출국');
     useEffect(() => {
-        setFlightInfo((component.component_id === 1 ? '출국' : '귀국'))
-    },[component.component_id])
+        setFlightInfo((component.componentId === 1 ? '출국' : '귀국'))
+    },[component.componentId])
 
     const { plane_info } = component;
 

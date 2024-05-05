@@ -1,34 +1,4 @@
 {
-  "chats": [
-    {
-      "id": "1",
-      "title": "Tokyo",
-      "createdAt": "2024-04-25T12:00:00Z",
-      "updatedAt": "2024-04-25T12:00:00Z",
-      "formDone": true
-    },
-    {
-      "id": "2",
-      "title": "Osaka",
-      "createdAt": "2024-04-25T12:00:00Z",
-      "updatedAt": "2024-04-25T12:00:00Z",
-      "isOpen": false
-    },
-    {
-      "id": "3",
-      "title": "Kyoto",
-      "createdAt": "2024-04-25T12:00:00Z",
-      "updatedAt": "2024-04-25T12:00:00Z",
-      "isOpen": false
-    },
-    {
-      "id": "4",
-      "title": "Asahi",
-      "createdAt": "2024-04-25T12:00:00Z",
-      "updatedAt": "2024-04-25T12:00:00Z",
-      "isOpen": false
-    }
-  ],
   "Form": [
     {
       "id": "1",
@@ -67,160 +37,77 @@
       "trip_style_text": "뭐뭐한"
     }
   ],
-  "PlanData": [
+  "test": [
     {
-      "chatId": 1,
-      "tripPlanId": 1,
-      "province": "간토 지방",
-      "created_at": "2024-05-02T21:10:00",
-      "tripPlan": [
-        {
-          "componentId": 1,
-          "componentType": "항공편",
-          "PlaneInfo": {
-            "price": "₩368,277",
-            "origin": "인천국제공항",
-            "destination": "도쿄 하네다",
-            "departure": "2024-05-02T21:10:00",
-            "arrival": "2024-05-02T23:30:00",
-            "airline": "아시아나항공"
-          }
-        },
-        {
-          "componentId": 2,
-          "componentType": "숙소",
-          "accommodationInfo": {
-            "name": "사토 산스 레스트",
-            "stars": "no_stars",
-            "lowest_price": "₩116,550",
-            "rating": "5",
-            "location": "Arakawa-ku, Minamisenju 1-21-2, Arakawa, 116-0003 Tokyo, Japan"
-          }
-        },
-        {
-          "componentId": 3,
-          "componentType": "일정",
-          "day_plan_list": [
-            {
-              "planId": 1,
-              "date": "2024-03-12",
-              "morning": {
-                "activity": "아사쿠사에서 센소지 사원 방문",
-                "restaurant": null
-              },
-              "afternoon": {
-                "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
-                "restaurant": null
-              },
-              "evening": {
-                "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
-                "restaurant": null
-              }
-            },
-            {
-              "planId": 2,
-              "date": "2024-03-13",
-              "morning": {
-                "activity": "아사쿠사에서 센소지 사원 방문",
-                "restaurant": null
-              },
-              "afternoon": {
-                "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
-                "restaurant": null
-              },
-              "evening": {
-                "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
-                "restaurant": null
-              }
-            }
-          ]
-        },
-        {
-          "componentId": 4,
-          "componentType": "항공편",
-          "PlaneInfo": {
-            "price": "₩368,277",
-            "origin": "도쿄 하네다",
-            "destination": "인천국제공항",
-            "departure": "2024-05-02T21:10:00",
-            "arrival": "2024-05-02T23:30:00",
-            "airline": "대한항공"
-          }
-        }
-      ],
-      "id": "ddc6"
+      "message": "fuck you"
     },
     {
-      "chatId": 2,
-      "tripPlanId": 2,
-      "province": "간사이지방",
-      "created_at": "2024-05-01T21:10:00",
-      "tripPlan": [
-        {
-          "componentId": 1,
-          "componentType": "항공편",
-          "PlaneInfo": {
-            "price": "₩368,277",
-            "origin": "인천국제공항",
-            "destination": "오사카 간사이",
-            "departure": "2024-05-02T21:10:00",
-            "arrival": "2024-05-02T23:30:00",
-            "airline": "아시아나항공"
-          }
-        },
-        {
-          "componentId": 2,
-          "componentType": "숙소",
-          "accommodationInfo": {
-            "name": "사토 산스 레스트",
-            "stars": "no_stars",
-            "lowest_price": "₩116,550",
-            "rating": "5",
-            "location": "Arakawa-ku, Minamisenju 1-21-2, Arakawa, 116-0003 Tokyo, Japan"
-          }
-        },
-        {
-          "componentId": 3,
-          "componentType": "일정",
-          "day_plan_list": [
-            {
-              "planId": 1,
-              "date": "2024-03-12",
-              "morning": {
-                "activity": "아사쿠사에서 센소지 사원 방문",
-                "restaurant": null
-              },
-              "afternoon": {
-                "activity": "아사쿠사에서 센소지 사원 방문, 나카미세 거리 쇼핑",
-                "restaurant": null
-              },
-              "evening": {
-                "activity": "아키하바라 전자 상가 탐방 및 저녁 식사",
-                "restaurant": null
-              }
-            }
-          ]
-        },
-        {
-          "componentId": 4,
-          "componentType": "항공편",
-          "PlaneInfo": {
-            "price": "₩368,277",
-            "origin": "오사카 간사이",
-            "destination": "인천국제공항",
-            "departure": "2024-05-02T21:10:00",
-            "arrival": "2024-05-02T23:30:00",
-            "airline": "델타항공"
-          }
-        }
-      ]
+      "id": "b6c0",
+      "trip_plan_id": "1",
+      "component_id": 3,
+      "message": "ㅎㅇㅎㅇ"
     }
   ],
   "plan_list": [
     {
       "trip_plan_id": 1,
-      "province": "tokyo",
+      "province": "간토 지방",
       "created_at": "2024-05-05T20:48:09",
+      "plan_component_list": [
+        {
+          "component_id": 1,
+          "component_type": "plane_info",
+          "plane_info": {
+            "price": "$500",
+            "origin": "Seoul",
+            "destination": "Tokyo",
+            "departure": "2024-06-02 08:00",
+            "arrival": "2024-06-02 12:00",
+            "airline": "Japan Airlines"
+          },
+          "accommodation_info": null,
+          "activity": null
+        },
+        {
+          "component_id": 3,
+          "component_type": "accomodation_info",
+          "plane_info": null,
+          "accommodation_info": {
+            "name": "Tokyo Hotel",
+            "stars": "4",
+            "lowest_price": "$200",
+            "rating": "8.5",
+            "location": "Downtown Tokyo"
+          },
+          "activity": null
+        },
+        {
+          "component_id": 4,
+          "component_type": "activity",
+          "plane_info": null,
+          "accommodation_info": null,
+          "activity": "Day 1: 도쿄 도착 및 도심 탐방\n오전: 도쿄 도착 및 호텔 체크인\n오후: 아사쿠사(Asakusa) 지역 탐방 (센소지 텐플, 나카미세 거리 등)\n저녁: 아사쿠사에서 전통 일본 음식을 즐기는 저녁 식사\nDay 2: 도쿄 시내 관광\n오전: 하라주쿠 (Harajuku) 지역 탐방 (메이지 신궁, 요요기 공원 등)\n오후: 시부야 (Shibuya) 지역 탐방 (스크램블 크로스, 도쿄 메트로폴리탄 교통청 등)\n저녁: 스시 레스토랑에서 일본식 회 저녁 식사\nDay 3: 도쿄 주변 여행\n오전: 하코네 (Hakone) 일일 여행 (오와쿠다니 열차, 온천 체험 등)\n오후: 신주쿠 (Shinjuku) 지역 탐방 (도쿄 메트로폴리탄 정원, 테마카이 등)\n저녁: 신주쿠에서 저녁 식사 후 호텔로 이동\nDay 4: 도쿄에서 출발\n오전: 호텔 체크아웃 및 공항으로 이동\n오후: 도쿄에서 귀국"
+        },
+        {
+          "component_id": 5,
+          "component_type": "plane_info",
+          "plane_info": {
+            "price": "$500",
+            "origin": "Tokyo",
+            "destination": "Seoul",
+            "departure": "2024-06-04 08:00",
+            "arrival": "2024-06-04 11:00",
+            "airline": "Japan Airlines"
+          },
+          "accommodation_info": null,
+          "activity": null
+        }
+      ]
+    },
+    {
+      "trip_plan_id": 2,
+      "province": "간사이 지방",
+      "created_at": "2024-04-05T20:48:09",
       "plan_component_list": [
         {
           "component_id": 1,
@@ -273,5 +160,4 @@
       ]
     }
   ]
-
 }

@@ -32,8 +32,6 @@ export default function MainPlanContents() {
                 </defs>
             </svg>
         </div>
-
-
     );
     return (
         <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
@@ -50,10 +48,10 @@ export default function MainPlanContents() {
                         {targetPlan.plan_component_list.map((component, index) => (
                             <div key={index}>
 
-                                <h3>Component {index + 1}</h3>
+                                {/*<h3>Component {index + 1}</h3>*/}
                                 <FlightPlan component={component} targetId={targetId}/>
-                                {/*<AccommodationPlan component={component} targetId={targetId}/>*/}
-                                {/*<DayPlan component={component} targetId={targetId} componentId={index + 1}/>*/}
+                                <AccommodationPlan component={component} targetId={targetId}/>
+                                <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
 
                             </div>
                         ))}
