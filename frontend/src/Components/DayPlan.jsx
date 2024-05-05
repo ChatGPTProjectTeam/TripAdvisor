@@ -22,13 +22,13 @@ const InputComponent = ({ id, value, placeholder, onChange }) => {
   );
 };
 
-const DayPlan = ({ component, courseId, componentId }) => {
+const DayPlan = ({ component, targetId, componentId }) => {
   const [inputMessages, setInputMessages] = useState({});
   useEffect(() => {
     return () => {
       setInputMessages({});
     };
-  }, [courseId]);
+  }, [targetId]);
 
   // Check if the component is of type '일정' before rendering
   if (component.componentType !== '일정') {
@@ -50,13 +50,12 @@ const DayPlan = ({ component, courseId, componentId }) => {
 
   const handleReloadClick = async (tripId) => {
     console.log('tripId: ', tripId);
-    console.log('courseId: ', courseId);
+    console.log('courseId: ', targetId);
     console.log('component id: ', componentId);
     console.log('message: ', inputMessages);
     const fixedDataRequest = {
-      chatId: courseId,
-      componentId: componentId,
-      planId: tripId,
+      trip_plan_id: targetId,
+      component_id: componentId,
       message: inputMessages
     };
     const fixedData = await SendChat(fixedDataRequest);

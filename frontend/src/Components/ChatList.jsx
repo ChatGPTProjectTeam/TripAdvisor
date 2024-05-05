@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import useFetch from "../hooks/loadData.jsx";
 
 export default function ChatList() {
-    const chats = useFetch('http://localhost:5050/PlanData')
+    const plans = useFetch('http://localhost:5050/plan_list')
     console.log(dummy);
     function dateFilter(dateString) {
         const date = new Date(dateString);
@@ -20,16 +20,16 @@ export default function ChatList() {
 
     return (
         <ul style={{listStyleType: 'none'}}>
-            {chats.map(chat => (
-                <li key={chat.chatId}>
+            {plans.map(plan => (
+                <li key={plan.trip_plan_id}>
                     {/*<ChatButton title={chat.title}/>*/}
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
-                        <Link to={`/chat/${chat.chatId}`} className={`button-80 ${styles.sidebarLoadButton}`}>
+                        <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
                             <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px'}}>
-                                <span className="text">Target: {chat.province}</span>
-                                <span>생성일자: {dateFilter(chat.created_at)}</span> {/* You might want to replace ??시간 with actual dynamic data if available */}
+                                <span className="text">Target: {plan.province}</span>
+                                <span>생성일자: {dateFilter(plan.created_at)}</span> {/* You might want to replace ??시간 with actual dynamic data if available */}
                             </div>
-                            <div style={{color: '#ffffff', fontSize: '16px'}}>{chat.province} 여행코스</div>
+                            <div style={{color: '#ffffff', fontSize: '16px'}}>{plan.province} 여행코스</div>
                         </Link>
                     </div>
                 </li>

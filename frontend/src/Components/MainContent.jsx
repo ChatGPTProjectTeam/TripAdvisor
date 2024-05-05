@@ -7,11 +7,11 @@ import AccommodationPlan from "./AccommodationPlan.jsx";
 import DayPlan from "./DayPlan.jsx";
 
 export default function MainPlanContents() {
-    const { courseId } = useParams();
+    const { targetId } = useParams();
     //THIS IS TEMPORAL JSON SERVER DATA
     //YOU MUST ADJUST THIS API FOR DEMO!!!
-    const tripData = useFetch(`http://localhost:5050/PlanData`);
-    const targetPlans = tripData.filter(plan => plan.chatId === parseInt(courseId, 10));
+    const tripData = useFetch(`http://localhost:5050/plan_list`);
+    const targetPlans = tripData.filter(plan => plan.trip_plan_id === parseInt(targetId, 10));
     const provinceName = targetPlans.map(targetPlan => targetPlan.province);
 
     const PlanTitleLogo = () => (
@@ -47,21 +47,20 @@ export default function MainPlanContents() {
             {targetPlans.length > 0 ? (
                 targetPlans.map((targetPlan, index) => (
                     <div key={index}>
-                        {/*<h2>Trip Plan ID: {targetPlan.tripPlanId}</h2>*/}
-                        {targetPlan.tripPlan.map((component, index) => (
+                        {targetPlan.plan_component_list.map((component, index) => (
                             <div key={index}>
 
-                                {/*<h3>Component {index + 1}</h3>*/}
-                                <FlightPlan component={component} courseId={courseId}/>
-                                <AccommodationPlan component={component} courseId={courseId}/>
-                                <DayPlan component={component} courseId={courseId} componentId={index + 1}/>
+                                <h3>Component {index + 1}</h3>
+                                <FlightPlan component={component} targetId={targetId}/>
+                                {/*<AccommodationPlan component={component} targetId={targetId}/>*/}
+                                {/*<DayPlan component={component} targetId={targetId} componentId={index + 1}/>*/}
 
                             </div>
                         ))}
                     </div>
                 ))
             ) : (
-                <p>No trip plan found for chat ID {courseId}</p>
+                <p>No trip plan found for chat ID {targetId}</p>
             )}
                 </div>
 

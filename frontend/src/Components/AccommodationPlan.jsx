@@ -1,7 +1,7 @@
 import React from 'react';
 import './PlanFormat.css';
 
-const AccommodationPlan = ({ component, courseId }) => {
+const AccommodationPlan = ({ component, targetId }) => {
     // Check if the component is of type '항공편' before rendering
     if (component.componentType !== '숙소') {
         return null;

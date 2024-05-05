@@ -1,3 +1,18 @@
+export interface TripPlan {
+    trip_plan_id: number;
+    province: string;
+    created_at: string;
+    plan_component_list: PlanComponent[];
+}
+
+export interface PlanComponent {
+    component_id: number;
+    component_type: string;
+    plane_info?: PlaneInfo;
+    accommodation_info?: AccommodationInfo;
+    activity?: string;
+}
+
 export interface PlaneInfo {
     price: string;
     origin: string;
@@ -13,47 +28,4 @@ export interface AccommodationInfo {
     lowest_price: string;
     rating: string;
     location: string;
-}
-
-export interface DayPlanActivity {
-    activity: string;
-    restaurant: string | null;
-}
-
-export interface DayPlan {
-    planId: number;
-    date: string;
-    morning: DayPlanActivity;
-    afternoon: DayPlanActivity;
-    evening: DayPlanActivity;
-}
-
-export interface Component {
-    componentId: number;
-    componentType: string;
-    PlaneInfo?: PlaneInfo;
-    accommodationInfo?: AccommodationInfo;
-    day_plan_list?: DayPlan[];
-}
-
-export interface TripPlan {
-    chatId: number;
-    tripPlanId: number;
-    province: string;
-    created_at: string;
-    tripPlan: Component[];
-}
-
-export interface PlanData {
-    PlanData: TripPlan[];
-}
-
-export interface Form {
-  id: string;
-  mbti: string;
-  province: string;
-  days: string;
-  start_date: string;
-  trip_member_num: string;
-  trip_style_text: string;
 }
