@@ -55,7 +55,8 @@ export default function MainPlanContents() {
                                 {/*<FlightPlan component={component} courseId={courseId}/>*/}
                                 {/*<AccommodationPlan component={component} courseId={courseId}/>*/}
                                 {/*<DayPlan component={component} courseId={courseId} componentId={index + 1}/>*/}
-                                <div>chat here</div>
+                                
+                                <div>시발시발</div>
 
                             </div>
                         ))}
