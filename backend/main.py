@@ -32,4 +32,7 @@ def create_plan(form_request_dto: FormRequestDTO):
 
 @app.patch("/api/v1/plan/{plan_id}")
 def edit_plan(plan_id: int, msg: str):
+    from backend.services import plan_service
+    
+    plan_service.update_plan(plan_id, msg)
     return {}

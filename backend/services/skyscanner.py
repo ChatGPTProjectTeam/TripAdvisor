@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import requests
 
@@ -14,7 +14,7 @@ class SkyscannerService:
     ) -> tuple[PlaneInfo, PlaneInfo, AccommodationInfo]:
         from_plane_info_data = self.create_plan_info_dto(trip_info, 0)
         to_plane_info_data = self.create_plan_info_dto(trip_info, 1)
-        accommodation_info_data = self.create_accomodation_info(trip_info)
+        accommodation_info_data = self.create_accommodation_info(trip_info)
 
         from_plane_info = PlaneInfo(
             price=from_plane_info_data.price,
@@ -50,7 +50,7 @@ class SkyscannerService:
             session.refresh(accommodation_info)
         return from_plane_info, to_plane_info, accommodation_info
 
-    def create_accomodation_info(self, trip_info: TripInfo) -> AccommodationInfoDTO:
+    def create_accommodation_info(self, trip_info: TripInfo) -> AccommodationInfoDTO:
         """
         https://rapidapi.com/ntd119/api/sky-scanner3 에서 hotels/search api 에 해당합니다.
         숙소에 관한 정보를 가져옵니다.
@@ -78,26 +78,36 @@ class SkyscannerService:
 
             if completion_percentage >= 100:
                 break
-
-        accomandation_id = data["data"]["results"]["hotelCards"][0]["id"]
+            
+        accommodation = None
+        
+        for hotel in data["data"]["results"]["hotelCards"]:
+            if hotel["reviewsSummary"] != None:
+                accommodation = hotel
+                break  
+            
+        print(accommodation)
+        accommodation_id = accommodation["id"]
 
         # check-in time, check-out time, location
         detailed_data = self._call_api(
             "https://sky-scanner3.p.rapidapi.com/hotels/detail",
-            {"id": accomandation_id},
+            {"id": accommodation_id},
         )
-
+        
+        
+        
         return AccommodationInfoDTO(
-            name=data["data"]["results"]["hotelCards"][0]["name"],
-            stars=data["data"]["results"]["hotelCards"][0]["stars"],
-            lowest_price=data["data"]["results"]["hotelCards"][0]["lowestPrice"][
+            name=accommodation["name"],
+            stars=accommodation["stars"],
+            lowest_price=accommodation["lowestPrice"][
                 "price"
             ],
             rating=str(
-                data["data"]["results"]["hotelCards"][0]["reviewsSummary"]["score"]
+                accommodation["reviewsSummary"]["score"]
             ),
             location=detailed_data["data"]["location"]["address"],
-            # accomandation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
+            # accommodation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
         )
 
     def _search_location(self, trip_info: TripInfo) -> str:
@@ -109,7 +119,7 @@ class SkyscannerService:
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
 
-        location_id = "27542089"  # data["data"][0]["entityId"]
+        location_id = data["data"][0]["entityId"] # "27542089" 
 
         return location_id
 
@@ -167,17 +177,21 @@ class SkyscannerService:
                 airline="",
             )
 
+        flight = None
+        
+        for itinerary in data["data"]["itineraries"]:
+            arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
+            if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
+                flight = itinerary
+                break  
+        
         return PlaneInfoDTO(
-            price=str(data["data"]["itineraries"][0]["price"]["formatted"]),
-            origin=data["data"]["itineraries"][0]["legs"][0]["origin"]["name"],
-            destination=data["data"]["itineraries"][0]["legs"][0]["destination"][
-                "name"
-            ],
-            departure=data["data"]["itineraries"][0]["legs"][0]["departure"],
-            arrival=data["data"]["itineraries"][0]["legs"][0]["arrival"],
-            airline=data["data"]["itineraries"][0]["legs"][0]["carriers"]["marketing"][
-                0
-            ]["name"],
+            price=str(flight["price"]["formatted"]),
+            origin=flight["legs"][0]["origin"]["name"],
+            destination=flight["legs"][0]["destination"]["name"],
+            departure=flight["legs"][0]["departure"],
+            arrival=flight["legs"][0]["arrival"],
+            airline=flight["legs"][0]["carriers"]["marketing"][0]["name"],
         )
 
     def _search_airport(self, trip_info: TripInfo) -> str:
@@ -206,17 +220,21 @@ class SkyscannerService:
             },
         )
 
+        flight = None
+        
+        for itinerary in data["data"]["itineraries"]:
+            arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
+            if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
+                flight = itinerary
+                break            
+        print(flight)
         return PlaneInfoDTO(
-            price=str(data["data"]["itineraries"][0]["price"]["formatted"]),
-            origin=data["data"]["itineraries"][0]["legs"][0]["origin"]["name"],
-            destination=data["data"]["itineraries"][0]["legs"][0]["destination"][
-                "name"
-            ],
-            departure=data["data"]["itineraries"][0]["legs"][0]["departure"],
-            arrival=data["data"]["itineraries"][0]["legs"][0]["arrival"],
-            airline=data["data"]["itineraries"][0]["legs"][0]["carriers"]["marketing"][
-                0
-            ]["name"],
+            price=str(flight["price"]["formatted"]),
+            origin=flight["legs"][0]["origin"]["name"],
+            destination=flight["legs"][0]["destination"]["name"],
+            departure=flight["legs"][0]["departure"],
+            arrival=flight["legs"][0]["arrival"],
+            airline=flight["legs"][0]["carriers"]["marketing"][0]["name"],
         )
 
     def _call_api(self, end_point: str, querystring: dict) -> dict:
