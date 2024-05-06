@@ -189,7 +189,6 @@ class SkyscannerService:
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
         airport_id = data["data"][0]["presentation"]["id"]
-        print(airport_id)
 
         return airport_id
 
