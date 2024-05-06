@@ -9,7 +9,7 @@ import {CreateForm} from "./CreateForm.jsx";
 
 
 export default function ChatCreateButton() {
-    const [chats, setChats] = useState(chatData.chats);
+    // const [chats, setChats] = useState(chatData.chats);
     const navigate = useNavigate();
     function handleCreateChat() {
         navigate('/create_form');

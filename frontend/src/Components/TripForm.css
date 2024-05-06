@@ -13,9 +13,9 @@
 }
 
 .option.active {
-    background-color: #007bff;
+    background-color: #FF8F8F;
     color: white;
-    border-color: #007bff;
+    border-color: #FF8F8F;
 }
 
 .province-option {
@@ -28,9 +28,9 @@
 }
 
 .province-option.active {
-    background-color: #007bff;
+    background-color: #FF8F8F;
     color: white;
-    border-color: #007bff;
+    border-color: #FF8F8F;
 }
 
 .second-option {
@@ -173,15 +173,27 @@
 .button-48:hover:before {
   animation: opacityFallbackIn 0s step-start forwards;
   clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+  background-size: cover; /* Adjust as needed */
+  content: "Oh YA"; /* Add content to display the background image */
 }
 
 .button-48:after {
   background-color: #FFFFFF;
+
 }
 
 .button-48 span {
   z-index: 1;
   position: relative;
+}
+
+.submit-button {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
 }
 
 

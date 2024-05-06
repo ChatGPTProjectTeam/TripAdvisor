@@ -1,7 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './LoadingScreen.module.css'
 import Plane from "./Plane.jsx";
 const LoadingScreen = () => {
+
+  const [fadeIn, setFadeIn] = useState(true);
+  const [statements, setStatements] = useState([
+      'Making trip plan in process...',
+    'Making Flight plan in process...',
+    'Tripping in process...',
+    'Ordering Sushi in process...',
+      'Learning Japanese in process...',
+      'processing something...',
+      'Making money for trip in process...',
+      'Ordering BBQ in process...',
+      'Evaluating mbti...',
+      'fly eagels fly...'
+
+  ]);
+  const [currentStatementIndex, setCurrentStatementIndex] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeIn(false);
+      const nextIndex = (currentStatementIndex + 1) % statements.length;
+      setCurrentStatementIndex(nextIndex);
+      setFadeIn(true);
+    }, 2000); // Adjust the delay as needed
+    return () => clearTimeout(timer);
+  }, [currentStatementIndex, statements]);
 
   const RotatedSVG = () => {
   return (
@@ -31,7 +56,7 @@ const LoadingScreen = () => {
             <span></span>
             <span></span>
           </span>
-            <h1>tripping in process..</h1>
+            <h1>{statements[currentStatementIndex]}</h1>
           </div>
         </div>
 
