@@ -1,0 +1,139 @@
+.info-container {
+    background-color: #FFFFFF;
+    max-width: 980px;
+    display: flex;
+    justify-content: center;
+}
+.title-container {
+    display: flex;
+    align-items: flex-start;
+    background-color: #F68080;
+    padding-left: 5px;
+    border-radius: 3px;
+}
+
+/*Flight plan*/
+
+.flight-info-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+.flight-line {
+  border-top: 4px solid black; /* Adjust color and thickness as needed */
+    width: 300px;
+}
+
+.moving-svg-container {
+  width: 100%;
+  overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.moving-svg {
+  animation: moveLeftToRight 20s linear infinite;
+  transform: translateX(-100%);
+}
+
+@keyframes moveLeftToRight {
+  0% {
+    transform: translateX(-140%);
+  }
+  100% {
+    transform: translateX(calc(100% + 300px));
+  }
+}
+
+/*Accommodation plan*/
+.place-name {
+    font-size: 20px;
+    margin-top: 10px;
+}
+.place-location {
+    font-size: 10px;
+}
+
+/*Day plan*/
+.day-plan-container {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 0 auto;
+    justify-content: flex-start;
+
+
+}
+.day-plan-category {
+    display: flex;
+    font-size: 16px;
+    justify-content: flex-start;
+}
+.day-plan-info {
+    display: flex;
+    font-size: 14px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.message__label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  margin-top: 0.7rem;
+  display: block;
+  transition: all 0.3s;
+  transform: translateY(0rem);
+}
+.plan-text-box {
+  /*width: 100%;*/
+    display: flex;
+    border: 1.2px solid black;
+    border-radius: 4px;
+    height: 24px;
+    width: 300px;
+    margin: auto;
+}
+
+.message__input {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  font-size: 14px;
+	margin: 0 auto;
+  padding: 0.2rem 0.2rem;
+  border-radius: 0.2rem;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  transition: all 0.3s;
+  height: 100%;
+    width: 270px;
+
+}
+input[type="text"]:focus,
+textarea:focus
+{
+    outline: none;
+    border: none; /* Optionally remove the border as well */
+}
+
+.message__input:placeholder-shown + .message__label {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: translateY(-4rem);
+  transform: translateY(-4rem);
+}
+.message_area {
+  min-height: 60px;
+}
+
+.reload-button {
+    padding: 0 0;
+    display: flex;
+    width: 20px;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+
