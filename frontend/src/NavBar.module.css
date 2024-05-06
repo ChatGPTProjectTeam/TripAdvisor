@@ -1,0 +1,151 @@
+/* App-wide resets */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Global link styles */
+a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: aliceblue;
+  /*padding: 0px 20px;*/
+  padding-left: 10px;
+  padding-right: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  border-bottom: 2px solid black;
+  width: 100%;
+  /*position: fixed;*/
+}
+
+/* Logo styles */
+.logo {
+  /*height: 30px;*/
+}
+
+/* Menu styles */
+.navMenu {
+  display: flex;
+  gap: 20px;
+}
+
+/* Hamburger icon styles */
+.hamburger {
+  display: none;
+}
+.guideButton {
+  display: block;
+}
+
+.descriptionBurgerBox {
+  display: none;
+}
+.descriptionBurgerBox.show {
+  display: block;
+}
+.descriptionBurgerBox.hide {
+  display: none;
+}
+
+
+
+
+@media screen and (max-width: 610px) {
+
+
+  /* Hamburger icon styles */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+        z-index: 4;
+
+  }
+  /* Hamburger bar styles */
+  .bar {
+    background-color: #120f0b;
+    width: 20px;
+    height: 3px;
+    display: block;
+    margin: 5px;
+    transition: 0.3s ease-in-out;
+  }
+
+  /* Active state styles for hamburger bars */
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Menu styles */
+  .navMenu {
+    position: absolute;
+    top: -100%; /* Initially off-screen */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    width: 100%;
+    transition: 0.7s ease-in-out;
+    background-color: aliceblue;
+    padding: 10px 20px;
+    text-align: center; /* Center items horizontally */
+  }
+
+  /* Active state styles for menu */
+  .navMenu.active {
+    top: 0 /* Slide down when active */;
+    z-index: 3;
+  }
+
+  /* Menu item styles */
+  .navMenu li {
+    margin: 16px auto;
+    position: relative; /* Added */
+  }
+
+  .guideButton {
+    display: none;
+  }
+
+}
+
+.descriptionBox {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Positioned just below the nav item */
+  min-width: 300px; /* Ensure it has enough space */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  z-index: 20; /* Higher z-index to ensure it overlaps other content */
+  padding: 10px;
+  display: none; /* Start hidden */
+}
+
+/* This will apply only if descriptionBox is inside the button or another element marked with navLink */
+.navLink.active .descriptionBox {
+  display: block /* Show when active */
+}
+
+
+/* Adjust arrow icon size and placement if needed */
+.arrow-up, .arrow-down {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+}
+
+
