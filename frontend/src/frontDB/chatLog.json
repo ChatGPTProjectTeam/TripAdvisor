@@ -39,13 +39,20 @@
   ],
   "test": [
     {
-      "message": "fuck you"
+      "message": "fuck you",
+      "id": "e004"
     },
     {
       "id": "b6c0",
       "trip_plan_id": "1",
       "component_id": 3,
       "message": "ㅎㅇㅎㅇ"
+    },
+    {
+      "id": "ff47",
+      "trip_plan_id": "1",
+      "component_id": 3,
+      "message": "hello"
     }
   ],
   "plan_list": [
