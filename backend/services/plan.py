@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
@@ -24,7 +25,10 @@ class PlanService:
         return plan_list
 
     def initiate_plan(self, trip_info: TripInfo):
-        plan = Plan()
+        plan = Plan(
+            province=trip_info.province,
+            created_at=datetime.now(),
+        )
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
