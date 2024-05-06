@@ -1,19 +1,54 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from dtos import TripInfo, TripPlan
-from dotenv import load_dotenv
+from backend.dtos import (
+    TripInfo,
+    UserInput,
+    FormRequestDTO,
+    PlanListResponseDTO,
+)
 
 load_dotenv()
 app = FastAPI()
 
 
-@app.post("/api/v1/plans")
-def create_plan(trip_info: TripInfo) -> TripPlan:
+@app.get("/api/v1/plans")
+def get_plans() -> PlanListResponseDTO:
     from backend.services import plan_service
 
-    return plan_service.create_plan(trip_info)
+    plan_list = plan_service.get_plans()
+
+    return PlanListResponseDTO(plan_list=plan_list)
+
+
+@app.post("/api/v1/plans")
+def create_plan(form_request_dto: FormRequestDTO):
+    from backend.services import plan_service
+
+    trip_info = TripInfo.from_form_request_dto(form_request_dto)
+    plan_service.initiate_plan(trip_info)
+    return {}
 
 
 @app.patch("/api/v1/plan/{plan_id}")
-def edit_plan(plan_id: int, trip_info: TripInfo):
+def edit_plan(plan_id: int, msg: str):
     return {}
+
+
+@app.post("/")
+async def input_send(user_content: UserInput):
+    from backend.services import gpt_service
+
+    messages = [{"role": "system", "content": "You are a kind helpful assistant"}]
+    user_msg = ""
+
+    answer = gpt_service.user_msg(user_content)
+    user_msg = user_content.msg
+    print(type(answer))
+    messages.append(
+        {"role": "user", "content": user_msg},
+    )
+    messages.append(
+        {"role": "assistant", "content": answer},
+    )
+    return messages

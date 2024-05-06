@@ -40,7 +40,7 @@ poetry-core==1.9.0
 poetry-plugin-export==1.7.1
 ptyprocess==0.7.0
 pycparser==2.22
-pydantic==1.10.0
+pydantic==2.7.0
 pydantic-settings==2.2.1
 pydantic_core==2.18.1
 pyproject_hooks==1.0.0
