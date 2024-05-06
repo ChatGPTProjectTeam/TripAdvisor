@@ -1,63 +1,65 @@
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
-from backend.dtos import PlanDTO, TripInfo, PlanComponentDTO
-from backend.models import Plan
+from backend.dtos import TripInfo, PlanDTO
+from backend.models import Plan, PlanComponent
 
 if TYPE_CHECKING:
-    from backend.services import DayPlanService, SkyscannerService
+    from backend.services import SkyscannerService, GPTService
 
 
 class PlanService:
     def __init__(
         self,
-        day_plan_service: "DayPlanService",
         skyscanner_service: "SkyscannerService",
+        gpt_service: "GPTService",
     ):
-        self.day_plan_service = day_plan_service
         self.skyscanner_service = skyscanner_service
+        self.gpt_service = gpt_service
 
-    def create_plan(self, trip_info: TripInfo) -> PlanDTO:
-        plan_info = self._create_plan(trip_info)
-        plan = Plan(
-            plan_info=plan_info.json(exclude_none=True),
-        )
+    def get_plans(self) -> list[PlanDTO]:
+        with SessionLocal() as session:
+            plans = session.query(Plan).all()
+            plan_list = [PlanDTO.from_orm(plan) for plan in plans]
+        return plan_list
+
+    def initiate_plan(self, trip_info: TripInfo):
+        plan = Plan()
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        plan_info.trip_plan_id = plan.plan_id
-        return plan_info
+        self._create_plan(plan, trip_info)
 
-    def _create_plan(self, trip_info: TripInfo) -> PlanDTO:
-        # 비행기와 숙소 정보를 가져옵니다.
+    def _create_plan(self, plan: Plan, trip_info: TripInfo):
         (
-            plane_info,
+            from_plane_info,
+            to_plane_info,
             accommodation_info,
-        ) = self.skyscanner_service.create_plane_and_accommodation_info(
-            trip_info.province, trip_info.days, trip_info.start_date
-        )
-        # 날짜별 일정을 생성합니다.
-        day_plan_list = self.day_plan_service.create_day_plan_list(trip_info)
+        ) = self.skyscanner_service.create_plane_and_accommodation_info(trip_info)
 
-        return PlanDTO(
-            trip_plan=[
-                PlanComponentDTO(
-                    component_id=1,
-                    component_type="plane",
-                    plane_info=plane_info,
-                    accommodation_info=None,
-                ),
-                PlanComponentDTO(
-                    component_id=2,
-                    component_type="accommodation",
-                    plane_info=None,
-                    accommodation_info=accommodation_info,
-                ),
-                PlanComponentDTO(
-                    component_id=3,
-                    component_type="activity",
-                    day_plan_list=day_plan_list,
-                ),
-            ]
+        activities = self.gpt_service.generate_activities(trip_info)
+
+        from_plane_component = PlanComponent(
+            component_type="plane_info", plane_info=from_plane_info, plan=plan
         )
+        to_plane_component = PlanComponent(
+            component_type="plane_info", plane_info=from_plane_info, plan=plan
+        )
+        accommodation_component = PlanComponent(
+            component_type="accommodation_info",
+            accommodation_info=accommodation_info,
+            plan=plan,
+        )
+        activity_component = PlanComponent(
+            component_type="activity",
+            activity=activities,
+            plan=plan,
+        )
+
+        with SessionLocal() as session:
+            session.add(from_plane_component)
+            session.add(to_plane_component)
+            session.add(accommodation_component)
+            session.add(activity_component)
+            session.commit()
