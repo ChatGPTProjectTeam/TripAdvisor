@@ -1,36 +1,46 @@
-from typing import List
-
+from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from backend.dtos import TripInfo, TripPlan, UserInput
-from dotenv import load_dotenv
+from backend.dtos import (
+    TripInfo,
+    UserInput,
+    FormRequestDTO,
+    PlanListResponseDTO,
+)
 
 load_dotenv()
 app = FastAPI()
 
-messages = [{"role": "system", "content": "You are a kind helpful assistant"}]
-user_msg = ""
+
+@app.get("/api/v1/plans")
+def get_plans() -> PlanListResponseDTO:
+    from backend.services import plan_service
+
+    plan_list = plan_service.get_plans()
+
+    return PlanListResponseDTO(plan_list=plan_list)
 
 
 @app.post("/api/v1/plans")
-def create_plan(trip_info: TripInfo) -> TripPlan:
+def create_plan(form_request_dto: FormRequestDTO):
     from backend.services import plan_service
-    from backend.services import day_plan_service
 
-    return day_plan_service.create_subplan_activities(trip_info)
-    # return plan_service.create_plan(trip_info)
+    trip_info = TripInfo.from_form_request_dto(form_request_dto)
+    plan_service.initiate_plan(trip_info)
+    return {}
 
 
 @app.patch("/api/v1/plan/{plan_id}")
-def edit_plan(plan_id: int, trip_info: TripInfo):
+def edit_plan(plan_id: int, msg: str):
     return {}
 
 
 @app.post("/")
 async def input_send(user_content: UserInput):
-    from backend.services import day_plan_service
     from backend.services import gpt_service
-    from backend.services import plan_service
+
+    messages = [{"role": "system", "content": "You are a kind helpful assistant"}]
+    user_msg = ""
 
     answer = gpt_service.user_msg(user_content)
     user_msg = user_content.msg
@@ -42,22 +52,3 @@ async def input_send(user_content: UserInput):
         {"role": "assistant", "content": answer},
     )
     return messages
-
-
-@app.post("/api/chats")
-def post_chat():
-    from backend.services import ChatService
-
-    ChatService.create_chat()
-    return
-
-
-@app.get("/api/chats")
-def get_chatList() -> List:
-    from backend.services import ChatService
-
-    chat_list = ChatService.get_messages_list()
-    return {"chats": chat_list}
-
-
-# todo: 수정 버튼
