@@ -79,14 +79,14 @@ class SkyscannerService:
             if completion_percentage >= 100:
                 break
             
+            
+        # reviewsSummary가 없어서 에러나는 경우가 생겨 reviewsSummary 있는 숙소만 찾도록 변경했습니다.
         accommodation = None
-        
         for hotel in data["data"]["results"]["hotelCards"]:
             if hotel["reviewsSummary"] != None:
                 accommodation = hotel
                 break  
             
-        print(accommodation)
         accommodation_id = accommodation["id"]
 
         # check-in time, check-out time, location
@@ -94,8 +94,6 @@ class SkyscannerService:
             "https://sky-scanner3.p.rapidapi.com/hotels/detail",
             {"id": accommodation_id},
         )
-        
-        
         
         return AccommodationInfoDTO(
             name=accommodation["name"],
@@ -177,8 +175,8 @@ class SkyscannerService:
                 airline="",
             )
 
+        # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
-        
         for itinerary in data["data"]["itineraries"]:
             arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
             if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
@@ -220,14 +218,14 @@ class SkyscannerService:
             },
         )
 
+        # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
-        
         for itinerary in data["data"]["itineraries"]:
             arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
             if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
                 flight = itinerary
                 break            
-        print(flight)
+
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
             origin=flight["legs"][0]["origin"]["name"],

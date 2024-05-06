@@ -48,7 +48,7 @@ class PlanService:
             component_type="plane_info", plane_info=from_plane_info, plan=plan
         )
         to_plane_component = PlanComponent(
-            component_type="plane_info", plane_info=to_plane_info, plan=plan
+            component_type="plane_info", plane_info=to_plane_info, plan=plan  # plane_info=from_plane_info 이던것 수정
         )
         accommodation_component = PlanComponent(
             component_type="accommodation_info",
@@ -61,7 +61,7 @@ class PlanService:
             plan=plan,
         )
 
-        with SessionLocal() as session:
+        with SessionLocal() as session:                   # 원래 논의됐던대로 plane, accommodation, activity, plane 순으로 수정
             session.add(from_plane_component)
             session.add(accommodation_component)
             session.add(activity_component)

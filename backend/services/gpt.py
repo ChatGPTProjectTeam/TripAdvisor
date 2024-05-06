@@ -35,7 +35,7 @@ class GPTService:
         
         return response.choices[0].message.content
 
-    def edit_activity(self, previous_activity: str, message: str) -> str:
+    def edit_activity(self, previous_activity: str, message: str) -> str:       # 기존 활동 string 유저 메세지에 따라 수정하는 함수 구현
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
