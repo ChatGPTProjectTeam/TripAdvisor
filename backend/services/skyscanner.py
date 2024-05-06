@@ -128,7 +128,7 @@ class SkyscannerService:
                 {
                     "fromEntityId": "eyJzIjoiSUNOIiwiZSI6Ijk1NjczNjU5IiwiaCI6IjI3NTM4NjM4In0=",
                     "toEntityId": airport_id,
-                    "departDate": TripInfo.start_date,
+                    "departDate": trip_info.start_date,
                     "market": "KR",
                     "locale": "ko-KR",
                     "currency": "KRW",
