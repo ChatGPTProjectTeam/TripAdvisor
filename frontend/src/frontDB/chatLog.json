@@ -35,42 +35,6 @@
       "start_date": "2024-04-01",
       "trip_member_num": "2",
       "trip_style_text": "뭐뭐한"
-    },
-    {
-      "id": "5474",
-      "mbti": "T",
-      "province": "간사이 지방",
-      "trip_member_num": "나 혼자 가",
-      "start_date": "너가 정해",
-      "trip_style_text": "너가 정해",
-      "days": "너가정해"
-    },
-    {
-      "id": "309d",
-      "mbti": "T",
-      "province": "주코쿠 지방",
-      "trip_member_num": "나 혼자 가",
-      "start_date": "너가 정해",
-      "trip_style_text": "몰라",
-      "days": "3"
-    },
-    {
-      "id": "b2a0",
-      "mbti": "T",
-      "province": "주코쿠 지방",
-      "trip_member_num": "나 혼자 가",
-      "start_date": "너가 정해",
-      "trip_style_text": "너가 정해",
-      "days": "너가정해"
-    },
-    {
-      "id": "17b5",
-      "mbti": "T",
-      "province": "주코쿠 지방",
-      "trip_member_num": "나 혼자 가",
-      "start_date": "너가 정해",
-      "trip_style_text": "너가 정해",
-      "days": "너가정해"
     }
   ],
   "test": [],
