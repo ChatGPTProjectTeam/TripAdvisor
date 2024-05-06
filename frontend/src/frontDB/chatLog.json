@@ -76,7 +76,7 @@
           "activity": null
         },
         {
-          "component_id": 3,
+          "component_id": 2,
           "component_type": "accomodation_info",
           "plane_info": null,
           "accommodation_info": {
@@ -89,14 +89,14 @@
           "activity": null
         },
         {
-          "component_id": 4,
+          "component_id": 3,
           "component_type": "activity",
           "plane_info": null,
           "accommodation_info": null,
           "activity": "Day 1: 도쿄 도착 및 도심 탐방\n오전: 도쿄 도착 및 호텔 체크인\n오후: 아사쿠사(Asakusa) 지역 탐방 (센소지 텐플, 나카미세 거리 등)\n저녁: 아사쿠사에서 전통 일본 음식을 즐기는 저녁 식사\nDay 2: 도쿄 시내 관광\n오전: 하라주쿠 (Harajuku) 지역 탐방 (메이지 신궁, 요요기 공원 등)\n오후: 시부야 (Shibuya) 지역 탐방 (스크램블 크로스, 도쿄 메트로폴리탄 교통청 등)\n저녁: 스시 레스토랑에서 일본식 회 저녁 식사\nDay 3: 도쿄 주변 여행\n오전: 하코네 (Hakone) 일일 여행 (오와쿠다니 열차, 온천 체험 등)\n오후: 신주쿠 (Shinjuku) 지역 탐방 (도쿄 메트로폴리탄 정원, 테마카이 등)\n저녁: 신주쿠에서 저녁 식사 후 호텔로 이동\nDay 4: 도쿄에서 출발\n오전: 호텔 체크아웃 및 공항으로 이동\n오후: 도쿄에서 귀국"
         },
         {
-          "component_id": 5,
+          "component_id": 4,
           "component_type": "plane_info",
           "plane_info": {
             "price": "$500",
@@ -131,7 +131,7 @@
           "activity": null
         },
         {
-          "component_id": 3,
+          "component_id": 2,
           "component_type": "accomodation_info",
           "plane_info": null,
           "accommodation_info": {
@@ -144,14 +144,14 @@
           "activity": null
         },
         {
-          "component_id": 4,
+          "component_id": 3,
           "component_type": "activity",
           "plane_info": null,
           "accommodation_info": null,
           "activity": "Day 1: 도쿄 도착 및 도심 탐방\n오전: 도쿄 도착 및 호텔 체크인\n오후: 아사쿠사(Asakusa) 지역 탐방 (센소지 텐플, 나카미세 거리 등)\n저녁: 아사쿠사에서 전통 일본 음식을 즐기는 저녁 식사\nDay 2: 도쿄 시내 관광\n오전: 하라주쿠 (Harajuku) 지역 탐방 (메이지 신궁, 요요기 공원 등)\n오후: 시부야 (Shibuya) 지역 탐방 (스크램블 크로스, 도쿄 메트로폴리탄 교통청 등)\n저녁: 스시 레스토랑에서 일본식 회 저녁 식사\nDay 3: 도쿄 주변 여행\n오전: 하코네 (Hakone) 일일 여행 (오와쿠다니 열차, 온천 체험 등)\n오후: 신주쿠 (Shinjuku) 지역 탐방 (도쿄 메트로폴리탄 정원, 테마카이 등)\n저녁: 신주쿠에서 저녁 식사 후 호텔로 이동\nDay 4: 도쿄에서 출발\n오전: 호텔 체크아웃 및 공항으로 이동\n오후: 도쿄에서 귀국"
         },
         {
-          "component_id": 5,
+          "component_id": 4,
           "component_type": "plane_info",
           "plane_info": {
             "price": "$500",

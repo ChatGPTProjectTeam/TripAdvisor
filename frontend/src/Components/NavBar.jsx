@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const descriptionInfo = "this is the guideline for this application\n\n 1.click 'new chat' to create chat\n";
+  const descriptionInfo = "this is the guideline for this application";
 
   const ArrowUp = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24">

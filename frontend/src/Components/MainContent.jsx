@@ -5,6 +5,7 @@ import FlightPlan from "./FlightPlan.jsx";
 import TripForm from "./TripForm.jsx";
 import AccommodationPlan from "./AccommodationPlan.jsx";
 import DayPlan from "./DayPlan.jsx";
+import LoadingScreen from "./LoadingScreen.jsx";
 
 export default function MainPlanContents() {
     const { targetId } = useParams();
@@ -13,6 +14,20 @@ export default function MainPlanContents() {
     const tripData = useFetch(`http://localhost:5050/plan_list`);
     const targetPlans = tripData.filter(plan => plan.trip_plan_id === parseInt(targetId, 10));
     const provinceName = targetPlans.map(targetPlan => targetPlan.province);
+    const [loading, setLoading] = useState(true); // State to track loading status
+    let observer = new IntersectionObserver((e)=> {
+
+    })
+
+    useEffect(() => {
+        if (tripData.length > 0) {
+            setLoading(false); // Set loading to false when data is fetched
+        }
+    }, [tripData]);
+
+    if (loading) {
+        return <LoadingScreen />; // Display loading spinner while loading
+    }
 
     const PlanTitleLogo = () => (
         <div style={{display:'flex', alignItems:'center', marginLeft:'5px',marginRight:'5px'}}>
