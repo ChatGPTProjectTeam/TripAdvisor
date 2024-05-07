@@ -10,12 +10,12 @@ from backend.settings import settings
 
 class SkyscannerService:
     def create_plane_and_accommodation_info(
-        self, trip_info: TripInfo
+            self, trip_info: TripInfo
     ) -> tuple[PlaneInfo, PlaneInfo, AccommodationInfo]:
         from_plane_info_data = self.create_plan_info_dto(trip_info, 0)
         to_plane_info_data = self.create_plan_info_dto(trip_info, 1)
         accommodation_info_data = self.create_accommodation_info(trip_info)
-        
+
         if from_plane_info_data == None:
             from_plane_info = PlaneInfo(
                 price="",
@@ -25,7 +25,16 @@ class SkyscannerService:
                 arrival="",
                 airline="",
             )
-            
+        else:
+
+            from_plane_info = PlaneInfo(
+                price=from_plane_info_data.price,
+                origin=from_plane_info_data.origin,
+                destination=from_plane_info_data.destination,
+                departure=from_plane_info_data.departure,
+                arrival=from_plane_info_data.arrival,
+                airline=from_plane_info_data.airline,
+            )
         if to_plane_info_data == None:
             to_plane_info = PlaneInfo(
                 price="",
@@ -35,7 +44,16 @@ class SkyscannerService:
                 arrival="",
                 airline="",
             )
-        
+        else:
+            to_plane_info = PlaneInfo(
+                price=to_plane_info_data.price,
+                origin=to_plane_info_data.origin,
+                destination=to_plane_info_data.destination,
+                departure=to_plane_info_data.departure,
+                arrival=to_plane_info_data.arrival,
+                airline=to_plane_info_data.airline,
+            )
+
         if accommodation_info_data == None:
             accommodation_info = AccommodationInfo(
                 name="",
@@ -44,30 +62,14 @@ class SkyscannerService:
                 rating="",
                 location="",
             )
-
-        from_plane_info = PlaneInfo(
-            price=from_plane_info_data.price,
-            origin=from_plane_info_data.origin,
-            destination=from_plane_info_data.destination,
-            departure=from_plane_info_data.departure,
-            arrival=from_plane_info_data.arrival,
-            airline=from_plane_info_data.airline,
-        )
-        to_plane_info = PlaneInfo(
-            price=to_plane_info_data.price,
-            origin=to_plane_info_data.origin,
-            destination=to_plane_info_data.destination,
-            departure=to_plane_info_data.departure,
-            arrival=to_plane_info_data.arrival,
-            airline=to_plane_info_data.airline,
-        )
-        accommodation_info = AccommodationInfo(
-            name=accommodation_info_data.name,
-            stars=accommodation_info_data.stars,
-            lowest_price=accommodation_info_data.lowest_price,
-            rating=accommodation_info_data.rating,
-            location=accommodation_info_data.location,
-        )
+        else:
+            accommodation_info = AccommodationInfo(
+                name=accommodation_info_data.name,
+                stars=accommodation_info_data.stars,
+                lowest_price=accommodation_info_data.lowest_price,
+                rating=accommodation_info_data.rating,
+                location=accommodation_info_data.location,
+            )
 
         with SessionLocal() as session:
             session.add(from_plane_info)
@@ -86,7 +88,7 @@ class SkyscannerService:
         """
         location_id = self._search_location(trip_info)
         return_date = trip_info.start_date + timedelta(days=trip_info.days)
-        
+
         if location_id == None:
             return None
 
@@ -110,18 +112,17 @@ class SkyscannerService:
 
             if completion_percentage >= 100:
                 break
-            
-            
+
         # reviewsSummary가 없어서 에러나는 경우가 생겨 reviewsSummary 있는 숙소만 찾도록 변경했습니다.
         accommodation = None
         for hotel in data["data"]["results"]["hotelCards"]:
             if hotel["reviewsSummary"] != None:
                 accommodation = hotel
-                break 
-            
+                break
+
         if accommodation == None:
             return None
-            
+
         accommodation_id = accommodation["id"]
 
         # check-in time, check-out time, location
@@ -129,7 +130,7 @@ class SkyscannerService:
             "https://sky-scanner3.p.rapidapi.com/hotels/detail",
             {"id": accommodation_id},
         )
-        
+
         return AccommodationInfoDTO(
             name=accommodation["name"],
             stars=accommodation["stars"],
@@ -151,11 +152,11 @@ class SkyscannerService:
             "https://sky-scanner3.p.rapidapi.com/hotels/auto-complete",
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
-        
+
         if data == None:
             return None
-        
-        location_id = data["data"][0]["entityId"] # "27542089" 
+
+        location_id = data["data"][0]["entityId"]  # "27542089"
 
         return location_id
 
@@ -167,7 +168,7 @@ class SkyscannerService:
         사실 왕복으로 검색하고 flights/detail api로 각 비행 id를 넣어 따로 계산할 순 있는데 귀찮아서 일단 이렇게 했습니다.
         """
         airport_id = self._search_airport(trip_info)
-        
+
         if airport_id == None:
             return None
 
@@ -223,10 +224,10 @@ class SkyscannerService:
             if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
                 flight = itinerary
                 break
-            
+
         if flight == None:
             return None
-        
+
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
             origin=flight["legs"][0]["origin"]["name"],
@@ -244,10 +245,10 @@ class SkyscannerService:
             "https://sky-scanner3.p.rapidapi.com/flights/auto-complete",
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
-        
+
         if data == None:
             return None
-        
+
         airport_id = data["data"][0]["presentation"]["id"]
 
         return airport_id
@@ -273,9 +274,9 @@ class SkyscannerService:
             if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
                 flight = itinerary
                 break
-        
+
         if flight == None:
-            return None    
+            return None
 
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
