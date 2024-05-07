@@ -12,4 +12,4 @@ fi
 docker build -t "${IMAGE_NAME}" .
 
 # 새 컨테이너 실행
-docker run -d -p 8000:8000 --name tripper tripper
+docker run -d -p 8000:8000 --network="host" --name tripper tripper
