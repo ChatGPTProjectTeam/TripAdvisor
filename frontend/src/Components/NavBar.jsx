@@ -2,11 +2,41 @@ import React, { useEffect, useState } from 'react';
 import styles from '../NavBar.module.css';
 import { TEDropdown, TEDropdownItem, TEDropdownMenu, TEDropdownToggle } from "tw-elements-react";
 import { Link } from "react-router-dom";
+import ReactMarkdown from 'react-markdown';
+
 
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const descriptionInfo = "this is the guideline for this application\n\n 1.click 'new chat' to create chat\n";
+  const descriptionInfo = `
+# 데모용 사용자 가이드입니다.
+
+This is an **example** of Markdown formatting:
+
+- Lists
+- *Italic text*
+- **Bold text**
+- [Links](https://example.com)
+- \`Inline code\`
+
+## Subheading
+
+> Blockquote
+
+\`\`\`javascript
+// Code block
+function greet(name) {
+  console.log("Hello, " + name + "!");
+}
+greet("World");
+\`\`\`
+
+![Image](https://via.placeholder.com/150)
+
+*Italic* **bold** _italic_ __bold__
+
+[Link](https://www.example.com)
+`;
 
   const ArrowUp = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24">
@@ -66,8 +96,8 @@ function Navbar() {
               <TEDropdownMenu>
                 <div>
                   <TEDropdownItem>
-                    <div>
-                      {descriptionInfo}
+                    <div className={`${styles.blurBackground}`}>
+                      <ReactMarkdown>{descriptionInfo}</ReactMarkdown>
                     </div>
                   </TEDropdownItem>
                 </div>

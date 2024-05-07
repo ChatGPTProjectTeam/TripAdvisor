@@ -1,0 +1,13 @@
+.main-plan-container {
+    flex: 4;
+    margin-top: 40px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out; /* Define transition properties */
+    transition-delay: 0.1s; /* Add delay to the transition */
+
+}
+
+.main-plan-container.show-animate {
+    transform: translateX(0);
+}

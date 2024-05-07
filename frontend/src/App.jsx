@@ -12,6 +12,7 @@ import {CreateForm} from "./Components/CreateForm.jsx"
 import { BrowserRouter, Route , Routes } from 'react-router-dom';
 import FlightPlan from "./Components/FlightPlan.jsx";
 import TripForm from "./Components/TripForm.jsx";
+import LoadingScreen from "./Components/LoadingScreen.jsx";
 function App() {
   return (
       <BrowserRouter>
@@ -25,6 +26,7 @@ function App() {
                       <Route path="/chat/:targetId" element={<MainPlanContents/>} />
                       <Route path="/create_chat" element={<CreateForm/>} />
                       <Route path="/flight" element={<FlightPlan/>} />
+                      <Route path="/loading" element={<LoadingScreen/>} />
                     <Route path="*" element={<EmptyPage/>} />
                   </Routes>
               </div>

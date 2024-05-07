@@ -5,6 +5,7 @@
   border-left: solid black;
   border-right: solid black;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for depth */
+  z-index: 800;
 }
 .sidebarButton {
   background-color: #FFC3C3; /* Bootstrap primary blue */
