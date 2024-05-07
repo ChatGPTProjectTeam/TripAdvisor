@@ -15,6 +15,35 @@ class SkyscannerService:
         from_plane_info_data = self.create_plan_info_dto(trip_info, 0)
         to_plane_info_data = self.create_plan_info_dto(trip_info, 1)
         accommodation_info_data = self.create_accommodation_info(trip_info)
+        
+        if from_plane_info_data == None:
+            from_plane_info = PlaneInfo(
+                price="",
+                origin="",
+                destination="",
+                departure="",
+                arrival="",
+                airline="",
+            )
+            
+        if to_plane_info_data == None:
+            to_plane_info = PlaneInfo(
+                price="",
+                origin="",
+                destination="",
+                departure="",
+                arrival="",
+                airline="",
+            )
+        
+        if accommodation_info_data == None:
+            accommodation_info = AccommodationInfo(
+                name="",
+                stars="",
+                lowest_price="",
+                rating="",
+                location="",
+            )
 
         from_plane_info = PlaneInfo(
             price=from_plane_info_data.price,
@@ -57,6 +86,9 @@ class SkyscannerService:
         """
         location_id = self._search_location(trip_info)
         return_date = trip_info.start_date + timedelta(days=trip_info.days)
+        
+        if location_id == None:
+            return None
 
         # 이유는 모르지만 completion_percentage가 100이 될때까지 api call을 반복수행하라고 하네요
         while True:
@@ -119,7 +151,10 @@ class SkyscannerService:
             "https://sky-scanner3.p.rapidapi.com/hotels/auto-complete",
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
-
+        
+        if data = None:
+            return None
+        
         location_id = data["data"][0]["entityId"] # "27542089" 
 
         return location_id
@@ -132,6 +167,9 @@ class SkyscannerService:
         사실 왕복으로 검색하고 flights/detail api로 각 비행 id를 넣어 따로 계산할 순 있는데 귀찮아서 일단 이렇게 했습니다.
         """
         airport_id = self._search_airport(trip_info)
+        
+        if airport_id == None:
+            return None
 
         if direction == 0:  # 가는 비행기
             data = self._call_api(
@@ -206,6 +244,10 @@ class SkyscannerService:
             "https://sky-scanner3.p.rapidapi.com/flights/auto-complete",
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
+        
+        if data == None:
+            return None
+        
         airport_id = data["data"][0]["presentation"]["id"]
 
         return airport_id
