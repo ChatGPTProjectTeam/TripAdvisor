@@ -1,3 +1,4 @@
+from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -36,19 +37,23 @@ class PlanService:
         self._create_plan(plan, trip_info)
 
     def _create_plan(self, plan: Plan, trip_info: TripInfo):
-        (
-            from_plane_info,
-            to_plane_info,
-            accommodation_info,
-        ) = self.skyscanner_service.create_plane_and_accommodation_info(trip_info)
-
-        activities = self.gpt_service.generate_activities(trip_info)
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            skyscanner_result = executor.submit(
+                self.skyscanner_service.create_plane_and_accommodation_info, trip_info
+            )
+            activities = executor.submit(
+                self.gpt_service.generate_activities, trip_info
+            )
+        from_plane_info, to_plane_info, accommodation_info = skyscanner_result.result()
+        activities = activities.result()
 
         from_plane_component = PlanComponent(
             component_type="plane_info", plane_info=from_plane_info, plan=plan
         )
         to_plane_component = PlanComponent(
-            component_type="plane_info", plane_info=to_plane_info, plan=plan  # plane_info=from_plane_info 이던것 수정
+            component_type="plane_info",
+            plane_info=to_plane_info,
+            plan=plan,  # plane_info=from_plane_info 이던것 수정
         )
         accommodation_component = PlanComponent(
             component_type="accommodation_info",
@@ -80,9 +85,7 @@ class PlanService:
             )
             if components:
                 previous_activity = components[0].activity
-                new_activity = self.gpt_service.edit_activity(
-                    previous_activity, msg
-                )
+                new_activity = self.gpt_service.edit_activity(previous_activity, msg)
 
                 components[0].activity = new_activity
                 session.commit()

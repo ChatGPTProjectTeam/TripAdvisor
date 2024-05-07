@@ -1,3 +1,5 @@
+from datetime import date, datetime
+from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import timedelta, datetime
 
 import requests
@@ -10,11 +12,21 @@ from backend.settings import settings
 
 class SkyscannerService:
     def create_plane_and_accommodation_info(
-            self, trip_info: TripInfo
+        self, trip_info: TripInfo
     ) -> tuple[PlaneInfo, PlaneInfo, AccommodationInfo]:
-        from_plane_info_data = self.create_plan_info_dto(trip_info, 0)
-        to_plane_info_data = self.create_plan_info_dto(trip_info, 1)
-        accommodation_info_data = self.create_accommodation_info(trip_info)
+
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            from_plane_worker = executor.submit(
+                self.create_plane_info_dto, trip_info, 0
+            )
+            to_plane_worker = executor.submit(self.create_plane_info_dto, trip_info, 1)
+            accommodation_worker = executor.submit(
+                self.create_accommodation_info, trip_info
+            )
+
+        from_plane_info_data = from_plane_worker.result()
+        to_plane_info_data = to_plane_worker.result()
+        accommodation_info_data = accommodation_worker.result()
 
         if from_plane_info_data == None:
             from_plane_info = PlaneInfo(
@@ -26,7 +38,6 @@ class SkyscannerService:
                 airline="",
             )
         else:
-
             from_plane_info = PlaneInfo(
                 price=from_plane_info_data.price,
                 origin=from_plane_info_data.origin,
@@ -81,38 +92,31 @@ class SkyscannerService:
             session.refresh(accommodation_info)
         return from_plane_info, to_plane_info, accommodation_info
 
-    def create_accommodation_info(self, trip_info: TripInfo) -> AccommodationInfoDTO:
+    def create_accommodation_info(
+        self, trip_info: TripInfo
+    ) -> AccommodationInfoDTO | None:
         """
         https://rapidapi.com/ntd119/api/sky-scanner3 에서 hotels/search api 에 해당합니다.
         숙소에 관한 정보를 가져옵니다.
         """
-        location_id = self._search_location(trip_info)
-        return_date = trip_info.start_date + timedelta(days=trip_info.days)
+        location_id: str = self._search_location(trip_info)
+        return_date: date | None = trip_info.start_date + timedelta(days=trip_info.days)
 
         if location_id == None:
             return None
 
         # 이유는 모르지만 completion_percentage가 100이 될때까지 api call을 반복수행하라고 하네요
-        while True:
-            # 맨 아래 _call_api 함수를 참고해주세요
-            data = self._call_api(
-                "https://sky-scanner3.p.rapidapi.com/hotels/search",
-                {
-                    "entityId": location_id,
-                    "checkin": trip_info.start_date,
-                    "checkout": return_date,
-                    "adults": trip_info.trip_member_num,
-                    "market": "KR",
-                    "locale": "ko-KR",
-                    "currency": "KRW",
-                    "sorting": "-rating",  # Default value: -relevance
-                },
-            )
-            completion_percentage = data["data"]["status"]["completionPercentage"]
-
-            if completion_percentage >= 100:
-                break
-
+        response_list = []
+        while response_list:
+            with ThreadPoolExecutor(max_workers=3) as executor:
+                executor.map(
+                    self._set_accomodation_info,
+                    [
+                        [response_list, location_id, return_date, trip_info]
+                        for _ in range(3)
+                    ],
+                )
+        data = response_list[0]
         # reviewsSummary가 없어서 에러나는 경우가 생겨 reviewsSummary 있는 숙소만 찾도록 변경했습니다.
         accommodation = None
         for hotel in data["data"]["results"]["hotelCards"]:
@@ -120,7 +124,7 @@ class SkyscannerService:
                 accommodation = hotel
                 break
 
-        if accommodation == None:
+        if accommodation is None:
             return None
 
         accommodation_id = accommodation["id"]
@@ -134,15 +138,34 @@ class SkyscannerService:
         return AccommodationInfoDTO(
             name=accommodation["name"],
             stars=accommodation["stars"],
-            lowest_price=accommodation["lowestPrice"][
-                "price"
-            ],
-            rating=str(
-                accommodation["reviewsSummary"]["score"]
-            ),
+            lowest_price=accommodation["lowestPrice"]["price"],
+            rating=str(accommodation["reviewsSummary"]["score"]),
             location=detailed_data["data"]["location"]["address"],
             # accommodation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
         )
+
+    def _set_accomodation_info(
+        self,
+        response_list: list[dict],
+        location_id: str,
+        return_date: date,
+        trip_info: TripInfo,
+    ):
+        response = self._call_api(
+            "https://sky-scanner3.p.rapidapi.com/hotels/search",
+            {
+                "entityId": location_id,
+                "checkin": trip_info.start_date,
+                "checkout": return_date,
+                "adults": trip_info.trip_member_num,
+                "market": "KR",
+                "locale": "ko-KR",
+                "currency": "KRW",
+                "sorting": "-rating",  # Default value: -relevance
+            },
+        )
+        if response["data"]["status"]["completionPercentage"] == 100:
+            response_list.append(response["data"]["status"]["completionPercentage"])
 
     def _search_location(self, trip_info: TripInfo) -> str:
         """
@@ -160,7 +183,9 @@ class SkyscannerService:
 
         return location_id
 
-    def create_plan_info_dto(self, trip_info: TripInfo, direction: int) -> PlaneInfoDTO:
+    def create_plane_info_dto(
+        self, trip_info: TripInfo, direction: int
+    ) -> PlaneInfoDTO:
         """
         flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.
         왕복대신 편도를 쓴 이유는 왕복으로 찾을 경우 갈 때 가격, 올 때 가격을 따로 계산하지 않고 합쳐서 계산하기 때문에
@@ -185,6 +210,7 @@ class SkyscannerService:
                     "adults": trip_info.trip_member_num,
                 },
             )
+
         elif direction == 1:  # 오는 비행기
             return_date = trip_info.start_date + timedelta(days=trip_info.days)
             data = self._call_api(
@@ -220,8 +246,12 @@ class SkyscannerService:
         # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
         for itinerary in data["data"]["itineraries"]:
-            arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
-            if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
+            arrival_time = datetime.strptime(
+                itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
+            )
+            if arrival_time < datetime(
+                arrival_time.year, arrival_time.month, arrival_time.day, 10
+            ):
                 flight = itinerary
                 break
 
@@ -270,8 +300,12 @@ class SkyscannerService:
         # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
         for itinerary in data["data"]["itineraries"]:
-            arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
-            if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
+            arrival_time = datetime.strptime(
+                itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
+            )
+            if arrival_time < datetime(
+                arrival_time.year, arrival_time.month, arrival_time.day, 10
+            ):
                 flight = itinerary
                 break
 
@@ -301,5 +335,4 @@ class SkyscannerService:
             response.raise_for_status()  # HTTP 오류가 발생하면 예외를 발생시킵니다.
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"API request failed: {e}")
             return None
