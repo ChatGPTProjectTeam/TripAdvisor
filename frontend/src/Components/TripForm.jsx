@@ -64,7 +64,7 @@ function TripForm() {
     return true;
     }
     if (loading) {
-        <LoadingScreen/>
+        return <LoadingScreen/>
     }
 
 
@@ -75,13 +75,13 @@ function TripForm() {
         } else {
 
             const validations = [
-                { condition: selectedMbti, message: "Please select MBTI preference." },
-                { condition: selectedDate || whenChecked, message: "Please select either a date or check '너가 정해' for preferred departure time." },
-                { condition: selectedProvince, message: "Please select a province." },
-                { condition: inputDay || dayChecked, message: "Please enter the number of nights or check '너가 정해' for preferred number of nights." },
-                { condition: inputPerson || personChecked, message: "Please enter the number of travel members or check '나 혼자 가' if traveling alone." },
-                { condition: inputStyle || styleChecked, message: "Please enter your preferred travel style or check '너가 정해' if undecided." },
-                { condition: selectedLaunch, message: "Please select preferred departure time (낮 or 밤)." }
+                { condition: selectedMbti, message: "MBTI를 정해주세요." },
+                { condition: selectedDate || whenChecked, message: "날짜 혹은 '너가정해'중 하나를 선택하셔야 합니다." },
+                { condition: selectedProvince, message: "지역 중 하나를 누르셔야 합니다." },
+                { condition: inputDay || dayChecked, message: "숫자 입력 혹은 '너가 정해'를 선택하셔야 합니다." },
+                { condition: inputPerson || personChecked, message: "숫자 입력 혹은 '나 혼자 가'를 선택 하셔야 합니다." },
+                { condition: inputStyle || styleChecked, message: "원하시는 스타일을 입력 혹은  '너가 정해' 중 하나를 입력 혹은 선택하셔야 합니다." },
+                { condition: selectedLaunch, message: "낮 혹은 밤에 출발 하는 걸 선호 하는지 선택해주세요" }
             ];
             if (!validateForm(validations)) {
                 return;
@@ -121,7 +121,7 @@ function TripForm() {
             {loading && <LoadingScreen />}
             {!loading && (
                 <form onSubmit={onSubmit}>
-                    <div>
+                    <div style={{minWidth:'900px'}}>
                         <h1 style={{fontSize: '30px', paddingBottom: '10px'}}>아래의 내용들을 선택 혹은 입력해주세요</h1>
                         <div className='sub-font'>
                             혹시 MBTI가 T(Thinking) 혹은 F(Feeling)인가요?

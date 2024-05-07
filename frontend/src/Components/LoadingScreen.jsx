@@ -42,7 +42,7 @@ const LoadingScreen = () => {
   );
 };
   return (
-      <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
+      <div style={{flex: 4, marginTop: '40px'}}>
         <div className={styles['loading-main-container']}>
           <div className={styles['loading-main']}>
 

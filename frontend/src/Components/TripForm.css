@@ -9,7 +9,7 @@
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .option.active {
@@ -18,20 +18,92 @@
     border-color: #FF8F8F;
 }
 
+/*.province-option {*/
+/*    margin: 5px;*/
+/*    !*padding: 10px 20px;*!*/
+/*    background-color: #f0f0f0;*/
+/*    border: 1px solid #ccc;*/
+/*    cursor: pointer;*/
+/*    border-radius: 8px;*/
+/*}*/
 .province-option {
+    /*mobile someday*/
+    /*margin: 5px;*/
+    /*background-color: #f0f0f0;*/
+    /*border: 1px solid #ccc;*/
+    /*cursor: pointer;*/
+    /*border-radius: 8px;*/
+    /*max-height: 30px;*/
+    /*max-width: 100%;*/
+    /*font-size: 9px;*/
+    /*demo*/
     margin: 5px;
-    /*padding: 10px 20px;*/
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 6px;
+    max-width: 100%;
+
+        font-size: 14px; /* appropriate font size for desktops */
+        max-height: 40px; /* increase height slightly */
+
 }
+
 
 .province-option.active {
     background-color: #FF8F8F;
     color: white;
     border-color: #FF8F8F;
 }
+
+/*demo*/
+@media only screen and (max-width: 1200px) {
+    .province-option {
+        font-size: 13px;  /* slightly larger font for readability on tablets */
+    }
+}
+/*@media only screen and (max-width: 768px) {*/
+/*    .province-option {*/
+/*        font-size: 11px;  !* slightly larger font for readability on tablets *!*/
+/*    }*/
+/*}*/
+
+/*!* Medium screens, large tablets, small laptops from 769px to 1024px *!*/
+/*@media only screen and (max-width: 900px) {*/
+/*    .province-option {*/
+/*        font-size: 10px;  !* larger font for small laptops *!*/
+/*        height: 35px; !* a bit taller for better interaction *!*/
+/*    }*/
+/*}*/
+
+/*!* Large laptops and desktops from 1025px to 1440px *!*/
+/*@media only screen and (min-width: 1200px) and (max-width: 1440px) {*/
+/*    .province-option {*/
+/*        font-size: 14px; !* appropriate font size for desktops *!*/
+/*        max-height: 40px; !* increase height slightly *!*/
+/*    }*/
+/*}*/
+
+/*!* Full HD and above - 1441px to 1920px *!*/
+/*@media only screen and (min-width: 1441px) and (max-width: 1920px) {*/
+/*    .province-option {*/
+/*        font-size: 16px; !* larger font for better readability on larger screens *!*/
+/*        max-height: 45px; !* more height for aesthetic spacing *!*/
+/*    }*/
+/*}*/
+
+/*!* If you need a style exactly at 1920px width without exceeding it *!*/
+/*@media only screen and (min-width: 1920px) {*/
+/*    .province-option {*/
+/*        margin: 5px;*/
+/*        background-color: #f0f0f0;*/
+/*        border: 1px solid #ccc;*/
+/*        cursor: pointer;*/
+/*        border-radius: 8px;*/
+/*        font-size: 18px; !* largest size for clarity at FHD *!*/
+/*        max-height: 50px; !* final adjustment for full interaction space *!*/
+/*    }*/
+/*}*/
 
 .second-option {
   width: 90%;
