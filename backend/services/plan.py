@@ -70,7 +70,7 @@ class PlanService:
 
     def update_plan(self, plan_id: int, msg: str):
 
-        component_id = 15     # 4 * plan_id - 1
+        component_id = 4 * plan_id - 1
 
         with SessionLocal() as session:
             # plan = session.query(Plan).filter(Plan.id == plan_id).one()
