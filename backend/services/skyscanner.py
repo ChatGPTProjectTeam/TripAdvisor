@@ -85,7 +85,10 @@ class SkyscannerService:
         for hotel in data["data"]["results"]["hotelCards"]:
             if hotel["reviewsSummary"] != None:
                 accommodation = hotel
-                break  
+                break 
+            
+        if accommodation == None:
+            return None
             
         accommodation_id = accommodation["id"]
 
@@ -181,7 +184,10 @@ class SkyscannerService:
             arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
             if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
                 flight = itinerary
-                break  
+                break
+            
+        if flight == None:
+            return None
         
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
@@ -224,7 +230,10 @@ class SkyscannerService:
             arrival_time = datetime.strptime(itinerary["legs"][0]["arrival"], '%Y-%m-%dT%H:%M:%S')
             if arrival_time < datetime(arrival_time.year, arrival_time.month, arrival_time.day, 10):
                 flight = itinerary
-                break            
+                break
+        
+        if flight == None:
+            return None    
 
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
