@@ -36,12 +36,13 @@ const DayPlan = ({ component, targetId, componentId }) => {
   const [activityText, setActivityText] = useState(component.activity);  // State to manage the activity text
 
   useEffect(() => {
-    return () => setInputMessages({});
-  }, [targetId]);
+    setActivityText(component.activity); // Update activityText when component activity changes
+  }, [component.activity, targetId]);
 
   if (component.component_type !== 'activity') {
     return null;
   }
+  console.log("this is the component", targetId)
   const handleInputMessage = (value) => {
     setInputMessages(prevMessages => ({
       ...prevMessages,
@@ -71,9 +72,10 @@ const DayPlan = ({ component, targetId, componentId }) => {
     console.log(fixedData);
 
     // Update the activity text with the response
-    if (fixedData && fixedData.NewMessage) {  // Check if the response has the expected field
-      setActivityText(fixedData.NewMessage);
-    }
+    if (fixedData && fixedData.NewMessage) {
+    const activitiesString = fixedData.NewMessage.activities.join('\n'); // Convert array to string with line breaks
+    setActivityText(activitiesString); // Set activity text as string
+  }
   };
 
   return (

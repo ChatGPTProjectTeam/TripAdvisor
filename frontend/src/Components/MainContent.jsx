@@ -18,6 +18,8 @@ export default function MainPlanContents() {
     const [loading, setLoading] = useState(true); // State to track loading status
     const [dataLoaded, setDataLoaded] = useState(false);
     const [startAnimation, setStartAnimation] = useState(false);
+        const [targetPlan, setTargetPlan] = useState(null);
+
 
     // let triggeredPage = document.querySelectorAll('section')
 

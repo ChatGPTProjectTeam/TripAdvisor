@@ -22,9 +22,18 @@ export async function SendChat(fixedRequestedData) {
         }
 
         alert("response arrived");
+        const responseData = {
+            day: 1,
+            activities: [
+                "도쿄 도착 및 도심 탐방",
+                "도쿄 도착 및 호텔 체크인",
+                "아사쿠사(Asakusa) 지역 탐방 (센소지 텐플, 나카미세 거리 등)",
+                "아사쿠사에서 전통 일본 음식을 즐기는 저녁 식사"
+            ]
+        };
+
         return {
-            // NewMessage: await formResponse.json()
-            NewMessage: "new message received"
+            NewMessage: responseData
         };
 
     } catch (error) {
