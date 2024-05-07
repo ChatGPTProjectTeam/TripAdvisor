@@ -6,7 +6,7 @@ export async function CreateForm(formData) {
         // you need to doublecheck for posting to form and then get response from same api form
         // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'http://localhost:5050/PlanData'
         // DO NOT FORGET TO CHANGE PlanData API FROM MainContent.jsx
-        const formResponse = await fetch(`http://localhost:5050/Form`, {
+        const formResponse = await fetch(`/api/v1/plans`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

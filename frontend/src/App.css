@@ -231,6 +231,14 @@
 
 }
 
+ul {
+  list-style-type: none; /* Removes the markers from unordered lists */
+}
+
+/*ol {*/
+/*  list-style-type: none; !* Removes the markers from ordered lists *!*/
+/*}*/
+
 @media (min-width: 768px) {
 
 

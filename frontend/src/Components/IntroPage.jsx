@@ -110,7 +110,7 @@ const ChatCreateButton = () => { // Use '=' instead of '=>' for function declara
       <div className={styles['canvas-container']} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
         <canvas ref={canvasRef}></canvas>
       </div>
-      <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
+      <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
         <h1 style={{ color: 'white' }}>일본가고 싶니?</h1>
         <div style={{display:'flex', justifyContent:'center', marginTop:'80px'}}>
           <ChatCreateButton/>

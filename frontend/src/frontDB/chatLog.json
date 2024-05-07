@@ -74,42 +74,7 @@
     }
   ],
   "test": [
-    {
-      "id": "0ce4",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "sjdlfdsf"
-    },
-    {
-      "id": "2e5d",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "ㅁㄴㄴㅁㅇㅁㄴㅇㅇㄴㅁㅇㄴㅁ"
-    },
-    {
-      "id": "8731",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "sasdhawd"
-    },
-    {
-      "id": "2f49",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "hello"
-    },
-    {
-      "id": "b5a5",
-      "trip_plan_id": "1",
-      "component_id": 3,
-      "message": "hello"
-    },
-    {
-      "id": "78e3",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "fgldf"
-    }
+
   ],
   "plan_list": [
     {
@@ -165,7 +130,8 @@
           "accommodation_info": null,
           "activity": null
         }
-      ]
+      ],
+      "id": "3849"
     },
     {
       "trip_plan_id": 2,
@@ -220,7 +186,8 @@
           "accommodation_info": null,
           "activity": null
         }
-      ]
+      ],
+      "id": "6d56"
     }
   ]
 }

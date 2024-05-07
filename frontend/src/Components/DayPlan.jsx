@@ -34,15 +34,21 @@ const ReloadButton = ({ onClick }) => {
 const DayPlan = ({ component, targetId, componentId }) => {
   const [inputMessages, setInputMessages] = useState({});
   const [activityText, setActivityText] = useState(component.activity);  // State to manage the activity text
+  const [originalActivityText, setOriginalActivityText] = useState(component.activity); // State to store the original activity text
 
   useEffect(() => {
     setActivityText(component.activity); // Update activityText when component activity changes
+    setOriginalActivityText(component.activity); // Update original activity text
   }, [component.activity, targetId]);
+
+  useEffect(() => {
+    setInputMessages({}); // Clear input messages when targetId changes
+  }, [targetId]);
 
   if (component.component_type !== 'activity') {
     return null;
   }
-  console.log("this is the component", targetId)
+
   const handleInputMessage = (value) => {
     setInputMessages(prevMessages => ({
       ...prevMessages,
@@ -51,31 +57,30 @@ const DayPlan = ({ component, targetId, componentId }) => {
   };
 
   const formatTextWithLineBreaks = (text) => {
-  return text.split('\n').map((line, index) => (
-        <React.Fragment key={index}>
-          {line}
-          <br />
-        </React.Fragment>
-  ));
-};
+    return text.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
 
   const handleReloadClick = async () => {
-    console.log('Target ID:', targetId);
-    console.log('Component ID:', componentId);
-    console.log('Message:', inputMessages[componentId]);
     const fixedDataRequest = {
       trip_plan_id: targetId,
-      component_id: componentId,  // Ensure you pass the component_id if needed by the backend
+      component_id: componentId,
       message: inputMessages[componentId]
     };
-    const fixedData = await SendChat(fixedDataRequest);
-    console.log(fixedData);
+    const fixedData = await SendChat(fixedDataRequest, targetId);
 
-    // Update the activity text with the response
     if (fixedData && fixedData.NewMessage) {
-    const activitiesString = fixedData.NewMessage.activities.join('\n'); // Convert array to string with line breaks
-    setActivityText(activitiesString); // Set activity text as string
-  }
+      const activitiesString = fixedData.NewMessage.activities.join('\n'); // Convert array to string with line breaks
+      // Only update activity text if it's different from the original
+      if (activitiesString !== originalActivityText) {
+        setActivityText(activitiesString); // Set activity text as string
+        setOriginalActivityText(activitiesString); // Update original activity text
+      }
+    }
   };
 
   return (
@@ -88,8 +93,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
           <div>
             <p className="day-plan-info">
               {formatTextWithLineBreaks(activityText)}
-              {/*<ReactMarkdown>{activityText}</ReactMarkdown>*/}
-            </p>  {/* Updated to use activityText from state */}
+            </p>
             <div className="plan-text-box">
               <InputComponent
                 id={`input_${componentId}`}
@@ -98,7 +102,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
                 onChange={handleInputMessage}
               />
               <div>
-                <ReloadButton onClick={() => handleReloadClick()} />
+                <ReloadButton onClick={handleReloadClick} />
               </div>
             </div>
           </div>
@@ -107,7 +111,6 @@ const DayPlan = ({ component, targetId, componentId }) => {
     </div>
   );
 };
-
 
 
 export default DayPlan;

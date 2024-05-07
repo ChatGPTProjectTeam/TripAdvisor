@@ -1,12 +1,9 @@
  import useFetch from "../hooks/loadData.jsx";
+ import {useParams} from "react-router-dom";
 
-export async function SendChat(fixedRequestedData) {
+export async function SendChat(fixedRequestedData, targetId) {
     try {
-
-        // you need to doublecheck for posting to form and then get response from same api form
-        // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'http://localhost:5050/PlanData'
-        // DO NOT FORGET TO CHANGE PlanData API FROM MainContent.jsx
-        const formResponse = await fetch(`http://localhost:5050/test`, {
+        const formResponse = await fetch(`/api/v1/plan/${targetId}`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -21,24 +18,15 @@ export async function SendChat(fixedRequestedData) {
             return; // Stop execution if the form POST fails
         }
 
-        alert("response arrived");
-        const responseData = {
-            day: 1,
-            activities: [
-                "도쿄 도착 및 도심 탐방",
-                "도쿄 도착 및 호텔 체크인",
-                "아사쿠사(Asakusa) 지역 탐방 (센소지 텐플, 나카미세 거리 등)",
-                "아사쿠사에서 전통 일본 음식을 즐기는 저녁 식사"
-            ]
-        };
+        const responseData = await formResponse.json();
 
         return {
             NewMessage: responseData
         };
 
     } catch (error) {
-        console.error("Error in CreateForm:", error);
-        alert("Failed to create new chat and form.");
+        console.error("Error in SendChat:", error);
+        alert("Failed to send chat.");
         throw error;
     }
 }
