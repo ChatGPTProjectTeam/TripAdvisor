@@ -61,7 +61,8 @@ class PlanService:
             plan=plan,
         )
 
-        with SessionLocal() as session:                   # 원래 논의됐던대로 plane, accommodation, activity, plane 순으로 수정
+        with SessionLocal() as session:
+            # 원래 논의됐던대로 plane, accommodation, activity, plane 순으로 수정
             session.add(from_plane_component)
             session.add(accommodation_component)
             session.add(activity_component)
@@ -69,19 +70,16 @@ class PlanService:
             session.commit()
 
     def update_plan(self, plan_id: int, msg: str):
-
-        component_id = 4 * plan_id - 1
-
         with SessionLocal() as session:
             # plan = session.query(Plan).filter(Plan.id == plan_id).one()
             components = (
                 session.query(PlanComponent)
-                .filter(PlanComponent.component_id == component_id)
+                .filter(PlanComponent.trip_plan_id == plan_id)
+                .filter(PlanComponent.component_type == "activity")
                 .all()
             )
             if components:
                 previous_activity = components[0].activity
-                print(type(previous_activity))
                 new_activity = self.gpt_service.edit_activity(
                     previous_activity, msg
                 )
