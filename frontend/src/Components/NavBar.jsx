@@ -9,7 +9,7 @@ function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const descriptionInfo = `
-# Markdown Example
+# 데모용 사용자 가이드입니다.
 
 This is an **example** of Markdown formatting:
 
