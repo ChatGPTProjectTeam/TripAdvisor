@@ -1,3 +1,4 @@
+from concurrent.futures import as_completed
 from datetime import date, datetime
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import timedelta, datetime
@@ -105,17 +106,25 @@ class SkyscannerService:
         if location_id == None:
             return None
 
-        # 이유는 모르지만 completion_percentage가 100이 될때까지 api call을 반복수행하라고 하네요
         response_list = []
-        while response_list:
+        while not response_list:
             with ThreadPoolExecutor(max_workers=3) as executor:
-                executor.map(
-                    self._set_accomodation_info,
-                    [
-                        [response_list, location_id, return_date, trip_info]
-                        for _ in range(3)
-                    ],
-                )
+                # Future 객체 리스트 생성
+                futures = [
+                    executor.submit(
+                        self._set_accomodation_info,
+                        location_id,
+                        return_date,
+                        trip_info,
+                    )
+                    for _ in range(3)
+                ]
+
+                # 모든 작업이 완료되기를 기다림
+                for future in as_completed(futures):
+                    if future.result()["data"]["status"]["completionPercentage"] >= 100:
+                        response_list.append(future.result())
+
         data = response_list[0]
         # reviewsSummary가 없어서 에러나는 경우가 생겨 reviewsSummary 있는 숙소만 찾도록 변경했습니다.
         accommodation = None
@@ -138,7 +147,11 @@ class SkyscannerService:
         return AccommodationInfoDTO(
             name=accommodation["name"],
             stars=accommodation["stars"],
-            lowest_price=accommodation["lowestPrice"]["price"],
+            lowest_price=(
+                accommodation["lowestPrice"]["price"]
+                if accommodation["lowestPrice"]
+                else ""
+            ),
             rating=str(accommodation["reviewsSummary"]["score"]),
             location=detailed_data["data"]["location"]["address"],
             # accommodation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
@@ -146,7 +159,6 @@ class SkyscannerService:
 
     def _set_accomodation_info(
         self,
-        response_list: list[dict],
         location_id: str,
         return_date: date,
         trip_info: TripInfo,
@@ -164,8 +176,7 @@ class SkyscannerService:
                 "sorting": "-rating",  # Default value: -relevance
             },
         )
-        if response["data"]["status"]["completionPercentage"] == 100:
-            response_list.append(response["data"]["status"]["completionPercentage"])
+        return response
 
     def _search_location(self, trip_info: TripInfo) -> str:
         """
