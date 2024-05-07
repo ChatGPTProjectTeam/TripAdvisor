@@ -3,7 +3,7 @@
 
 export async function SendChat(fixedRequestedData, targetId) {
     try {
-        const formResponse = await fetch(`/api/v1/plan/${targetId}`, {
+        const formResponse = await fetch(`http://localhost:5050/plan`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

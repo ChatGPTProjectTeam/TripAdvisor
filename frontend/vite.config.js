@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.visit-with-tripper.site'
+        target: ''
       }
     }
   },

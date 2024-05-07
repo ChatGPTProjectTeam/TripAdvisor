@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import useFetch from "../hooks/loadData.jsx";
 
 export default function ChatList() {
-    const plans = useFetch('api/v1/plans')
+    const plans = useFetch('http://localhost:5050/plan_list')
     console.log(dummy);
     function dateFilter(dateString) {
         const date = new Date(dateString);
