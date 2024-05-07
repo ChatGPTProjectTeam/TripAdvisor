@@ -3,7 +3,7 @@ import './PlanFormat.css';
 
 const AccommodationPlan = ({ component, targetId }) => {
     // Check if the component is of type '항공편' before rendering
-    if (component.component_type !== 'accomodation_info') {
+    if (component.component_type !== 'accommodation_info') {
         return null;
     }
 

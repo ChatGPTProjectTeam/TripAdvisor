@@ -9,8 +9,9 @@ const FlightPlan = ({ component, courseId }) => {
     }
     const [flightInfo, setFlightInfo] = useState('출국');
     useEffect(() => {
-        setFlightInfo((component.componentId === 1 ? '출국' : '귀국'))
-    },[component.componentId])
+        setFlightInfo((component.component_id === 1 ? '출국' : '귀국'))
+    },[component.component_id])
+
 
     const { plane_info } = component;
 

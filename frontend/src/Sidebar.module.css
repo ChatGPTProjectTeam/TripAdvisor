@@ -7,6 +7,29 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for depth */
   z-index: 800;
 }
+@media (min-width: 610px) {
+  .sidebar {
+    z-index: 0;
+  }
+}
+
+@media (min-width: 1980px) {
+  .sidebar {
+    height: 1200px;
+  }
+}
+
+@media (min-width: 2560px) and (min-height: 1440px) {
+  .sidebar {
+    height: 1440px;
+  }
+}
+
+@media (min-width: 3840px) and (min-height: 2160px) {
+  .sidebar {
+    height: 2160px;
+  }
+}
 .sidebarButton {
   background-color: #FFC3C3; /* Bootstrap primary blue */
 

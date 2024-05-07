@@ -75,40 +75,13 @@
   ],
   "test": [
     {
-      "id": "0ce4",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "sjdlfdsf"
-    },
-    {
-      "id": "2e5d",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "ㅁㄴㄴㅁㅇㅁㄴㅇㅇㄴㅁㅇㄴㅁ"
-    },
-    {
-      "id": "8731",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "sasdhawd"
-    },
-    {
-      "id": "2f49",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "hello"
-    },
-    {
-      "id": "b5a5",
-      "trip_plan_id": "1",
-      "component_id": 3,
-      "message": "hello"
-    },
-    {
-      "id": "78e3",
-      "trip_plan_id": "2",
-      "component_id": 3,
-      "message": "fgldf"
+      "id": "62cb",
+      "mbti": "F",
+      "province": "간토 지방",
+      "trip_member_num": "나 혼자 가",
+      "start_date": "너가 정해",
+      "trip_style_text": "너가 정해",
+      "days": "너가정해"
     }
   ],
   "plan_list": [
@@ -133,7 +106,7 @@
         },
         {
           "component_id": 2,
-          "component_type": "accomodation_info",
+          "component_type": "accommodation_info",
           "plane_info": null,
           "accommodation_info": {
             "name": "Tokyo Hotel",
@@ -165,7 +138,8 @@
           "accommodation_info": null,
           "activity": null
         }
-      ]
+      ],
+      "id": "3849"
     },
     {
       "trip_plan_id": 2,
@@ -188,7 +162,7 @@
         },
         {
           "component_id": 2,
-          "component_type": "accomodation_info",
+          "component_type": "accommodation_info",
           "plane_info": null,
           "accommodation_info": {
             "name": "Osaka Hotel",
@@ -220,7 +194,8 @@
           "accommodation_info": null,
           "activity": null
         }
-      ]
+      ],
+      "id": "6d56"
     }
   ]
 }

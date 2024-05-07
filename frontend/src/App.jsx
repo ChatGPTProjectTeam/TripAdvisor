@@ -13,23 +13,25 @@ import { BrowserRouter, Route , Routes } from 'react-router-dom';
 import FlightPlan from "./Components/FlightPlan.jsx";
 import TripForm from "./Components/TripForm.jsx";
 import LoadingScreen from "./Components/LoadingScreen.jsx";
+import Footer from "./Components/Footer.jsx";
 function App() {
   return (
       <BrowserRouter>
-          <div style={{position:"relative"}}>
+          <div style={{position: "relative"}}>
               <div><NavBar/></div>
               <div style={{display: "flex"}}>
                   <SideBar/>
                   <Routes>
-                    <Route path="/" element={<IntroPage/>} />
-                    <Route path="/create_form" element={<MainFormContents/>} />
-                      <Route path="/chat/:targetId" element={<MainPlanContents/>} />
-                      <Route path="/create_chat" element={<CreateForm/>} />
-                      <Route path="/flight" element={<FlightPlan/>} />
-                      <Route path="/loading" element={<LoadingScreen/>} />
-                    <Route path="*" element={<EmptyPage/>} />
+                      <Route path="/" element={<IntroPage/>}/>
+                      <Route path="/create_form" element={<MainFormContents/>}/>
+                      <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
+                      <Route path="/create_chat" element={<CreateForm/>}/>
+                      <Route path="/flight" element={<FlightPlan/>}/>
+                      <Route path="/loading" element={<LoadingScreen/>}/>
+                      <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
               </div>
+
           </div>
       </BrowserRouter>
 

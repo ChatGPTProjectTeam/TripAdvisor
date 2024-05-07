@@ -11,31 +11,16 @@ function Navbar() {
   const descriptionInfo = `
 # 데모용 사용자 가이드입니다.
 
-This is an **example** of Markdown formatting:
 
-- Lists
-- *Italic text*
-- **Bold text**
-- [Links](https://example.com)
-- \`Inline code\`
+1. skyscanner 졍책상 지난 날짜의 항공편 일정과 숙박 일정은 조회가 되지 않습니다.
+2. 10일 이상의 여행은 추천하지 않습니다.
+3. 일정 생성 시에는, 대화형 프롬프트가 제공되지 않고 기본적인 코스 생성 이후에 수정하는 부분에서 프롬프트가 제공됩니다.
+4. 채팅 사이드바는 아직 완전하지 않습니다.
+5. 홈 화면에서 제출하는 정보들은 여행 코스 추천에만 활용됩니다.
+6. 홈 화면의 각 항목에 해당하는 내용을 넣어주셔야 해당하는 여행 정보가 제공됩니다.
+7. 여행 일정 수정쪽 구현은 GPT API를 연결만 해놓은 상황입니다.
 
-## Subheading
 
-> Blockquote
-
-\`\`\`javascript
-// Code block
-function greet(name) {
-  console.log("Hello, " + name + "!");
-}
-greet("World");
-\`\`\`
-
-![Image](https://via.placeholder.com/150)
-
-*Italic* **bold** _italic_ __bold__
-
-[Link](https://www.example.com)
 `;
 
   const ArrowUp = () => (
@@ -97,7 +82,9 @@ greet("World");
                 <div>
                   <TEDropdownItem>
                     <div className={`${styles.blurBackground}`}>
-                      <ReactMarkdown>{descriptionInfo}</ReactMarkdown>
+                      <div style={{fontSize:'12px', color:'black'}}>
+                        <ReactMarkdown>{descriptionInfo}</ReactMarkdown>
+                      </div>
                     </div>
                   </TEDropdownItem>
                 </div>

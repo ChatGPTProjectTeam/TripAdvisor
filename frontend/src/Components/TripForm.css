@@ -15,7 +15,7 @@
 .option.active {
     background-color: #FF8F8F;
     color: white;
-    border-color: #FF8F8F;
+    border-color: #FFFFFF;
 }
 
 /*.province-option {*/
@@ -53,7 +53,7 @@
 .province-option.active {
     background-color: #FF8F8F;
     color: white;
-    border-color: #FF8F8F;
+    border-color: #FFFFFF;
 }
 
 /*demo*/
