@@ -48,7 +48,7 @@ class PlanService:
             component_type="plane_info", plane_info=from_plane_info, plan=plan
         )
         to_plane_component = PlanComponent(
-            component_type="plane_info", plane_info=from_plane_info, plan=plan
+            component_type="plane_info", plane_info=to_plane_info, plan=plan  # plane_info=from_plane_info 이던것 수정
         )
         accommodation_component = PlanComponent(
             component_type="accommodation_info",
@@ -61,9 +61,30 @@ class PlanService:
             plan=plan,
         )
 
-        with SessionLocal() as session:
+        with SessionLocal() as session:                   # 원래 논의됐던대로 plane, accommodation, activity, plane 순으로 수정
             session.add(from_plane_component)
-            session.add(to_plane_component)
             session.add(accommodation_component)
             session.add(activity_component)
+            session.add(to_plane_component)
             session.commit()
+
+    def update_plan(self, plan_id: int, msg: str):
+
+        component_id = 15     # 4 * plan_id - 1
+
+        with SessionLocal() as session:
+            # plan = session.query(Plan).filter(Plan.id == plan_id).one()
+            components = (
+                session.query(PlanComponent)
+                .filter(PlanComponent.component_id == component_id)
+                .all()
+            )
+            if components:
+                previous_activity = components[0].activity
+                print(type(previous_activity))
+                new_activity = self.gpt_service.edit_activity(
+                    previous_activity, msg
+                )
+
+                components[0].activity = new_activity
+                session.commit()

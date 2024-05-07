@@ -32,23 +32,7 @@ def create_plan(form_request_dto: FormRequestDTO):
 
 @app.patch("/api/v1/plan/{plan_id}")
 def edit_plan(plan_id: int, msg: str):
+    from backend.services import plan_service
+    
+    plan_service.update_plan(plan_id, msg)
     return {}
-
-
-@app.post("/")
-async def input_send(user_content: UserInput):
-    from backend.services import gpt_service
-
-    messages = [{"role": "system", "content": "You are a kind helpful assistant"}]
-    user_msg = ""
-
-    answer = gpt_service.user_msg(user_content)
-    user_msg = user_content.msg
-    print(type(answer))
-    messages.append(
-        {"role": "user", "content": user_msg},
-    )
-    messages.append(
-        {"role": "assistant", "content": answer},
-    )
-    return messages
