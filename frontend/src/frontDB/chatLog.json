@@ -106,6 +106,12 @@
       "trip_plan_id": "1",
       "component_id": 3,
       "message": "asdsdasd"
+    },
+    {
+      "id": "d8c7",
+      "trip_plan_id": "1",
+      "component_id": 3,
+      "message": "ㅁㄴㅇㅁㄴㅇ"
     }
   ],
   "plan_list": [
