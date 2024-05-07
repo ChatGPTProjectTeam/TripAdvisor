@@ -49,7 +49,8 @@ function TripForm() {
 
     // Function to handle the selected date from CalendarComp
     const handleDateSelect = (date) => {
-        setSelectedDate(date);
+        const selectedDate = date.replace("/", "-").replace("/", "-");
+        setSelectedDate(selectedDate);
         console.log(selectedDate);
     }
     function validateForm(validations) {
