@@ -12,7 +12,7 @@ export default function MainPlanContents() {
     const { targetId } = useParams();
     //THIS IS TEMPORAL JSON SERVER DATA
     //YOU MUST ADJUST THIS API FOR DEMO!!!
-    const tripData = useFetch(`http://localhost:5050/plan_list`);
+    const tripData = useFetch(`https://japan.visit-with-tripper.site/api/v1/plans`);
     const targetPlans = tripData.filter(plan => plan.trip_plan_id === parseInt(targetId, 10));
     const provinceName = targetPlans.map(targetPlan => targetPlan.province);
     const [loading, setLoading] = useState(true); // State to track loading status

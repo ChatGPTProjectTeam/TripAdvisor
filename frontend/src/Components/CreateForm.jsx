@@ -4,9 +4,9 @@ export async function CreateForm(formData) {
     try {
 
         // you need to doublecheck for posting to form and then get response from same api form
-        // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'http://localhost:5050/PlanData'
+        // THE TRIP COURSE IS GETTING RESPONSE DATA FROM TEMPORAL JSON DATA CALLED 'https://japan.visit-with-tripper.site/PlanData'
         // DO NOT FORGET TO CHANGE PlanData API FROM MainContent.jsx
-        const formResponse = await fetch(`http://localhost:5050/test`, {
+        const formResponse = await fetch(`https://japan.visit-with-tripper.site/api/v1/plans`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
