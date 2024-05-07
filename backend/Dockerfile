@@ -9,4 +9,4 @@ RUN pip install -r /backend/requirements.txt
 COPY ./ /backend
 WORKDIR /
 
-CMD ["python", "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "backend.main:app", "--workers", "4", "--host", "0.0.0.0", "--port", "8000"]
