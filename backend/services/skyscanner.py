@@ -152,7 +152,7 @@ class SkyscannerService:
             {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
         )
         
-        if data = None:
+        if data == None:
             return None
         
         location_id = data["data"][0]["entityId"] # "27542089" 
