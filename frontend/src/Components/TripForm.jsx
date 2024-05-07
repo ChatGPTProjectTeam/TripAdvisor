@@ -91,10 +91,10 @@ function TripForm() {
             console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
             // console.log('Data from fetch:', chats);
 
-            const whenFilter = whenChecked ? "너가 정해" : selectedDate
-            const dayFilter = dayChecked ? "너가정해" : inputDay;
-            const personFilter = personChecked ? "나 혼자 가" : inputPerson;
-            const styleFilter = styleChecked ? "너가 정해" : inputStyle;
+            const whenFilter = whenChecked ? null : selectedDate
+            const dayFilter = dayChecked ? null : inputDay;
+            const personFilter = personChecked ? null : inputPerson;
+            const styleFilter = styleChecked ? null : inputStyle;
 
             //// Place your form submission logic here if the input is valid
             const formData = {
@@ -168,7 +168,7 @@ function TripForm() {
                                 <label htmlFor="cb-day">너가 정해</label>
                             </div>
                         </div>
-                        <div className='sub-font'>누구와 가는 여행인가요?</div>
+                        <div className='sub-font'>몇명이랑 가나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                             <div className="text-box">
                                 <input type="text" className="form__input" id="name-2" placeholder="Full name"
@@ -203,10 +203,10 @@ function TripForm() {
                         </div>
                         <div className="input_area">
                             <button type="button" className={`option ${selectedLaunch === '낮' ? 'active' : ''}`}
-                                    onClick={() => handleLaunchOption('낮')}>낮 (Thinking)
+                                    onClick={() => handleLaunchOption('낮')}>낮
                             </button>
                             <button type="button" className={`option ${selectedLaunch === '밤' ? 'active' : ''}`}
-                                    onClick={() => handleLaunchOption('밤')}>밤 (Feeling)
+                                    onClick={() => handleLaunchOption('밤')}>밤
                             </button>
                         </div>
                         <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>

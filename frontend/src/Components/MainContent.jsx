@@ -7,12 +7,26 @@ import AccommodationPlan from "./AccommodationPlan.jsx";
 import DayPlan from "./DayPlan.jsx";
 import LoadingScreen from "./LoadingScreen.jsx";
 import './MainContent.css'
+import response from "assert";
 
 export default function MainPlanContents() {
     const { targetId } = useParams();
     //THIS IS TEMPORAL JSON SERVER DATA
     //YOU MUST ADJUST THIS API FOR DEMO!!!
-    const tripData = useFetch(`https://japan.visit-with-tripper.site/api/v1/plans`);
+    // const tripData = useFetch(`https://japan.visit-with-tripper.site/api/v1/plans`);
+    async function fetchPlans() {
+        try {
+            const tripData = await fetch('https://japan.visit-with-tripper.site/api/v1/plans');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            return null;
+        }
+    }
     const targetPlans = tripData.filter(plan => plan.trip_plan_id === parseInt(targetId, 10));
     const provinceName = targetPlans.map(targetPlan => targetPlan.province);
     const [loading, setLoading] = useState(true); // State to track loading status
