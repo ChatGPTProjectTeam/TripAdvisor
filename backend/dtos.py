@@ -81,9 +81,9 @@ class FormRequestDTO(BaseModel):
     mbti: str
     province: str
     days: int | None
-    start_date: date
-    trip_member_num: int
-    trip_style_text: str
+    start_date: date | None
+    trip_member_num: int | None
+    trip_style_text: str | None
 
 
 class PlanListResponseDTO(BaseModel):
@@ -98,10 +98,10 @@ class UserInput(BaseModel):
 class TripInfo(BaseModel):
     mbti: str
     province: str
-    days: int
-    start_date: date
-    trip_member_num: int
-    trip_style_text: str
+    days: int | None
+    start_date: date | None
+    trip_member_num: int | None
+    trip_style_text: str | None
 
     @classmethod
     def from_form_request_dto(cls, form_request_dto: FormRequestDTO) -> "TripInfo":
