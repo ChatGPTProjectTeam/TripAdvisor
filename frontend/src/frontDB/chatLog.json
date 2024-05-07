@@ -82,6 +82,30 @@
       "start_date": "너가 정해",
       "trip_style_text": "너가 정해",
       "days": "너가정해"
+    },
+    {
+      "id": "c197",
+      "trip_plan_id": "1",
+      "component_id": 3,
+      "message": "sdadawd"
+    },
+    {
+      "id": "05ed",
+      "trip_plan_id": "2",
+      "component_id": 3,
+      "message": "dasd"
+    },
+    {
+      "id": "052c",
+      "trip_plan_id": "1",
+      "component_id": 3,
+      "message": "asdsd"
+    },
+    {
+      "id": "7a3f",
+      "trip_plan_id": "1",
+      "component_id": 3,
+      "message": "asdsdasd"
     }
   ],
   "plan_list": [
@@ -138,8 +162,7 @@
           "accommodation_info": null,
           "activity": null
         }
-      ],
-      "id": "3849"
+      ]
     },
     {
       "trip_plan_id": 2,
@@ -194,8 +217,7 @@
           "accommodation_info": null,
           "activity": null
         }
-      ],
-      "id": "6d56"
+      ]
     }
   ]
 }

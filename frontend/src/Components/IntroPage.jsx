@@ -97,9 +97,9 @@ const ChatCreateButton = () => { // Use '=' instead of '=>' for function declara
 
     return (
         <div style={{display: 'flex'}}>
-            <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
-                <span className="text">가고 싶어</span>
-            </button>
+          <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
+            <span className="text">가고 싶어</span>
+          </button>
         </div>
     );
 }

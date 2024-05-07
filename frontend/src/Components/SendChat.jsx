@@ -3,7 +3,7 @@
 
 export async function SendChat(fixedRequestedData, targetId) {
     try {
-        const formResponse = await fetch(`http://localhost:5050/plan`, {
+        const formResponse = await fetch(`http://localhost:5050/test`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export async function SendChat(fixedRequestedData, targetId) {
         }
 
         const responseData = await formResponse.json();
-
+        alert('reloading');
         return {
             NewMessage: responseData
         };

@@ -3,6 +3,7 @@ import useFetch from "../hooks/loadData.jsx";
 import ReloadIcon from '../icons/reload-button-icon.svg';
 import {SendChat} from "./SendChat.jsx";
 import ReactMarkdown from 'react-markdown';
+import {useNavigate} from "react-router-dom";
 
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
@@ -35,6 +36,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
   const [inputMessages, setInputMessages] = useState({});
   const [activityText, setActivityText] = useState(component.activity);  // State to manage the activity text
   const [originalActivityText, setOriginalActivityText] = useState(component.activity); // State to store the original activity text
+  const navigate = useNavigate();
 
   useEffect(() => {
     setActivityText(component.activity); // Update activityText when component activity changes
@@ -74,13 +76,18 @@ const DayPlan = ({ component, targetId, componentId }) => {
     const fixedData = await SendChat(fixedDataRequest, targetId);
 
     if (fixedData && fixedData.NewMessage) {
-      const activitiesString = fixedData.NewMessage.activities.join('\n'); // Convert array to string with line breaks
-      // Only update activity text if it's different from the original
-      if (activitiesString !== originalActivityText) {
-        setActivityText(activitiesString); // Set activity text as string
-        setOriginalActivityText(activitiesString); // Update original activity text
-      }
+      navigate(`/chat/${targetId}`);
     }
+
+
+    // if (fixedData && fixedData.NewMessage) {
+    //   const activitiesString = fixedData.NewMessage.activities.join('\n'); // Convert array to string with line breaks
+    //   // Only update activity text if it's different from the original
+    //   if (activitiesString !== originalActivityText) {
+    //     setActivityText(activitiesString); // Set activity text as string
+    //     setOriginalActivityText(activitiesString); // Update original activity text
+    //   }
+    // }
   };
 
   return (
