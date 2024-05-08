@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 
 
+
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
     onChange(event.target.value);
@@ -100,7 +101,9 @@ const DayPlan = ({ component, targetId, componentId }) => {
         <div className="day-plan-container">
           <div>
             <p className="day-plan-info">
-              {formatTextWithLineBreaks(activityText)}
+              {/*{formatTextWithLineBreaks(activityText)}*/}
+              <ReactMarkdown>{activityText}</ReactMarkdown>
+
             </p>
             {/*<div className="plan-text-box">*/}
             {/*  <InputComponent*/}
