@@ -1,4 +1,4 @@
-# Tripper: OpenAI를 활용한 일본 여행 일정 생성 서비스
+# Tripper: OpenAI API를 활용한 일본 여행 일정 생성 서비스
 
 ## 9조 프로젝트 개요
 
