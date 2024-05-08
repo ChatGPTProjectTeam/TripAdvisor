@@ -94,6 +94,14 @@ class UserInput(BaseModel):
     msg: str
 
 
+def check_date_format(date_string):
+    try:
+        datetime.strptime(date_string, "%Y-%m-%d")
+        return True  # 문자열이 올바른 날짜 형식
+    except ValueError:
+        return False  # 문자열이 날짜 형식에 맞지 않음
+
+
 # Deprecated
 class TripInfo(BaseModel):
     mbti: str
@@ -105,19 +113,28 @@ class TripInfo(BaseModel):
 
     @classmethod
     def from_form_request_dto(cls, form_request_dto: FormRequestDTO) -> "TripInfo":
+        try:
+            days = form_request_dto.days
+            days = int(days)
+        except ValueError:
+            days = 2
+
+        try:
+            trip_member_num = form_request_dto.trip_member_num
+            trip_member_num = int(trip_member_num)
+        except ValueError:
+            trip_member_num = 1
+
+        if not check_date_format(form_request_dto.start_date):
+            start_date = datetime.now().date()
+        else:
+            start_date = form_request_dto.start_date
+
         return cls(
             mbti=form_request_dto.mbti,
             province=form_request_dto.province,
-            days=(
-                form_request_dto.days
-                if isinstance(form_request_dto.start_date, int)
-                else 2
-            ),
-            start_date=(
-                form_request_dto.start_date
-                if isinstance(form_request_dto.start_date, date)
-                else datetime.now().date()
-            ),
-            trip_member_num=(2 if form_request_dto.trip_member_num else 1),
+            days=days,
+            start_date=start_date,
+            trip_member_num=trip_member_num,
             trip_style_text=form_request_dto.trip_style_text,
         )
