@@ -8,6 +8,8 @@ import {CreateForm} from "./CreateForm.jsx";
 import CalendarComp from "./CalendarComp.jsx";
 import './CalendarComp.css';
 import LoadingScreen from "./LoadingScreen.jsx";
+import { useNavigate } from 'react-router-dom';
+
 
 function TripForm() {
     const provinceLabels = [
@@ -26,6 +28,8 @@ function TripForm() {
     const [inputPerson, setInputPerson] = useState('');
     const [inputStyle, setInputStyle] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
 
 
 
@@ -110,6 +114,7 @@ function TripForm() {
             setLoading(true);
             const result = await CreateForm(formData);
             console.log('check this out brother',result);
+            navigate('/');
             setLoading(false);
 
 
