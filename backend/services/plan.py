@@ -24,6 +24,16 @@ class PlanService:
             plans = session.query(Plan).all()
             plan_list = [PlanDTO.from_orm(plan) for plan in plans]
         return plan_list
+    
+    def get_plan(self, plan_id: int) -> PlanDTO:
+        with SessionLocal() as session:
+            plan = session.query(Plan).filter(Plan.trip_plan_id == plan_id).all()
+            return PlanDTO(
+                trip_plan_id = plan[0].trip_plan_id,
+                province = plan[0].province,
+                created_at = plan[0].created_at,
+                plan_component_list = plan[0].plan_component_list
+            )
 
     def initiate_plan(self, trip_info: TripInfo):
         plan = Plan(
