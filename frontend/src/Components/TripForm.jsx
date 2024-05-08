@@ -29,6 +29,7 @@ function TripForm() {
 
 
 
+
     function handleDayInput(event) {
         setInputDay(event.target.value);
     }
@@ -110,6 +111,7 @@ function TripForm() {
             const result = await CreateForm(formData);
             console.log('check this out brother',result);
             setLoading(false);
+
 
         }
 

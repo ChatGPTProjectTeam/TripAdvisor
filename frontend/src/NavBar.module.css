@@ -57,10 +57,10 @@ a {
 }
 
 .blurBackground {
-  margin-top: 4px;
+  margin-top: 2px;
   backdrop-filter: blur(8px); /* Adjust the blur intensity as needed */
   background-color: rgba(255, 255, 255, 0.5); /* Adjust the background color and opacity as needed */
-  padding: 10px; /* Add padding to ensure the content is visible */
+  padding: 20px; /* Add padding to ensure the content is visible */
 }
 
 

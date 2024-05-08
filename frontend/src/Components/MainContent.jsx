@@ -7,48 +7,69 @@ import AccommodationPlan from "./AccommodationPlan.jsx";
 import DayPlan from "./DayPlan.jsx";
 import LoadingScreen from "./LoadingScreen.jsx";
 import './MainContent.css'
-import response from "assert";
+import asyncFetch from '../hooks/loadWaitData.jsx'
 
 export default function MainPlanContents() {
     const { targetId } = useParams();
     //THIS IS TEMPORAL JSON SERVER DATA
     //YOU MUST ADJUST THIS API FOR DEMO!!!
     // const tripData = useFetch(`https://japan.visit-with-tripper.site/api/v1/plans`);
-    async function fetchPlans() {
-        try {
-            const tripData = await fetch('https://japan.visit-with-tripper.site/api/v1/plans');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-            return null;
-        }
+    const { data: tripData, loading, error } = asyncFetch('https://japan.visit-with-tripper.site/api/v1/plans');
+    if (!loading) {
+        console.log('data is loaded');
     }
-    const targetPlans = tripData.filter(plan => plan.trip_plan_id === parseInt(targetId, 10));
-    const provinceName = targetPlans.map(targetPlan => targetPlan.province);
-    const [loading, setLoading] = useState(true); // State to track loading status
-    const [dataLoaded, setDataLoaded] = useState(false);
-    const [startAnimation, setStartAnimation] = useState(false);
-        const [targetPlan, setTargetPlan] = useState(null);
+    const [filteredPlan, setFilteredPlans] = useState([]);
+    const [dummyData, setDummyData] = useState([]);
+
+    console.log('this is the data',tripData)
+    useEffect(() => {
+        // Filter plans only after the data has been loaded and is not null
+
+        if (tripData && tripData.length > 0) {
+            const targetPlan = tripData.filter(plan =>
+                plan.trip_plan_id === parseInt(targetId, 10)
+            );
+            console.log("hello",targetPlan)
+            setFilteredPlans(targetPlan); // Update the state with filtered plans
+        } else {
+        console.log("Data not ready for filtering.");
+            if (tripData) {
+
+                console.log("Data exist:");
+
+            }
+        }
+        setDummyData(tripData);
+        console.log("oh my god: ", dummyData);
+        if (tripData) {
+
+        }
+    }, []);
+
+    console.log('check this data', filteredPlan);
+
+    // const targetPlans = tripData.filter(plan => plan.trip_plan_id === parseInt(targetId, 10));
+    // const [loading, setLoading] = useState(true); // State to track loading status
+    // const [dataLoaded, setDataLoaded] = useState(false);
+    // const [startAnimation, setStartAnimation] = useState(false);
+    // const [targetPlan, setTargetPlan] = useState(null);
+    // const provinceName = filteredPlans.map(targetPlan => targetPlan.province);
+
 
 
     // let triggeredPage = document.querySelectorAll('section')
 
-    useEffect(() => {
-    if (tripData.length > 0) {
-        console.log(tripData.length);
-        setLoading(false); // Set loading to false when data is fetched
-        setDataLoaded(true);
-        setTimeout(() => {
-                setStartAnimation(true); // Start animation after a delay
-            }, 50);
-    }
-}, [tripData, targetId]);
+//     useEffect(() => {
+//     if (tripData.length > 0) {
+//         console.log(tripData.length);
+//         setDataLoaded(true);
+//         setTimeout(() => {
+//                 setStartAnimation(true); // Start animation after a delay
+//             }, 50);
+//     }
+// }, [tripData, targetId]);
 
-    if (loading) {
+    if (loading || !tripData) {
         return <LoadingScreen />; // Display loading spinner while loading
     }
 
@@ -72,37 +93,51 @@ export default function MainPlanContents() {
         </div>
     );
     return (
-        <section className={`main-plan-container ${dataLoaded && startAnimation ? 'show-animate' : ''}`}>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                <div>
-                    <div style={{display: "flex", justifyContent: 'center', maxWidth: '980px', marginBottom: '20px'}}>
-                        <PlanTitleLogo/>
-                        <h1 style={{fontSize: '30px'}}> {provinceName} Plan</h1>
-                        <PlanTitleLogo/>
-                    </div>
-                    {targetPlans.length > 0 ? (
-                        targetPlans.map((targetPlan, index) => (
-                            <div key={index}>
-                                {targetPlan.plan_component_list.map((component, index) => (
-                                    <div key={index}>
 
-                                        {/*<h3>Component {index + 1}</h3>*/}
-                                        <FlightPlan component={component} targetId={targetId}/>
-                                        <AccommodationPlan component={component} targetId={targetId}/>
-                                        <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
+        <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
+            fuck
+            <ul>
+                {tripData && tripData.length > 0 ? (
+                    tripData.map((plan, index) => (
+                        <li key={index}>ID: {plan.trip_plan_id}</li>  // Using index as key
+                    ))
+                ) : (
+                    <li>No plans available</li>  // Display if no plans are found or tripData is undefined
+                )}
+            </ul>
+        </div>
 
-                                    </div>
-                                ))}
-                            </div>
-                        ))
-                    ) : (
-                        <p>No trip plan found for chat ID {targetId}</p>
-                    )}
-                </div>
-
-            </div>
-
-        </section>
+        // <section className={`main-plan-container ${dataLoaded && startAnimation ? 'show-animate' : ''}`}>
+        //     <div style={{display: 'flex', justifyContent: 'center'}}>
+        //         <div>
+        //             <div style={{display: "flex", justifyContent: 'center', maxWidth: '980px', marginBottom: '20px'}}>
+        //                 <PlanTitleLogo/>
+        //                 <h1 style={{fontSize: '30px'}}> {provinceName} Plan</h1>
+        //                 <PlanTitleLogo/>
+        //             </div>
+        //             {filteredPlans.length > 0 ? (
+        //                 filteredPlans.map((targetPlan, index) => (
+        //                     <div key={index}>
+        //                         {targetPlan.plan_component_list.map((component, index) => (
+        //                             <div key={index}>
+        //
+        //                                 {/*<h3>Component {index + 1}</h3>*/}
+        //                                 <FlightPlan component={component} targetId={targetId}/>
+        //                                 <AccommodationPlan component={component} targetId={targetId}/>
+        //                                 <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
+        //
+        //                             </div>
+        //                         ))}
+        //                     </div>
+        //                 ))
+        //             ) : (
+        //                 <p>No trip plan found for chat ID {targetId}</p>
+        //             )}
+        //         </div>
+        //
+        //     </div>
+        //
+        // </section>
     );
 }
 

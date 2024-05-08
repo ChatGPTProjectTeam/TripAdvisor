@@ -3,6 +3,7 @@ import styles from "../Sidebar.module.css";
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import useFetch from "../hooks/loadData.jsx";
+import asyncFetch from "../hooks/loadWaitData.jsx";
 
 function dateFilter(dateString) {
     const date = new Date(dateString);
@@ -30,47 +31,24 @@ async function fetchPlans() {
     }
 }
 
-// export default function ChatList() {
-//     const plans = fetchPlans();
-//     return (
-//         <ul style={{listStyleType: 'none'}}>
-//             {plans.plan_list.map((plan) => (
-//                 <li key={plan.trip_plan_id}>
-//                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
-//                         <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
-//                             <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px'}}>
-//                                 <span className="text">Target: {plan.province}</span>
-//                                 <span>생성일자: {dateFilter(plan.created_at)}</span> {/* You might want to replace ??시간 with actual dynamic data if available */}
-//                             </div>
-//                             <div style={{color: '#ffffff', fontSize: '16px'}}>{plan.province} 여행코스</div>
-//                         </Link>
-//                     </div>
-//                 </li>
-//             ))}
-//         </ul>
-//     );
-// }
 
 export default function ChatList() {
     const [plans, setPlans] = useState(null);
-
+    const { data: target, loading, error } = asyncFetch('https://japan.visit-with-tripper.site/api/v1/plans');
+    // console.log("can you see this:" ,tripData);
     useEffect(() => {
-        fetchPlans().then(data => {
-            if (data) {
-                setPlans(data);
-            } else {
-                // 오류 처리나 데이터가 없을 때의 로직을 여기에 구현
-            }
-        });
-    }, []);
+        setPlans(target);
+    },[target])
+
 
     if (!plans) {
         return <div>Loading...</div>;
     }
+    console.log("what's in it:", plans)
 
     return (
         <ul style={{listStyleType: 'none'}}>
-            {plans.plan_list.map((plan) => (
+            {target.plan_list.map((plan) => (
                 <li key={plan.trip_plan_id}>
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
                         <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
