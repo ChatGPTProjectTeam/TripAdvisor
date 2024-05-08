@@ -62,9 +62,9 @@ function Navbar() {
     <header>
       <nav className={`${styles.navbar}`}>
         <div className={`${styles.logo}`}>
-          {/* <Link to="/">
+          {   <Link to="/">
             <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
-          </Link> */}
+          </Link>   }
         </div>
         <div className={`${styles.hamburger} ${isActive ? styles.active : ''}`} onClick={toggleActiveClass}>
           <span className={`${styles.bar}`}></span>
