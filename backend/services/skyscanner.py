@@ -205,7 +205,7 @@ class SkyscannerService:
         """
         airport_id = self._search_airport(trip_info)
 
-        if airport_id == None:
+        if airport_id == "":
             return None
 
         if direction == 0:  # 가는 비행기
@@ -245,14 +245,7 @@ class SkyscannerService:
             session_id = data["data"]["context"]["sessionId"]
             return self._search_incomplete(session_id)
         elif status == "failure":
-            return PlaneInfoDTO(
-                price="",
-                origin="",
-                destination="",
-                departure="",
-                arrival="",
-                airline="",
-            )
+            return None
 
         # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
@@ -282,15 +275,26 @@ class SkyscannerService:
         """
         공항 id 찾는 flights/auto-complete api 입니다.
         """
-        data = self._call_api(
-            "https://sky-scanner3.p.rapidapi.com/flights/auto-complete",
-            {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
-        )
-
-        if data == None:
-            return None
-
-        airport_id = data["data"][0]["presentation"]["id"]
+        airport_id = ""
+        
+        if trip_info.province == "홋카이도":
+            airport_id = "eyJlIjoiMjc1Mzc1NTMiLCJzIjoiU1BLQSIsImgiOiIyNzUzNzU1MyIsInQiOiJDSVRZIn0="
+        elif trip_info.province == "도호쿠 지방":
+            airport_id = "eyJlIjoiMTI4NjY4OTk1IiwicyI6IlNESiIsImgiOiIyNzU0NjI4OCIsInQiOiJBSVJQT1JUIn0="
+        elif trip_info.province == "간사이 지방":
+            airport_id = "eyJlIjoiMTI4NjY3ODAyIiwicyI6IktJWCIsImgiOiIyNzU0MjkwOCIsInQiOiJBSVJQT1JUIn0="
+        elif trip_info.province == "주코쿠 지방":
+            airport_id = "eyJlIjoiMTI4NjY3ODIxIiwicyI6IkhJSiIsImgiOiIyNzU0MjA1NyIsInQiOiJBSVJQT1JUIn0="
+        elif trip_info.province == "간토 지방":
+            airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
+        elif trip_info.province == "시코쿠":
+            airport_id = "eyJlIjoiMTI4NjY3NDUyIiwicyI6IlRBSyIsImgiOiIyNzU1MDg1NSIsInQiOiJBSVJQT1JUIn0="
+        elif trip_info.province == "주부 지방":
+            airport_id = "eyJlIjoiMjc1NDUxMDYiLCJzIjoiSk5HTyIsImgiOiIyNzU0NTEwNiIsInQiOiJDSVRZIn0="
+        elif trip_info.province == "규슈/오키나와":
+            airport_id = "eyJlIjoiMTI4NjY3OTU3IiwicyI6IkZVSyIsImgiOiIyNzU0MTc0MCIsInQiOiJBSVJQT1JUIn0="
+        else:
+            airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
 
         return airport_id
 
