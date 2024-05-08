@@ -101,17 +101,17 @@ const DayPlan = ({ component, targetId, componentId }) => {
             <p className="day-plan-info">
               {formatTextWithLineBreaks(activityText)}
             </p>
-            <div className="plan-text-box">
-              <InputComponent
-                id={`input_${componentId}`}
-                placeholder="Enter your message"
-                value={inputMessages[componentId] || ''}
-                onChange={handleInputMessage}
-              />
-              <div>
-                <ReloadButton onClick={handleReloadClick} />
-              </div>
-            </div>
+            {/*<div className="plan-text-box">*/}
+            {/*  <InputComponent*/}
+            {/*    id={`input_${componentId}`}*/}
+            {/*    placeholder="Enter your message"*/}
+            {/*    value={inputMessages[componentId] || ''}*/}
+            {/*    onChange={handleInputMessage}*/}
+            {/*  />*/}
+            {/*  <div>*/}
+            {/*    <ReloadButton onClick={handleReloadClick} />*/}
+            {/*  </div>*/}
+            {/*</div>*/}
           </div>
         </div>
       </div>

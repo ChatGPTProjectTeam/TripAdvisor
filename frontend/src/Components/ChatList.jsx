@@ -44,11 +44,11 @@ export default function ChatList() {
     if (!plans) {
         return <div>Loading...</div>;
     }
-    console.log("what's in it:", plans)
+    // console.log("what's in it:", plans)
 
     return (
-        <ul style={{listStyleType: 'none'}}>
-            {target.plan_list.map((plan) => (
+        <ul style={{ listStyleType: 'none', maxHeight: '900px', overflowY: 'auto' }}>
+            {target.plan_list.slice().reverse().map((plan) => (
                 <li key={plan.trip_plan_id}>
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
                         <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
