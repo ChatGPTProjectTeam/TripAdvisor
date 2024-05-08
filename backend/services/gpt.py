@@ -1,15 +1,16 @@
 from openai import OpenAI
 
-from backend.dtos import TripInfo, UserInput
+from backend.constants import (
+    SYSTEM_PROMPT_EDIT,
+    SYSTEM_PROMPT_CREATE,
+)
+from backend.dtos import TripInfo
 from backend.settings import settings
-from backend.constants import SYSTEM_PROMPT_EDIT, SYSTEM_PROMPT_EDIT_1, SYSTEM_PROMPT_EDIT_2, SYSTEM_PROMPT_CREATE
 
-# TODO: 프롬프트 잘 작성하기
 
 class GPTService:
     def __init__(self):
         self.openai = OpenAI(api_key=settings.OPENAI_API_KEY)
-        print(self.openai)
 
     def generate_activities(self, trip_info: TripInfo) -> str:
         """
@@ -21,21 +22,23 @@ class GPTService:
                 {
                     "role": "system",
                     "content": SYSTEM_PROMPT_CREATE.format(
-                        mbti = trip_info.mbti,
-                        province = trip_info.province,
-                        days = trip_info.days,
-                        start_date = trip_info.start_date,
-                        trip_member_num = trip_info.trip_member_num,
+                        mbti=trip_info.mbti,
+                        province=trip_info.province,
+                        days=trip_info.days,
+                        start_date=trip_info.start_date,
+                        trip_member_num=trip_info.trip_member_num,
                         trip_style_text=trip_info.trip_style_text,
                     ),
                 }
             ],
             temperature=0.6,
         )
-        
+
         return response.choices[0].message.content
 
-    def edit_activity(self, previous_activity: str, message: str) -> str:       # 기존 활동 string 유저 메세지에 따라 수정하는 함수 구현
+    def edit_activity(
+        self, previous_activity: str, message: str
+    ) -> str:  # 기존 활동 string 유저 메세지에 따라 수정하는 함수 구현
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """

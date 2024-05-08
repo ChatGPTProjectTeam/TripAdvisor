@@ -7,6 +7,7 @@ from backend.dtos import (
     TripInfo,
     FormRequestDTO,
     PlanListResponseDTO,
+    PlanDTO
 )
 
 load_dotenv()
@@ -40,6 +41,12 @@ def get_plans() -> PlanListResponseDTO:
     plan_list = plan_service.get_plans()
 
     return PlanListResponseDTO(plan_list=plan_list)
+
+@app.get("/api/v1/plan/{plan_id}")
+def get_plan(plan_id: int) -> PlanDTO:
+    from backend.services import plan_service
+    
+    return plan_service.get_plan(plan_id)
 
 
 @app.post("/api/v1/plans")

@@ -80,10 +80,10 @@ Request, Response DTOs
 class FormRequestDTO(BaseModel):
     mbti: str
     province: str
-    days: int | None
-    start_date: date
-    trip_member_num: int
-    trip_style_text: str
+    days: int | None | str
+    start_date: date | None | str
+    trip_member_num: int | None | str
+    trip_style_text: str | None
 
 
 class PlanListResponseDTO(BaseModel):
@@ -98,18 +98,26 @@ class UserInput(BaseModel):
 class TripInfo(BaseModel):
     mbti: str
     province: str
-    days: int
-    start_date: date
-    trip_member_num: int
-    trip_style_text: str
+    days: int | None
+    start_date: date | None
+    trip_member_num: int | None
+    trip_style_text: str | None
 
     @classmethod
     def from_form_request_dto(cls, form_request_dto: FormRequestDTO) -> "TripInfo":
         return cls(
             mbti=form_request_dto.mbti,
             province=form_request_dto.province,
-            days=form_request_dto.days,
-            start_date=form_request_dto.start_date,
-            trip_member_num=form_request_dto.trip_member_num,
+            days=(
+                form_request_dto.days
+                if isinstance(form_request_dto.start_date, int)
+                else 2
+            ),
+            start_date=(
+                form_request_dto.start_date
+                if isinstance(form_request_dto.start_date, date)
+                else datetime.now().date()
+            ),
+            trip_member_num=(2 if form_request_dto.trip_member_num else 1),
             trip_style_text=form_request_dto.trip_style_text,
         )
