@@ -103,7 +103,7 @@ class SkyscannerService:
         location_id: str = self._search_location(trip_info)
         return_date: date | None = trip_info.start_date + timedelta(days=trip_info.days)
 
-        if location_id == None:
+        if location_id == "":
             return None
 
         response_list = []
@@ -179,19 +179,28 @@ class SkyscannerService:
         return response
 
     def _search_location(self, trip_info: TripInfo) -> str:
-        """
-        hotels/auto-complete api 에 해당합니다. province 기반으로 search_accomandation에서 검색할 지역 id를 return 합니다.
-        """
-        data = self._call_api(
-            "https://sky-scanner3.p.rapidapi.com/hotels/auto-complete",
-            {"query": trip_info.province, "market": "KR", "locale": "ko-KR"},
-        )
-
-        if data == None:
-            return None
-
-        location_id = data["data"][0]["entityId"]  # "27542089"
-
+        
+        location_id = ""
+        
+        if trip_info.province == "일본 홋카이도":
+            location_id = "81974298"
+        elif trip_info.province == "일본 도호쿠 지방":
+            location_id = "27546288"
+        elif trip_info.province == "일본 간사이 지방":
+            location_id = "27542908"
+        elif trip_info.province == "일본 주코쿠 지방":
+            location_id = "27542057"
+        elif trip_info.province == "일본 간토 지방":
+            location_id = "27542089"
+        elif trip_info.province == "일본 시코쿠":
+            location_id = "27550855"
+        elif trip_info.province == "일본 주부 지방":
+            location_id = "31976076"
+        elif trip_info.province == "일본 규슈/오키나와":
+            location_id = "27540768"
+        else:
+            location_id = "27542089"
+        
         return location_id
 
     def create_plane_info_dto(
@@ -203,9 +212,9 @@ class SkyscannerService:
         나중에 feedback 받을 때 수정하기 어려울 것 같아서 이렇게 했습니다.
         사실 왕복으로 검색하고 flights/detail api로 각 비행 id를 넣어 따로 계산할 순 있는데 귀찮아서 일단 이렇게 했습니다.
         """
-        airport_id = self._search_airport(trip_info)
+        location_id = self._search_airport(trip_info)
 
-        if airport_id == "":
+        if location_id == "":
             return None
 
         if direction == 0:  # 가는 비행기
@@ -213,7 +222,7 @@ class SkyscannerService:
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
                 {
                     "fromEntityId": "eyJzIjoiSUNOIiwiZSI6Ijk1NjczNjU5IiwiaCI6IjI3NTM4NjM4In0=",
-                    "toEntityId": airport_id,
+                    "toEntityId": location_id,
                     "departDate": trip_info.start_date,
                     "market": "KR",
                     "locale": "ko-KR",
@@ -227,7 +236,7 @@ class SkyscannerService:
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
                 {
-                    "fromEntityId": airport_id,
+                    "fromEntityId": location_id,
                     "toEntityId": "eyJzIjoiSUNOIiwiZSI6Ijk1NjczNjU5IiwiaCI6IjI3NTM4NjM4In0=",
                     "departDate": return_date,
                     "market": "KR",
@@ -236,7 +245,9 @@ class SkyscannerService:
                     "adults": trip_info.trip_member_num,
                 },
             )
-
+            
+        if data == None:
+            return None
         status = data["data"]["context"]["status"]
 
         # 사이트에서 status == incomplete로 나오면 search/incomplete 쓰라고 해서 그렇게 했습니다.
@@ -249,15 +260,18 @@ class SkyscannerService:
 
         # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
-        for itinerary in data["data"]["itineraries"]:
-            arrival_time = datetime.strptime(
-                itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
-            )
-            if arrival_time < datetime(
-                arrival_time.year, arrival_time.month, arrival_time.day, 10
-            ):
-                flight = itinerary
-                break
+        if direction == 1:
+            for itinerary in data["data"]["itineraries"]:
+                arrival_time = datetime.strptime(
+                    itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
+                )
+                if arrival_time < datetime(
+                    arrival_time.year, arrival_time.month, arrival_time.day, 10
+                ):
+                    flight = itinerary
+                    break
+        else:
+            flight = data["data"]["itineraries"][0]
 
         if flight == None:
             return None
@@ -272,26 +286,24 @@ class SkyscannerService:
         )
 
     def _search_airport(self, trip_info: TripInfo) -> str:
-        """
-        공항 id 찾는 flights/auto-complete api 입니다.
-        """
+
         airport_id = ""
         
-        if trip_info.province == "홋카이도":
+        if trip_info.province == "일본 홋카이도":
             airport_id = "eyJlIjoiMjc1Mzc1NTMiLCJzIjoiU1BLQSIsImgiOiIyNzUzNzU1MyIsInQiOiJDSVRZIn0="
-        elif trip_info.province == "도호쿠 지방":
+        elif trip_info.province == "일본 도호쿠 지방":
             airport_id = "eyJlIjoiMTI4NjY4OTk1IiwicyI6IlNESiIsImgiOiIyNzU0NjI4OCIsInQiOiJBSVJQT1JUIn0="
-        elif trip_info.province == "간사이 지방":
+        elif trip_info.province == "일본 간사이 지방":
             airport_id = "eyJlIjoiMTI4NjY3ODAyIiwicyI6IktJWCIsImgiOiIyNzU0MjkwOCIsInQiOiJBSVJQT1JUIn0="
-        elif trip_info.province == "주코쿠 지방":
+        elif trip_info.province == "일본 주코쿠 지방":
             airport_id = "eyJlIjoiMTI4NjY3ODIxIiwicyI6IkhJSiIsImgiOiIyNzU0MjA1NyIsInQiOiJBSVJQT1JUIn0="
-        elif trip_info.province == "간토 지방":
+        elif trip_info.province == "일본 간토 지방":
             airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
-        elif trip_info.province == "시코쿠":
+        elif trip_info.province == "일본 시코쿠":
             airport_id = "eyJlIjoiMTI4NjY3NDUyIiwicyI6IlRBSyIsImgiOiIyNzU1MDg1NSIsInQiOiJBSVJQT1JUIn0="
-        elif trip_info.province == "주부 지방":
+        elif trip_info.province == "일본 주부 지방":
             airport_id = "eyJlIjoiMjc1NDUxMDYiLCJzIjoiSk5HTyIsImgiOiIyNzU0NTEwNiIsInQiOiJDSVRZIn0="
-        elif trip_info.province == "규슈/오키나와":
+        elif trip_info.province == "일본 규슈/오키나와":
             airport_id = "eyJlIjoiMTI4NjY3OTU3IiwicyI6IkZVSyIsImgiOiIyNzU0MTc0MCIsInQiOiJBSVJQT1JUIn0="
         else:
             airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
