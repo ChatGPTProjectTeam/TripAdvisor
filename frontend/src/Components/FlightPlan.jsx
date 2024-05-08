@@ -42,8 +42,9 @@ const FlightPlan = ({ component, courseId, index }) => {
             {flightInfoSection}
             {/* Conditional rendering for "Sorry!" message */}
             {isDataBlank && (
-                <div style={{marginTop:'20px', marginBottom:'20px'}}>
-                    <h2>걸어가는 것도.... 나쁘지 않을거 같아요...🙃</h2>
+                <div style={{marginTop: '20px', marginBottom: '20px'}}>
+                    <img src="/construction.svg" alt="Logo" width="100px" height="40px"/>
+                    <h3>정보를 불러올 수가 없어요</h3>
                 </div>
             )}
         </div>

@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import {useNavigate} from "react-router-dom";
 
 
+
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
     onChange(event.target.value);

@@ -30,8 +30,9 @@ const AccommodationPlan = ({ component, targetId }) => {
                 )}
                 {/* Conditional rendering for "Sorry!" message */}
                 {isDataBlank && (
-                    <div style={{marginTop:'20px', marginBottom:'20px'}}>
-                        <h2>해외에서 노숙 하는 상상, 이번에 실현 해봐요!. 🥰</h2>
+                    <div style={{marginTop: '20px', marginBottom: '20px'}}>
+                        <img src="/construction.svg" alt="Logo" width="100px" height="40px"/>
+                        <h3>정보를 불러올 수가 없어요</h3>
                     </div>
                 )}
             </div>
