@@ -346,4 +346,5 @@ class SkyscannerService:
             response.raise_for_status()  # HTTP 오류가 발생하면 예외를 발생시킵니다.
             return response.json()
         except requests.exceptions.RequestException as e:
+            print(e)
             return None
