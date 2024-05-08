@@ -116,12 +116,8 @@ class TripInfo(BaseModel):
             start_date=(
                 form_request_dto.start_date
                 if isinstance(form_request_dto.start_date, date)
-                else datetime.now().date
+                else datetime.now().date()
             ),
-            trip_member_num=(
-                form_request_dto.trip_member_num
-                if form_request_dto.trip_member_num
-                else 1
-            ),
+            trip_member_num=(2 if form_request_dto.trip_member_num else 1),
             trip_style_text=form_request_dto.trip_style_text,
         )
