@@ -14,6 +14,7 @@ import FlightPlan from "./Components/FlightPlan.jsx";
 import TripForm from "./Components/TripForm.jsx";
 import LoadingScreen from "./Components/LoadingScreen.jsx";
 import Footer from "./Components/Footer.jsx";
+import LoadingForChange from "./Components/LoadingForChange.jsx";
 function App() {
   return (
       <BrowserRouter>
@@ -27,7 +28,7 @@ function App() {
                       <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                       <Route path="/create_chat" element={<CreateForm/>}/>
                       <Route path="/flight" element={<FlightPlan/>}/>
-                      <Route path="/loading" element={<LoadingScreen/>}/>
+                      <Route path="/loading" element={<LoadingForChange/>}/>
                       <Route path="/intro" element={<IntroPage/>}/>
                       <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
