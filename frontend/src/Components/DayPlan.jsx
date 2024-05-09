@@ -71,7 +71,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
     const fixedData = await SendChat(fixedDataRequest, targetId);
     setIsLoading(false);
     if (fixedData && fixedData.NewMessage) {
-      window.location.reload();
+      navigate(`/chat/${targetId}`);
     }
   };
 
