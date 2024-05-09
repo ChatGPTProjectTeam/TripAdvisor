@@ -24,4 +24,20 @@ export default function ChatCreateButton() {
     );
 }
 
+export function ChatIntroCreateButton() {
+    // const [chats, setChats] = useState(chatData.chats);
+    const navigate = useNavigate();
+    function handleCreateChat() {
+        navigate('/create_form');
+    }
+
+    return (
+        <div style={{display: 'flex'}}>
+            <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
+                <span className="text">일정 추가</span>
+            </button>
+        </div>
+    );
+}
+
 

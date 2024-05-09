@@ -28,6 +28,7 @@ function App() {
                       <Route path="/create_chat" element={<CreateForm/>}/>
                       <Route path="/flight" element={<FlightPlan/>}/>
                       <Route path="/loading" element={<LoadingScreen/>}/>
+                      <Route path="/intro" element={<IntroPage/>}/>
                       <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
               </div>

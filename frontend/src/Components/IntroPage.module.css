@@ -1,7 +1,13 @@
-.canvas-container {
-  width: 100%;
-  height: 100%;
-  /*background-color: #1a1a1a;*/
-  overflow: hidden;
+.introContainer {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0; /* Initially set opacity to 0 */
+  transition: opacity 3s ease;
 }
 
+.introContainer.fadeIn {
+  opacity: 1; /* When the fade-in class is added, set opacity to 1 */
+}

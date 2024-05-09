@@ -82,6 +82,14 @@ export default function MainPlanContents() {
                     </div>
                     {filteredPlan.plan_component_list.map((component, index) => (
                         <div key={index}>
+                            {/*{component.plane_info && (*/}
+                            {/*        <div>*/}
+                            {/*            <p>Flight Price: {component.plane_info.price}</p>*/}
+                            {/*            <p>Origin: {component.plane_info.origin} - Destination: {component.plane_info.destination}</p>*/}
+                            {/*            <p>Departure: {component.plane_info.departure} - Arrival: {component.plane_info.arrival}</p>*/}
+                            {/*            <p>Airline: {component.plane_info.airline}</p>*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
                             <FlightPlan component={component} targetId={targetId} index={index}/>
                             <AccommodationPlan component={component} targetId={targetId}/>
                             <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
