@@ -18,7 +18,7 @@ export default function ChatCreateButton() {
     return (
         <div style={{display: 'flex'}} className={`${styles.sidebarNewChatBox}`}>
             <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
-                <span className="text">New Chat</span>
+                <span className="text">일정 추가</span>
             </button>
         </div>
     );
