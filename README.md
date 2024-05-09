@@ -15,8 +15,11 @@
 
 ## [**데모 링크**](https://japan.visit-with-tripper.site/)
 [**🔗 배포된 웹 서비스로 바로가기 Click !**](https://japan.visit-with-tripper.site/) 👈
+
  [**🔗 코드 저장소 바로가기 Click !**](https://github.com/ChatGPTProjectTeam/TripAdvisor) 👈
+
 [**🔗 9조 프로젝트 발표자료 바로가기 Click !**](https://docs.google.com/presentation/d/1fwFGOUt5rASvhXaohkxv2uxOT53Vw1mPpiOjckD_c_g/edit?usp=drive_link)👈
+
 [**🔗 최종디자인 바로가기 Click !**](https://drive.google.com/file/d/1Aa8jQim-J-Cfn5FhJ5YLgyZTmWNCDn9x/view?usp=drive_link)👈
 chat/{chat_id} url로 들어가신 상태에서는 새로고침하시면 안 됩니다.
 채팅 성공 예시입니다. 
