@@ -91,6 +91,7 @@ class PlanListResponseDTO(BaseModel):
 
 
 class UserInput(BaseModel):
+    plan_id: int
     msg: str
 
 

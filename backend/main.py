@@ -7,7 +7,8 @@ from backend.dtos import (
     TripInfo,
     FormRequestDTO,
     PlanListResponseDTO,
-    PlanDTO
+    PlanDTO,
+    UserInput,
 )
 
 load_dotenv()
@@ -42,10 +43,11 @@ def get_plans() -> PlanListResponseDTO:
 
     return PlanListResponseDTO(plan_list=plan_list)
 
+
 @app.get("/api/v1/plan/{plan_id}")
 def get_plan(plan_id: int) -> PlanDTO:
     from backend.services import plan_service
-    
+
     return plan_service.get_plan(plan_id)
 
 
@@ -59,8 +61,8 @@ def create_plan(form_request_dto: FormRequestDTO):
 
 
 @app.patch("/api/v1/plan/{plan_id}")
-def edit_plan(plan_id: int, msg: str):
+def edit_plan(user_content: UserInput):
     from backend.services import plan_service
 
-    plan_service.update_plan(plan_id, msg)
+    plan_service.update_plan(user_content.plan_id, user_content.msg)
     return {}
