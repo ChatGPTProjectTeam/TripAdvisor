@@ -67,7 +67,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
       msg: inputMessages[componentId]
     };
 
-    console.log("beforeㄴㅇ: ", inputMessages[componentId]);
+    // console.log("beforeㄴㅇ: ", inputMessages[componentId]);
     const fixedData = await SendChat(fixedDataRequest, targetId);
     setIsLoading(false);
     if (fixedData && fixedData.NewMessage) {
