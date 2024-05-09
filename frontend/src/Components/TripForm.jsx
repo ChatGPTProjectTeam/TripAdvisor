@@ -88,7 +88,7 @@ function TripForm() {
     async function onSubmit(e) {
         e.preventDefault();
         if ((inputDay && dayChecked) || (inputPerson && personChecked) || (inputStyle && styleChecked)) {
-            alert("Please choose either to fill in the text box or select the checkbox, not both.");
+            alert("숫자를 입력해 주세요~");
         } else {
             const validations = [
                 { condition: selectedMbti, message: "MBTI를 정해주세요." },
