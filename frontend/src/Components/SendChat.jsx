@@ -3,8 +3,8 @@
 
 export async function SendChat(fixedRequestedData, targetId) {
     try {
-        const formResponse = await fetch(`https://japan.visit-with-tripper.site/api/v1/plans`, {
-            method: "POST",
+        const formResponse = await fetch(`https://japan.visit-with-tripper.site/api/v1/plan/${targetId}`, {
+            method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
             },

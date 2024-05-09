@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import useFetch from "../hooks/loadData.jsx";
 import ReloadIcon from '../icons/reload-button-icon.svg';
-import {SendChat} from "./SendChat.jsx";
+import { SendChat } from "./SendChat.jsx";
 import ReactMarkdown from 'react-markdown';
-import {useNavigate} from "react-router-dom";
-
-
-
+import { useNavigate } from "react-router-dom";
+import LoadingForChange from "./LoadingForChange.jsx";
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -36,18 +34,19 @@ const ReloadButton = ({ onClick }) => {
 
 const DayPlan = ({ component, targetId, componentId }) => {
   const [inputMessages, setInputMessages] = useState({});
-  const [activityText, setActivityText] = useState(component.activity);  // State to manage the activity text
-  const [originalActivityText, setOriginalActivityText] = useState(component.activity); // State to store the original activity text
+  const [activityText, setActivityText] = useState(component.activity);
+  const [originalActivityText, setOriginalActivityText] = useState(component.activity);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setActivityText(component.activity); // Update activityText when component activity changes
-    setOriginalActivityText(component.activity); // Update original activity text
+    setActivityText(component.activity);
+    setOriginalActivityText(component.activity);
   }, [component.activity, targetId]);
 
   useEffect(() => {
-    setInputMessages({}); // Clear input messages when targetId changes
-  }, [targetId]);
+    setInputMessages({});
+  }, [targetId], [activityText]);
 
   if (component.component_type !== 'activity') {
     return null;
@@ -60,36 +59,20 @@ const DayPlan = ({ component, targetId, componentId }) => {
     }));
   };
 
-  const formatTextWithLineBreaks = (text) => {
-    return text.split('\n').map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        <br />
-      </React.Fragment>
-    ));
-  };
-
   const handleReloadClick = async () => {
+    const id = parseInt(targetId);
+    setIsLoading(true);
     const fixedDataRequest = {
-      trip_plan_id: targetId,
-      component_id: componentId,
-      message: inputMessages[componentId]
+      plan_id: id,
+      msg: inputMessages[componentId]
     };
+
+    console.log("beforeㄴㅇ: ", inputMessages[componentId]);
     const fixedData = await SendChat(fixedDataRequest, targetId);
-
+    setIsLoading(false);
     if (fixedData && fixedData.NewMessage) {
-      navigate(`/chat/${targetId}`);
+      window.location.reload();
     }
-
-
-    // if (fixedData && fixedData.NewMessage) {
-    //   const activitiesString = fixedData.NewMessage.activities.join('\n'); // Convert array to string with line breaks
-    //   // Only update activity text if it's different from the original
-    //   if (activitiesString !== originalActivityText) {
-    //     setActivityText(activitiesString); // Set activity text as string
-    //     setOriginalActivityText(activitiesString); // Update original activity text
-    //   }
-    // }
   };
 
   return (
@@ -100,28 +83,34 @@ const DayPlan = ({ component, targetId, componentId }) => {
       <div style={{ marginTop: '20px', marginBottom: '20px' }}>
         <div className="day-plan-container">
           <div>
-            <p className="day-plan-info">
-              {/*{formatTextWithLineBreaks(activityText)}*/}
-              <ReactMarkdown>{activityText}</ReactMarkdown>
+            {isLoading ? (
+                <div style={{height:'300px'}}>
+                  <LoadingForChange />
+                </div>
 
-            </p>
-            {/*<div className="plan-text-box">*/}
-            {/*  <InputComponent*/}
-            {/*    id={`input_${componentId}`}*/}
-            {/*    placeholder="Enter your message"*/}
-            {/*    value={inputMessages[componentId] || ''}*/}
-            {/*    onChange={handleInputMessage}*/}
-            {/*  />*/}
-            {/*  <div>*/}
-            {/*    <ReloadButton onClick={handleReloadClick} />*/}
-            {/*  </div>*/}
-            {/*</div>*/}
+            ) : (
+              <>
+                <p className="day-plan-info">
+                  <ReactMarkdown>{activityText}</ReactMarkdown>
+                </p>
+                <div className="plan-text-box">
+                  <InputComponent
+                    id={`input_${componentId}`}
+                    placeholder="Enter your message"
+                    value={inputMessages[componentId] || ''}
+                    onChange={handleInputMessage}
+                  />
+                  <div>
+                    <ReloadButton onClick={handleReloadClick} />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default DayPlan;

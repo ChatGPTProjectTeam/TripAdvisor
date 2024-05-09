@@ -1,0 +1,31 @@
+/* LoadingForChange.module.css */
+.mainContainer {
+    margin: 0;
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    animation: move 400ms steps(1) infinite;
+    box-shadow: 0px -9px 0 0 #535353, 9px 0 0 0 #535353, -18px 0 0 0 #535353, -27px 0 0 0 #535353, -27px -9px 0 0 #535353;
+}
+
+.mainContainer::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    margin: -171px 0 0 27px;
+    display: block;
+    box-shadow: 0px 18px 0 18px #535353, 10px 9px 0 18px #535353, 50px 14px 0 13px #535353, 44px 1px 0 10px #535353, -9px 54px 0 9px #535353, -1px 89px 0 10px #535353, -4px 58px 0 13px #535353, -36px 99px 0 27px #535353, -27px 54px 0 0 #535353, -36px 72px 0 9px #535353, 45px 45px 0 0 #535353, 36px 45px 0 0 #535353, 27px 45px 0 0 #535353, 18px 45px 0 0 #535353, 18px 72px 0 0 #535353, 27px 72px 0 0 #535353, 27px 81px 0 0 #535353, -5px 112px 0 5px #535353, -23px 139px 0 5px #535353, -18px 153px 0 0 #535353, -54px 135px 0 9px #535353, -36px 135px 0 0 #535353, -54px 153px 0 0 #535353, -63px 153px 0 0 #535353, -63px 99px 0 18px #535353, -72px 126px 0 0 #535353, -90px 108px 0 0 #535353, -90px 90px 0 9px #535353, -90px 90px 0 9px #535353, -108px 81px 0 0 #535353, -90px 72px 0 0 #535353, -99px 72px 0 0 #535353, -99px 63px 0 0 #535353, -108px 72px 0 0 #535353, -108px 63px 0 0 #535353, -108px 54px 0 0 #535353, -108px 45px 0 0 #535353;
+}
+
+@keyframes move {
+    0%, 100% {
+        margin-top: 9px;
+        box-shadow: 9px -9px 0 0 #535353, 18px 0px 0 0 #535353, 27px -9px 0 0 #535353, -45px 0px 0 0 #535353, -45px -18px 0 0 #535353, -54px -9px 0 0 #535353, -72px -9px 0 0 #6E6E6E, -90px 0px 0 0 #6E6E6E, -99px -18px 0 0 #6E6E6E;
+    }
+    50% {
+        margin-top: 0px;
+        box-shadow: 0px -9px 0 0 #535353, 9px 0 0 0 #535353, -18px 0 0 0 #535353, -27px 0 0 0 #535353, -27px -9px 0 0 #535353;
+    }
+}
