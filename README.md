@@ -94,10 +94,11 @@ chat/{chat_id} url로 들어가신 상태에서는 새로고침하시면 안 됩
 ### 백엔드
 - **FastAPI:** 견고하고 높은 성능의 API를 구축하는 데 사용됩니다.
 - **Swagger:** 간단한 설정으로 프로젝트에서 지정한 URL들을 HTML화면으로 확인할 수 있게 해주는 툴로 REST API 문서 자동화에 사용하였습니다.
-  앞으로 변경사항이 있을 수 있습니다. https://api.visit-with-tripper.site/docs#/default/get_plans_api_v1_plans_get
+  앞으로 변경사항이 있을 수 있습니다. 
 - **MySQL:** 데이터 저장을 처리하며, 신뢰성 있고 확장 가능한 데이터베이스 관리를 제공합니다. MySQL DB 서버는 EC2 에 존재 
 - **OpenAI API:** 사전 저장된 System Prompt 내용을 통해 일정 조정 과정에서 중요한 역할을 합니다.
 - **CI/CD:** Github Actions 활용
+- **Docker** 서버 리소스 때문에 사용 안 하는 편으로 수정 고려 중입니다.
 ### 프론트엔드
 - **React:** 사용자가 데이터를 입력하고 실시간으로 여행 계획 업데이트를 받을 수 있도록 원활하고 상호 작용이 가능한 사용자 인터페이스를 제공합니다.
 
