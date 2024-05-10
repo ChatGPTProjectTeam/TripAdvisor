@@ -247,11 +247,10 @@ class SkyscannerService:
             )
             
         if data == None:
+            # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
             return None
         status = data["data"]["context"]["status"]
 
-        # 사이트에서 status == incomplete로 나오면 search/incomplete 쓰라고 해서 그렇게 했습니다.
-        # 코드 중복이 생기긴 했는데 줄일 수 있을지 잘 모르겠네요.
         if status == "incomplete":
             session_id = data["data"]["context"]["sessionId"]
             return self._search_incomplete(session_id)
@@ -260,7 +259,8 @@ class SkyscannerService:
 
         # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
-        if direction == 1:
+        if direction == 0:
+            # 가는 비행기면 오전 10시 이전에 도착하는 비행기만 조회
             for itinerary in data["data"]["itineraries"]:
                 arrival_time = datetime.strptime(
                     itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
@@ -271,10 +271,25 @@ class SkyscannerService:
                     flight = itinerary
                     break
         else:
+            # 돌아오는 비행기면 첫번째 추천 비행기 이용 (시간 제약 X)
             flight = data["data"]["itineraries"][0]
 
+        # 만약 가는 비행기가 10시 이전에 도착하는게 없다면, incomplete 검색 한번 해봄
         if flight == None:
-            return None
+            status = data["data"]["context"]["status"]
+            if status == "incomplete":
+                session_id = data["data"]["context"]["sessionId"]
+                search_complete = self._search_incomplete(session_id)
+                if search_complete.price == "fail":
+                    # search_incomplete 했는데 status == failure or 10시 이전 비행기 없으면 첫번째 추천 비행기 이용
+                    flight = data["data"]["itineraries"][0]
+                else:
+                    # 성공했으면 그대로 return
+                    return search_complete
+            elif status == "complete":
+                print("오전에 도착하는 비행기 없음")
+                # status == complete && 10시 이전 비행기 없으면 첫번째 추천 비행기 이용
+                flight = data["data"]["itineraries"][0]
 
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
@@ -311,9 +326,7 @@ class SkyscannerService:
         return airport_id
 
     def _search_incomplete(self, session_id: str) -> PlaneInfoDTO:
-        """
-        status == incomplete 나오면 쓰는 search/incomplete api 입니다.
-        """
+
         data = self._call_api(
             "https://sky-scanner3.p.rapidapi.com/flights/search-incomplete",
             {
@@ -323,8 +336,20 @@ class SkyscannerService:
                 "locale": "ko-KR",
             },
         )
+        
+        status = data["data"]["context"]["status"]
+        # search_incomplete 했는데 failure 떴을 경우
+        if status == "failure":
+            return PlaneInfoDTO(
+                price="fail",
+                origin="",
+                destination="",
+                departure="",
+                arrival="",
+                airline=""
+            )
 
-        # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
+        # 가는 비행기만 search_incomplete 하므로 10시 이전 검색해도 상관없음
         flight = None
         for itinerary in data["data"]["itineraries"]:
             arrival_time = datetime.strptime(
@@ -337,7 +362,15 @@ class SkyscannerService:
                 break
 
         if flight == None:
-            return None
+            # complete한 비행기 정보 리스트에도 10시 이전 비행기가 없을 때
+            return PlaneInfoDTO(
+                price="fail",
+                origin="",
+                destination="",
+                departure="",
+                arrival="",
+                airline=""
+            )
 
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
