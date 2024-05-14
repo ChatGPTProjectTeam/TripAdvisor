@@ -108,10 +108,10 @@ function TripForm() {
             console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
             // console.log('Data from fetch:', chats);
 
-            const whenFilter = whenChecked ? null : selectedDate
-            const dayFilter = dayChecked ? null : inputDay;
-            const personFilter = personChecked ? null : inputPerson;
-            const styleFilter = styleChecked ? null : inputStyle;
+            const whenFilter = whenChecked ? '' : selectedDate
+            const dayFilter = dayChecked ? '1' : inputDay;
+            const personFilter = personChecked ? '1' : inputPerson;
+            const styleFilter = styleChecked ? '평범한' : inputStyle;
 
             //// Place your form submission logic here if the input is valid
             const formData = {
@@ -152,11 +152,11 @@ function TripForm() {
                         <div className='sub-font'>언제 출발하는 걸 선호 하시나요?</div>
                         <div style={{ display: 'flex', justifyContent: 'center' }} className="input_area">
                             <CalendarComp onSelect={handleDateSelect} />
-                            <div style={{ paddingLeft: '10px' }} className="checkbox-wrapper-47">
-                                <input type="checkbox" name="when" id="cb-when" checked={whenChecked}
-                                    onChange={() => setWhenChecked(!whenChecked)} />
-                                <label htmlFor="cb-when">너가 정해</label>
-                            </div>
+                            {/*<div style={{ paddingLeft: '10px' }} className="checkbox-wrapper-47">*/}
+                            {/*    <input type="checkbox" name="when" id="cb-when" checked={whenChecked}*/}
+                            {/*        onChange={() => setWhenChecked(!whenChecked)} />*/}
+                            {/*    <label htmlFor="cb-when">너가 정해</label>*/}
+                            {/*</div>*/}
                         </div>
                         <div className='sub-font'>해당지역중 원하는 지역을 골라주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                         <div className='second-option'>
