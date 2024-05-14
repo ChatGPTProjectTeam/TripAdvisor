@@ -5,6 +5,8 @@
     transform: translateX(100%);
     transition: transform 0.5s ease-in-out; /* Define transition properties */
     transition-delay: 0.1s; /* Add delay to the transition */
+    list-style-type: none;
+    max-height: 1000px;
 
 }
 
