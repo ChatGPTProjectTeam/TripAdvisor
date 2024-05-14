@@ -126,7 +126,7 @@ function TripForm() {
             setLoading(true);
             const result = await CreateForm(formData);
             console.log('check this out brother', result);
-            navigate('/');
+            window.location.href = '/';
             setLoading(false);
         }
     }
