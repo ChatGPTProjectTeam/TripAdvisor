@@ -23,7 +23,7 @@ export default function MainPlanContents() {
         // Filter plans only after the data has been loaded and is not null
         setFilteredPlan(tripData);
         setTimeout(() => {
-                setStartAnimation(filteredPlan ? true : false);
+                setStartAnimation(!loading ? true : false);
             }, 50);
 
     }, [tripData, targetId]);
