@@ -18,8 +18,8 @@ import LoadingForChange from "./Components/LoadingForChange.jsx";
 function App() {
   return (
       <BrowserRouter>
-          <div style={{position: "relative"}}>
-              <div><NavBar/></div>
+          <div style={{position: "relative", display:'flex', flexDirection: 'column'}}>
+              <div style={{marginBottom:'49px'}}><NavBar/></div>
               <div style={{display: "flex"}}>
                   <SideBar/>
                   <Routes>
