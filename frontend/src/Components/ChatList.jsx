@@ -1,9 +1,6 @@
-// import dummy from '../frontDB/chatLog.json'
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { Link } from "react-router-dom";
 import styles from "../Sidebar.module.css";
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import useFetch from "../hooks/loadData.jsx";
-import asyncFetch from "../hooks/loadWaitData.jsx";
 
 function dateFilter(dateString) {
     const date = new Date(dateString);
@@ -17,9 +14,9 @@ function dateFilter(dateString) {
     return `${year}/${month}/${day}`;
 }
 
-async function fetchPlans() {
+async function fetchPlans(page) {
     try {
-        const response = await fetch('https://japan.visit-with-tripper.site/api/v1/plans');
+        const response = await fetch(`https://japan.visit-with-tripper.site/api/v1/plans?page=${page}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -31,36 +28,51 @@ async function fetchPlans() {
     }
 }
 
-
 export default function ChatList() {
-    const [plans, setPlans] = useState(null);
-    const { data: target, loading, error } = asyncFetch('https://japan.visit-with-tripper.site/api/v1/plans');
-    // console.log("can you see this:" ,tripData);
+    const [plans, setPlans] = useState([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const observer = useRef();
+
     useEffect(() => {
-        setPlans(target);
-    },[target])
+        const loadPlans = async () => {
+            const newPlans = await fetchPlans(page);
+            if (newPlans && newPlans.plan_list.length > 0) {
+                setPlans(prevPlans => [...prevPlans, ...newPlans.plan_list]);
+            } else {
+                setHasMore(false); // No more data to fetch
+            }
+        };
 
+        loadPlans();
+    }, [page]);
 
-    if (!plans) {
-        return <div>Loading...</div>;
-    }
-    // console.log("what's in it:", plans)
+    const lastPlanElementRef = useCallback(node => {
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prevPage => prevPage + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [hasMore]);
 
     return (
         <ul style={{ listStyleType: 'none', maxHeight: '980px', overflowY: 'auto' }}>
-            {target.plan_list.slice().reverse().map((plan) => (
-                <li key={plan.trip_plan_id}>
-                    <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
+            {plans.map((plan, index) => (
+                <li key={plan.trip_plan_id} ref={index === plans.length - 1 ? lastPlanElementRef : null}>
+                    <div style={{ display: 'flex' }} className={`${styles.sidebarChatBox}`}>
                         <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
-                            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px'}}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px' }}>
                                 <span className="text">Target: {plan.province}</span>
-                                <span>생성일자: {dateFilter(plan.created_at)}</span> {/* You might want to replace ??시간 with actual dynamic data if available */}
+                                <span>생성일자: {dateFilter(plan.created_at)}</span>
                             </div>
-                            <div style={{color: '#ffffff', fontSize: '16px'}}>{plan.province} 여행코스</div>
+                            <div style={{ color: '#ffffff', fontSize: '16px' }}>{plan.province} 여행코스</div>
                         </Link>
                     </div>
                 </li>
             ))}
+            {hasMore && <div>Loading...</div>}
         </ul>
     );
 }

@@ -120,6 +120,11 @@ function TripForm() {
     if (!dayChecked && !inputDay) {
         newErrors.day = '날짜를 입력해주세요.';
         valid = false;
+    } else {
+        if (inputDay > 9) {
+        newErrors.day = '날짜는 9일 이내여야 합니다.';
+        valid = false;
+    }
     }
     if (!personChecked && !inputPerson) {
         newErrors.person = '인원 수를 입력해 주세요.';
