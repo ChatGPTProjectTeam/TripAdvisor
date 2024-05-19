@@ -10,6 +10,7 @@ from backend.dtos import (
     PlanDTO,
     UserInput,
 )
+from backend.settings import settings
 
 load_dotenv()
 sentry_sdk.init(
@@ -33,6 +34,14 @@ app.add_middleware(
     allow_methods=["*"],  # 모든 HTTP 메소드 허용
     allow_headers=["*"],  # 모든 HTTP 헤더 허용
 )
+
+if settings.ELASTIC_CLUSTER_ENDPOINT and settings.ELASTIC_PASSWORD:
+    from elasticsearch_dsl import connections
+
+    connections.create_connection(
+        hosts=[settings.ELASTIC_CLUSTER_ENDPOINT],
+        http_auth=("elastic", settings.ELASTIC_PASSWORD),
+    )
 
 
 @app.get("/api/v1/plans")
