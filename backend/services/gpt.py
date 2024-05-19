@@ -1,9 +1,6 @@
 from openai import OpenAI
 
-from backend.constants import (
-    SYSTEM_PROMPT_EDIT,
-    SYSTEM_PROMPT_CREATE,
-)
+from backend.prompts import SYSTEM_PROMPT_CREATE, SYSTEM_PROMPT_EDIT
 from backend.dtos import TripInfo
 from backend.settings import settings
 

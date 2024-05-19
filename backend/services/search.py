@@ -3,6 +3,7 @@ from elasticsearch_dsl import Search, Q
 from elasticsearch_dsl import connections
 from transformers import BertModel, BertTokenizer
 
+from backend.constants import INDEX_NAME
 from backend.settings import settings
 
 
@@ -19,11 +20,11 @@ class SearchService:
         self.tokenizer = BertTokenizer.from_pretrained("snunlp/KR-BERT-char16424")
         self.model = BertModel.from_pretrained("snunlp/KR-BERT-char16424")
 
-    def search_similar_vectors(self, query_vector: list):
+    def _search_similar_vectors(self, query_vector: list):
         """
         벡터와 유사한 벡터를 검색합니다.
         """
-        s = Search(index="tripper.japan_travel_destination")
+        s = Search(index=INDEX_NAME)
         s = s.query(
             "script_score",
             query=Q("match_all"),

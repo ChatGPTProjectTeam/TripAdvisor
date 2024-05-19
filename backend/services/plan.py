@@ -5,17 +5,20 @@ from typing import TYPE_CHECKING
 from backend.database import SessionLocal
 from backend.dtos import TripInfo, PlanDTO
 from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
+from backend.utils import is_search_enabled_province
 
 if TYPE_CHECKING:
-    from backend.services import SkyscannerService, GPTService
+    from backend.services import SkyscannerService, GPTService, SearchService
 
 
 class PlanService:
     def __init__(
         self,
+        search_service: "SearchService",
         skyscanner_service: "SkyscannerService",
         gpt_service: "GPTService",
     ):
+        self.search_service = search_service
         self.skyscanner_service = skyscanner_service
         self.gpt_service = gpt_service
 
@@ -47,6 +50,12 @@ class PlanService:
         self._create_plan(plan, trip_info)
 
     def _create_plan(self, plan: Plan, trip_info: TripInfo):
+
+        if is_search_enabled_province(trip_info.province):
+            search_result = self.search_service.create_search_index(trip_info.province)
+        else:
+            search_result = ""
+
         with ThreadPoolExecutor(max_workers=2) as executor:
             skyscanner_result = executor.submit(
                 self.skyscanner_service.create_plane_and_accommodation_info, trip_info
