@@ -53,5 +53,3 @@ class GPTService:
         )
 
         return response.choices[0].message.content
-
-    # todo : DB에 저장할지 아니면 기존의 user응답과 prompt응답을 계속 주고 받을지 결정

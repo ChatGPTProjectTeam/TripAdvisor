@@ -1,7 +1,4 @@
 from elasticsearch_dsl import Document, Text, DenseVector
-from elasticsearch_dsl import connections
-
-from backend.settings import settings
 
 
 class JapanTravelDestination(Document):
