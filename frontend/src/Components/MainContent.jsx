@@ -16,37 +16,20 @@ export default function MainPlanContents() {
     // const tripData = useFetch(`https://japan.visit-with-tripper.site/api/v1/plans`);
     const [filteredPlan, setFilteredPlan] = useState([]);
     const { data: tripData, loading, error } = asyncFetch(`https://japan.visit-with-tripper.site/api/v1/plan/${targetId}`);
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const [startAnimation, setStartAnimation] = useState(false);
 
     useEffect(() => {
         // Filter plans only after the data has been loaded and is not null
         setFilteredPlan(tripData);
-        setStartAnimation(true);
-    }, [tripData]);
+        setTimeout(() => {
+                setStartAnimation(!loading ? true : false);
+            }, 50);
+
+    }, [tripData, targetId]);
 
     console.log('check this data', filteredPlan);
 
-    const [startAnimation, setStartAnimation] = useState(false);
-    // const [targetPlan, setTargetPlan] = useState(null);
-    const [targetProvince, setTargetProvince] = useState(null);
-        const [dataLoaded, setDataLoaded] = useState(false);
-
-    // let triggeredPage = document.querySelectorAll('section')
-//     useEffect(() => {
-//     // if (filteredPlan) {
-//     //     // setTimeout(() => {
-//     //     //         setStartAnimation(true); // Start animation after a delay
-//     //     //     }, 50);
-//     //     console.log("data: data is here!@!@!@!@!@!@!")
-//     //     setDataLoaded(true);
-//     // }
-//         console.log("data: data is not here!!!!")
-// }, [filteredPlan]);
-    // useEffect(() => {
-    //     if (dataLoaded) {
-    //         setTargetProvince(filteredPlan.province)
-    //         setStartAnimation(true)
-    //     }
-    // },[dataLoaded])
 
     if (loading || !filteredPlan) {
         return <LoadingScreen />; // Display loading spinner while loading

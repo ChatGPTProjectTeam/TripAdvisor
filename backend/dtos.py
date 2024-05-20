@@ -78,7 +78,8 @@ Request, Response DTOs
 
 
 class FormRequestDTO(BaseModel):
-    mbti: str
+    mbti: str = "F"
+    categories: list[str] = Field(default_factory=list)
     province: str
     days: int | None | str
     start_date: date | None | str
@@ -105,7 +106,8 @@ def check_date_format(date_string):
 
 # Deprecated
 class TripInfo(BaseModel):
-    mbti: str
+    mbti: str = "F"
+    categories: list[str] = Field(default_factory=list)
     province: str
     days: int | None
     start_date: date | None
@@ -133,6 +135,7 @@ class TripInfo(BaseModel):
 
         return cls(
             mbti=form_request_dto.mbti,
+            categories=form_request_dto.categories,
             province=form_request_dto.province,
             days=days,
             start_date=start_date,

@@ -71,8 +71,12 @@ const DayPlan = ({ component, targetId, componentId }) => {
     const fixedData = await SendChat(fixedDataRequest, targetId);
     setIsLoading(false);
     if (fixedData && fixedData.NewMessage) {
+          console.log('hella',fixedData)
+
       window.location.reload();
     }
+        console.log('hella',fixedData)
+
   };
 
   return (
