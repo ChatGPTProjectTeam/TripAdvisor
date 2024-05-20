@@ -49,7 +49,7 @@ class SearchService:
         response = s.execute()
         result = ""
         for hit in response:
-            result += f"추천 여행지 TITLE: {hit.name}, Description: {hit.description}\n"
+            result += f"추천 여행지 TITLE: {hit.name}, DESCRIPTION: {hit.description}\n"
         return result
 
     def get_vector(self, text: str) -> list[float]:
