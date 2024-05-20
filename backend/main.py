@@ -61,8 +61,10 @@ def create_plan(form_request_dto: FormRequestDTO):
 
 
 @app.patch("/api/v1/plan/{plan_id}")
-def edit_plan(user_content: UserInput):
+def edit_plan(user_content: UserInput) -> str:
     from backend.services import plan_service
 
-    plan_service.update_plan(user_content.plan_id, user_content.msg)
-    return {}
+    if plan_service.update_plan(user_content.plan_id, user_content.msg):
+        return "Harmful Message"
+    else:
+        return "Success"

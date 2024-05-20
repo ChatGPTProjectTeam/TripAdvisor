@@ -1,5 +1,6 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime
+import re
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
@@ -134,18 +135,30 @@ class PlanService:
             session.add(to_plane_component)
             session.commit()
 
-    def update_plan(self, plan_id: int, msg: str):
-        with SessionLocal() as session:
-            # plan = session.query(Plan).filter(Plan.id == plan_id).one()
-            components = (
-                session.query(PlanComponent)
-                .filter(PlanComponent.trip_plan_id == plan_id)
-                .filter(PlanComponent.component_type == "activity")
-                .all()
-            )
-            if components:
-                previous_activity = components[0].activity
-                new_activity = self.gpt_service.edit_activity(previous_activity, msg)
-
-                components[0].activity = new_activity
-                session.commit()
+    def update_plan(self, plan_id: int, msg: str) -> bool:
+        harmful: bool = self.gpt_service.moderation(msg)
+        
+        if not harmful:
+            with SessionLocal() as session:
+                # plan = session.query(Plan).filter(Plan.id == plan_id).one()
+                components = (
+                    session.query(PlanComponent)
+                    .filter(PlanComponent.trip_plan_id == plan_id)
+                    .filter(PlanComponent.component_type == "activity")
+                    .all()
+                )
+                if components:
+                    previous_activity = components[0].activity
+                    
+                    p = re.compile(".Invalid.")
+                    new_activity = self.gpt_service.edit_activity(previous_activity, msg)
+                    check = p.match(new_activity)
+                    
+                    if (check is None):
+                        components[0].activity = new_activity
+                        session.commit()
+                    else:
+                        print("연관 없음")
+                        harmful = True
+        
+        return harmful

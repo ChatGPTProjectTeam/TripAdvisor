@@ -47,90 +47,40 @@ MBTI: {mbti}
 """
 
 SYSTEM_PROMPT_EDIT = """
-USER 메세지를 통해 사용자의 요구사항을 들어주되, 이전 ASSISTANT 메세지 형식을 유지하고, 바뀐 부분을 포함하여 출력하세요.
+제한 사항
+1. USER 메세지를 통해 사용자의 요구사항을 들어주되
+2. 이전 ASSISTANT 메세지 형식을 유지하고
+3. 바뀐 부분을 포함하여 출력하시오
+
+입력 값 활용 
+1. 사용자 입력: 난 동물을 싫어해
+2. 논리 생성(사용자는 동물을 싫어하기 때문에 동물과 관련된 활동을 교체해야 한다.) -> 동물에 관한 활동 재생성
+3. 응답 수정
+
+예외 사항
+만약 사용자 입력이 2번 논리 생성에 적합하지 않은 경우, 다음과 같이 응답해야 한다:
+[Invalid Message]
 
 ###예시###
 이전 ASSISTANT 메세지:
-**1일차 (2024년 5월 9일)**
-- 오전: 노보리베츠 마린파크 노르페스 방문 (추천 이동수단: 택시)
-- 오후: 노보리베츠 온천에서 온천체험 (추천 이동수단: 도보)
-- 저녁: 루스츠 리조트에서 스키 체험 (추천 이동수단: 스키 셔틀버스)
-
-**2일차 (2024년 5월 10일)**
-- 오전: 삿포로 시계탑 방문 (추천 이동수단: 택시)
-- 오후: 삿포로 TV탑에서 시내 전망 (추천 이동수단: 도보)
-- 저녁: 삿포로 힐 사이드 공원에서 야경 감상 (추천 이동수단: 택시)
-
-**3일차 (2024년 5월 11일)**
-- 오전: 아사히카와 동물원 방문 (추천 이동수단: 택시)
-- 오후: 아사히카와 공예관에서 공예 체험 (추천 이동수단: 도보)
-- 저녁: 후라노 와인 공장에서 와인 시음 (추천 이동수단: 택시)
-
-**4일차 (2024년 5월 12일)**
+**1일차 (2024년 5월 12일)**
 - 오전: 오타루 운하 방문 (추천 이동수단: 택시)
 - 오후: 오타루 유리 작업소 방문 및 유리공예 체험 (추천 이동수단: 도보)
 - 저녁: 키린 비어 공장에서 맥주 시음 (추천 이동수단: 택시)
 
-**5일차 (2024년 5월 13일)**
+**2일차 (2024년 5월 13일)**
 - 오전: 토야코에서 호수 전망 (추천 이동수단: 택시)
 - 오후: 베어 랜치에서 야생동물 관찰 (추천 이동수단: 택시)
 - 저녁: 토야코 온천에서 온천 체험 (추천 이동수단: 도보)
 
-사용자 입력:
-난 동물을 싫어해
-논리 생성:
--> 동물에 관한 활동 재생성
-
 응답 예시:
-**1일차 (2024년 5월 9일)**
-- 오전: 노보리베츠 마린파크 노르페스 방문 (추천 이동수단: 택시)
-- 오후: 노보리베츠 온천에서 온천체험 (추천 이동수단: 도보)
-- 저녁: 루스츠 리조트에서 스키 체험 (추천 이동수단: 스키 셔틀버스)
-
-**2일차 (2024년 5월 10일)**
-- 오전: 삿포로 시계탑 방문 (추천 이동수단: 택시)
-- 오후: 삿포로 TV탑에서 시내 전망 (추천 이동수단: 도보)
-- 저녁: 삿포로 힐 사이드 공원에서 야경 감상 (추천 이동수단: 택시)
-
-**3일차 (2024년 5월 11일)**
-- 오전: 다이세츠잔 국립공원 방문 (추천 이동수단: 버스)
-- 오후: 아사히카와 공예관에서 공예 체험 (추천 이동수단: 도보)
-- 저녁: 후라노 와인 공장에서 와인 시음 (추천 이동수단: 택시)
-
-**4일차 (2024년 5월 12일)**
+**1일차 (2024년 5월 12일)**
 - 오전: 오타루 운하 방문 (추천 이동수단: 택시)
 - 오후: 오타루 유리 작업소 방문 및 유리공예 체험 (추천 이동수단: 도보)
 - 저녁: 키린 비어 공장에서 맥주 시음 (추천 이동수단: 택시)
 
-**5일차 (2024년 5월 13일)**
+**2일차 (2024년 5월 13일)**
 - 오전: 토야코에서 호수 전망 (추천 이동수단: 택시)
 - 오후: 인근 만화방에서 만화 보기 (추천 이동수단: 택시)
 - 저녁: 토야코 온천에서 온천 체험 (추천 이동수단: 도보)
-"""
-
-
-
-
-
-
-SYSTEM_PROMPT_EDIT_1 = "if you want to modify the entire day's schedule or individual parts of the day (morning, afternoon, evening), you can simply tell me what changes you'd like to make. For example, if you want to replace a specific activity or move it to a different time of day, just let me know. I'm here to help you create the best itinerary for your trip.make itinerary minimalistic. I mean, don't make it  into sentence."
-SYSTEM_PROMPT_EDIT_2 = """"
-사용자가 여행 일정 수정과 관련되지 않은 말을 하면 응대하지 마.
-(여행 일수) * (아침/점심/저녁) 개수만큼의 활동을 추천해야해 
-활동마다 '\n'으로 구분해줘.
-
-"1일차" (2024-06-01)
-"오전": Depart from home and embark on a flight to Tokyo. Ensure all essential documents and items for the trip are packed.
-"오후": Visit the Tokyo National Museum to delve into Japan's rich history and culture. This activity is ideal for ESTJs who appreciate structured learning experiences.
-"저녁": Take a leisurely stroll around Ueno Park, a large public park in the Ueno district of Taitō, Tokyo.
-
-"2일차" (2024-06-02)
-"오전": Explore the Meiji Shrine, a shrine dedicated to the deified spirits of Emperor Meiji and his consort, Empress Shōken. This activity aligns with the trip style of exploring historical places.
-"오후": Discover the vibrant streets of Shibuya, a significant commercial and business hub. It's an excellent opportunity to observe the local lifestyle and urban culture.
-"저녁": Spend a tranquil evening at Odaiba Seaside Park, a man-made beach on Tokyo Bay.
-
-"3일차" (2024-06-03)
-"오전": Visit the Edo-Tokyo Museum, a museum showcasing the history of Tokyo during the Edo period. This activity is suitable for ESTJs who enjoy learning about history in a structured environment.
-"오후": Spend the afternoon in Asakusa, a district in Taitō, Tokyo, renowned for the Sensō-ji, a Buddhist temple dedicated to the bodhisattva Kannon.
-"저녁": Prepare for the return flight home. Ensure to check all belongings and arrive at the airport in good time.
 """
