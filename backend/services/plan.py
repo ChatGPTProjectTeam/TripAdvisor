@@ -52,7 +52,9 @@ class PlanService:
     def _create_plan(self, plan: Plan, trip_info: TripInfo):
 
         if is_search_enabled_province(trip_info.province):
-            search_result = self.search_service.create_search_index(trip_info.province)
+            search_result = self.search_service.search_query(
+                trip_info.province, trip_info.trip_style_text
+            )
         else:
             search_result = ""
 
@@ -61,7 +63,7 @@ class PlanService:
                 self.skyscanner_service.create_plane_and_accommodation_info, trip_info
             )
             activities = executor.submit(
-                self.gpt_service.generate_activities, trip_info
+                self.gpt_service.generate_activities, trip_info, search_result
             )
         try:
             from_plane_info, to_plane_info, accommodation_info = (

@@ -9,7 +9,7 @@ class GPTService:
     def __init__(self):
         self.openai = OpenAI(api_key=settings.OPENAI_API_KEY)
 
-    def generate_activities(self, trip_info: TripInfo) -> str:
+    def generate_activities(self, trip_info: TripInfo, search_result: str) -> str:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """

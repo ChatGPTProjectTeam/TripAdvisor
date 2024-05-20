@@ -20,24 +20,33 @@ class SearchService:
         self.tokenizer = BertTokenizer.from_pretrained("snunlp/KR-BERT-char16424")
         self.model = BertModel.from_pretrained("snunlp/KR-BERT-char16424")
 
-    def _search_similar_vectors(self, query_vector: list):
+    def search_query(self, query: str, province: str) -> str:
+        """
+        텍스트를 검색합니다.
+        """
+        query_vector = self.get_vector(query)
+        return self._search_similar_vectors(
+            province=province, query_vector=query_vector
+        )
+
+    def _search_similar_vectors(self, province: str, query_vector: list) -> str:
         """
         벡터와 유사한 벡터를 검색합니다.
         """
         s = Search(index=INDEX_NAME)
         s = s.query(
             "script_score",
-            query=Q("match_all"),
+            query=Q("match", province=province),
             script={
                 "source": "cosineSimilarity(params.query_vector, 'feature_vector') + 1.0",
                 "params": {"query_vector": query_vector},
             },
         )
         response = s.execute()
+        result = ""
         for hit in response:
-            print(
-                f"Name: {hit.name}, Description: {hit.description}, Score: {hit.meta.score}"
-            )
+            result += f"Name: {hit.name}, Description: {hit.description}\n"
+        return result
 
     def get_vector(self, text: str) -> list[float]:
         # 텍스트를 토크나이저로 인코딩
