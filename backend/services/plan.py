@@ -5,17 +5,20 @@ from typing import TYPE_CHECKING
 from backend.database import SessionLocal
 from backend.dtos import TripInfo, PlanDTO
 from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
+from backend.utils import is_search_enabled_province
 
 if TYPE_CHECKING:
-    from backend.services import SkyscannerService, GPTService
+    from backend.services import SkyscannerService, GPTService, SearchService
 
 
 class PlanService:
     def __init__(
         self,
+        search_service: "SearchService",
         skyscanner_service: "SkyscannerService",
         gpt_service: "GPTService",
     ):
+        self.search_service = search_service
         self.skyscanner_service = skyscanner_service
         self.gpt_service = gpt_service
 
@@ -35,7 +38,7 @@ class PlanService:
                 plan_component_list=plan[0].plan_component_list,
             )
 
-    def initiate_plan(self, trip_info: TripInfo):
+    def initiate_plan(self, trip_info: TripInfo, trigger_skyscanner: bool = True):
         plan = Plan(
             province=trip_info.province,
             created_at=datetime.now(),
@@ -44,15 +47,31 @@ class PlanService:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        self._create_plan(plan, trip_info)
+        self._create_plan(plan, trip_info, trigger_skyscanner)
 
-    def _create_plan(self, plan: Plan, trip_info: TripInfo):
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            skyscanner_result = executor.submit(
-                self.skyscanner_service.create_plane_and_accommodation_info, trip_info
+    def _create_plan(
+        self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
+    ):
+
+        if is_search_enabled_province(trip_info.province):
+            search_result = self.search_service.search_category(
+                categories=trip_info.categories,
+                province=trip_info.province,
             )
+        else:
+            search_result = ""
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            if trigger_skyscanner:
+                skyscanner_result = executor.submit(
+                    self.skyscanner_service.create_plane_and_accommodation_info,
+                    trip_info,
+                )
+            else:
+                skyscanner_result = None
+
             activities = executor.submit(
-                self.gpt_service.generate_activities, trip_info
+                self.gpt_service.generate_activities, trip_info, search_result
             )
         try:
             from_plane_info, to_plane_info, accommodation_info = (
@@ -143,9 +162,27 @@ class PlanService:
                 .filter(PlanComponent.component_type == "activity")
                 .all()
             )
-            if components:
-                previous_activity = components[0].activity
-                new_activity = self.gpt_service.edit_activity(previous_activity, msg)
-
-                components[0].activity = new_activity
+            component = components[0]
+            plan = component.plan
+        if component:
+            province = plan.province
+            previous_activity = component.activity
+            if is_search_enabled_province(province):
+                search_result = self.search_service.search_query(
+                    query=msg, province=province
+                )
+            else:
+                search_result = ""
+            new_activity = self.gpt_service.edit_activity(
+                previous_activity, msg, search_result
+            )
+            with SessionLocal() as session:
+                components = (
+                    session.query(PlanComponent)
+                    .filter(PlanComponent.trip_plan_id == plan_id)
+                    .filter(PlanComponent.component_type == "activity")
+                    .all()
+                )
+                component = components[0]
+                component.activity = new_activity
                 session.commit()

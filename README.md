@@ -1,10 +1,49 @@
+<div align="center">
+  <br />
+<img src="https://github.com/PiLab-CAU/OpenSourceProject-2401/assets/46518769/2531d605-740f-46e9-93ff-0a0a72f8085b" alt="Tripper Mate" width="200px" height="200px" />
+
+ <br />
+  <br />
+</div>
+
 # Tripper: OpenAI API를 활용한 일본 여행 일정 생성 서비스
 
 ## 9조 프로젝트 개요
+<br>
+</br>
+본 프로젝트는 OpenAI를 활용하여 일본 여행 일정을 생성하고 개선해주는 여행 계획 서비스입니다. 
+백엔드는 FastAPI와 MySQL을 사용하여 요청을 효과적으로 처리하고 데이터를 저장하며 , 프론트엔드는 React를 사용하여 동적이고 반응이 빠른 사용자 인터페이스를 제공합니다.
+Docker로 컨테이너 환경 만들었습니다.
+MySQL DB는 서버를 따로 만들지는 않았습니다.
+Devops 툴로는 Sentry , Github Actions 로 CI/CD 합니다.
+<br>
+</br>
 
-본 프로젝트는 OpenAI를 활용하여 일본 여행 일정을 생성하고 개선해주는 여행 계획 서비스입니다. 백엔드는 FastAPI와 MySQL을 사용하여 요청을 효과적으로 처리하고 데이터를 저장하며, 프론트엔드는 React를 사용하여 동적이고 반응이 빠른 사용자 인터페이스를 제공합니다.
+[**🔗 데모 링크**](https://japan.visit-with-tripper.site/) 👈
 
-## 제안서 수정사항
+[**🔗 배포된 웹 서비스로 바로가기 Click !**](https://japan.visit-with-tripper.site/) 👈
+
+ [**🔗 코드 저장소 바로가기 Click !**](https://github.com/ChatGPTProjectTeam/TripAdvisor) 👈
+
+[**🔗 9조 프로젝트 발표자료 바로가기 Click !**](https://docs.google.com/presentation/d/1fwFGOUt5rASvhXaohkxv2uxOT53Vw1mPpiOjckD_c_g/edit?usp=drive_link)👈
+
+[**🔗 최종디자인 바로가기 Click !**](https://drive.google.com/file/d/1Aa8jQim-J-Cfn5FhJ5YLgyZTmWNCDn9x/view?usp=drive_link)👈
+chat/{chat_id} url로 들어가신 상태에서는 새로고침하시면 안 됩니다.
+채팅 성공 예시입니다. 
+<img width="2038" alt="예시 화면" src="https://github.com/PiLab-CAU/OpenSourceProject-2401/assets/46518769/32134b25-25a8-412f-8e3d-85467ad5afe5">
+채팅 수정 쪽이 시간이 오래 걸립니다.
+시간이 짧게 걸리면, GPT에서 정확히 이해 못하고 이상한 답을 주는 케이스니까 안심하시면 됩니다.
+
+## 👷 버전 기록
+
+|   버전    | <div align="center">업데이트 내용</div>                                                                                                                                                                                                                                                                                                                                         | 업데이트 날짜 |
+| :-------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-----------: |
+| `v1.2.0`  | - 프론트 재배포                                                                                                                                                                                                                                                                                                                                              |   05.10  2:00  |
+| `v1.0.2`  | - 프론트 재배포                                                                                                                                                                                                                                                                                                                                              |   05.10  1:00  |
+| `v1.0.1`  | - 비행기 숙박 에러 수정                                                                                                                                                                                                                                                                                                                                              |   05.09 23:00  |
+| `v1.0.0` | - 홈 화면 및 여행 코스 생성 오픈                                                                                                                                                                                                                                                                                                                                               |   05.08 자정  |
+
+## 제안서 수정사항v1.2.0
  팀원들의 언어 숙련도 문제로 구현 언어를 자바에서 파이썬으로 바꿨습니다.
  프로젝트 제안 발표 때 학우분들이 주신 피드백은 다음과 같았습니다.
 
@@ -62,10 +101,12 @@
 ### 백엔드
 - **FastAPI:** 견고하고 높은 성능의 API를 구축하는 데 사용됩니다.
 - **Swagger:** 간단한 설정으로 프로젝트에서 지정한 URL들을 HTML화면으로 확인할 수 있게 해주는 툴로 REST API 문서 자동화에 사용하였습니다.
-  앞으로 변경사항이 있을 수 있습니다. https://api.visit-with-tripper.site/docs#/default/get_plans_api_v1_plans_get
+  앞으로 변경사항이 있을 수 있습니다. 
 - **MySQL:** 데이터 저장을 처리하며, 신뢰성 있고 확장 가능한 데이터베이스 관리를 제공합니다. MySQL DB 서버는 EC2 에 존재 
 - **OpenAI API:** 사전 저장된 System Prompt 내용을 통해 일정 조정 과정에서 중요한 역할을 합니다.
 - **CI/CD:** Github Actions 활용
+- **Docker** 서버 리소스 때문에 사용 안 하는 편으로 수정 고려 중입니다.
 ### 프론트엔드
 - **React:** 사용자가 데이터를 입력하고 실시간으로 여행 계획 업데이트를 받을 수 있도록 원활하고 상호 작용이 가능한 사용자 인터페이스를 제공합니다.
 
+https://github.com/PiLab-CAU/OpenSourceProject-2401/issues/21#issue-2283590076 이슈란에 중간 데모 제출했습니다. 

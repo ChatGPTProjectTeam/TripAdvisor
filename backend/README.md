@@ -4,7 +4,7 @@
 ### prerequisites
 1. python3.12
 2. mysql
-
+3. sentry
 
 ### 개발 환경 설정
 ```bash
@@ -32,6 +32,7 @@ GRANT ALL PRIVILEGES ON `tripper`.* TO 'tripper'@'%';
 ```
 OPENAI_API_KEY=""
 SQLALCHEMY_DATABASE_URL="mysql://tripper:*tripper@localhost:3306/tripper"
+SKYSCANNER_API_KEY=""
 ```
 
 
@@ -40,7 +41,7 @@ SQLALCHEMY_DATABASE_URL="mysql://tripper:*tripper@localhost:3306/tripper"
 cd backend
 uvicorn main:app --reload
 ```
-
+F## Swagger
 아래와 같이 실행이 된다면 http://127.0.0.1:8000/docs# 에서 API 문서를 확인할 수 있습니다. 
 ```bash
 (.venv) shmoon ~/Desktop/projects/TripAdvisor/backend uvicorn main:app --reload

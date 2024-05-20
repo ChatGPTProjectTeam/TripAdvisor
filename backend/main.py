@@ -10,6 +10,7 @@ from backend.dtos import (
     PlanDTO,
     UserInput,
 )
+from backend.settings import settings
 
 load_dotenv()
 sentry_sdk.init(
@@ -34,6 +35,14 @@ app.add_middleware(
     allow_headers=["*"],  # 모든 HTTP 헤더 허용
 )
 
+if settings.ELASTIC_CLUSTER_ENDPOINT and settings.ELASTIC_PASSWORD:
+    from elasticsearch_dsl import connections
+
+    connections.create_connection(
+        hosts=[settings.ELASTIC_CLUSTER_ENDPOINT],
+        http_auth=("elastic", settings.ELASTIC_PASSWORD),
+    )
+
 
 @app.get("/api/v1/plans")
 def get_plans() -> PlanListResponseDTO:
@@ -52,11 +61,11 @@ def get_plan(plan_id: int) -> PlanDTO:
 
 
 @app.post("/api/v1/plans")
-def create_plan(form_request_dto: FormRequestDTO):
+def create_plan(form_request_dto: FormRequestDTO, trigger_skyscanner: bool = True):
     from backend.services import plan_service
 
     trip_info = TripInfo.from_form_request_dto(form_request_dto)
-    plan_service.initiate_plan(trip_info)
+    plan_service.initiate_plan(trip_info, trigger_skyscanner)
     return {}
 
 
