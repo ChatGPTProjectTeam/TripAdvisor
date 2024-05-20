@@ -38,7 +38,7 @@ class PlanService:
                 plan_component_list=plan[0].plan_component_list,
             )
 
-    def initiate_plan(self, trip_info: TripInfo):
+    def initiate_plan(self, trip_info: TripInfo, trigger_skyscanner: bool = True):
         plan = Plan(
             province=trip_info.province,
             created_at=datetime.now(),
@@ -47,21 +47,29 @@ class PlanService:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        self._create_plan(plan, trip_info)
+        self._create_plan(plan, trip_info, trigger_skyscanner)
 
-    def _create_plan(self, plan: Plan, trip_info: TripInfo):
+    def _create_plan(
+        self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
+    ):
 
         if is_search_enabled_province(trip_info.province):
             search_result = self.search_service.search_query(
-                trip_info.province, trip_info.trip_style_text
+                query=trip_info.trip_style_text,
+                province=trip_info.province,
             )
         else:
             search_result = ""
 
         with ThreadPoolExecutor(max_workers=2) as executor:
-            skyscanner_result = executor.submit(
-                self.skyscanner_service.create_plane_and_accommodation_info, trip_info
-            )
+            if trigger_skyscanner:
+                skyscanner_result = executor.submit(
+                    self.skyscanner_service.create_plane_and_accommodation_info,
+                    trip_info,
+                )
+            else:
+                skyscanner_result = None
+
             activities = executor.submit(
                 self.gpt_service.generate_activities, trip_info, search_result
             )

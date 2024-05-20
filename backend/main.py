@@ -61,11 +61,11 @@ def get_plan(plan_id: int) -> PlanDTO:
 
 
 @app.post("/api/v1/plans")
-def create_plan(form_request_dto: FormRequestDTO):
+def create_plan(form_request_dto: FormRequestDTO, trigger_skyscanner: bool = True):
     from backend.services import plan_service
 
     trip_info = TripInfo.from_form_request_dto(form_request_dto)
-    plan_service.initiate_plan(trip_info)
+    plan_service.initiate_plan(trip_info, trigger_skyscanner)
     return {}
 
 

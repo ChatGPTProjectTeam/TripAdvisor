@@ -36,7 +36,13 @@ class SearchService:
         s = Search(index=INDEX_NAME)
         s = s.query(
             "script_score",
-            query=Q("match", province=province),
+            query=Q(
+                "bool",
+                must=[
+                    Q("match", province=province),
+                    Q("match_all"),
+                ],
+            ),
             script={
                 "source": "cosineSimilarity(params.query_vector, 'feature_vector') + 1.0",
                 "params": {"query_vector": query_vector},
