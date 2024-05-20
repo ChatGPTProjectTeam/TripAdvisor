@@ -1,5 +1,6 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime
+import re
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
@@ -153,30 +154,12 @@ class PlanService:
             session.add(to_plane_component)
             session.commit()
 
-    def update_plan(self, plan_id: int, msg: str):
-        with SessionLocal() as session:
-            # plan = session.query(Plan).filter(Plan.id == plan_id).one()
-            components = (
-                session.query(PlanComponent)
-                .filter(PlanComponent.trip_plan_id == plan_id)
-                .filter(PlanComponent.component_type == "activity")
-                .all()
-            )
-            component = components[0]
-            plan = component.plan
-        if component:
-            province = plan.province
-            previous_activity = component.activity
-            if is_search_enabled_province(province):
-                search_result = self.search_service.search_query(
-                    query=msg, province=province
-                )
-            else:
-                search_result = ""
-            new_activity = self.gpt_service.edit_activity(
-                previous_activity, msg, search_result
-            )
+    def update_plan(self, plan_id: int, msg: str) -> bool:
+        harmful: bool = self.gpt_service.moderation(msg)
+        
+        if not harmful:
             with SessionLocal() as session:
+                # plan = session.query(Plan).filter(Plan.id == plan_id).one()
                 components = (
                     session.query(PlanComponent)
                     .filter(PlanComponent.trip_plan_id == plan_id)
@@ -184,5 +167,34 @@ class PlanService:
                     .all()
                 )
                 component = components[0]
-                component.activity = new_activity
-                session.commit()
+                plan = component.plan
+            if component:
+                province = plan.province
+                previous_activity = component.activity
+                if is_search_enabled_province(province):
+                    search_result = self.search_service.search_query(
+                        query=msg, province=province
+                    )
+                else:
+                    search_result = ""
+                new_activity = self.gpt_service.edit_activity(
+                    previous_activity, msg, search_result
+                )
+                
+                p = re.compile(".Invalid.")
+                check = p.match(new_activity)    
+                if (check is None):
+                    with SessionLocal() as session:
+                        components = (
+                            session.query(PlanComponent)
+                            .filter(PlanComponent.trip_plan_id == plan_id)
+                            .filter(PlanComponent.component_type == "activity")
+                            .all()
+                        )
+                        component = components[0]
+                        component.activity = new_activity
+                        session.commit()
+                else:
+                    harmful = True
+                    
+        return harmful

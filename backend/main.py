@@ -70,8 +70,10 @@ def create_plan(form_request_dto: FormRequestDTO, trigger_skyscanner: bool = Tru
 
 
 @app.patch("/api/v1/plan/{plan_id}")
-def edit_plan(user_content: UserInput):
+def edit_plan(user_content: UserInput) -> bool:
     from backend.services import plan_service
 
-    plan_service.update_plan(user_content.plan_id, user_content.msg)
-    return {}
+    if plan_service.update_plan(user_content.plan_id, user_content.msg):
+        return False
+    else:
+        return True

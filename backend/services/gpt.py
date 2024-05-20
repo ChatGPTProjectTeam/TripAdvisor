@@ -76,3 +76,12 @@ class GPTService:
         )
 
         return response.choices[0].message.content
+    
+    def moderation(self, message: str) -> bool:
+        moderation = self.openai.moderations.create(input=message)
+        if moderation.results[0].flagged:
+            return True
+        else:
+            return False
+
+    # todo : DB에 저장할지 아니면 기존의 user응답과 prompt응답을 계속 주고 받을지 결정
