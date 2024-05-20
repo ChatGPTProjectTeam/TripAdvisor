@@ -9,7 +9,7 @@ from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
 from backend.utils import is_search_enabled_province
 
 if TYPE_CHECKING:
-    from backend.services import SkyscannerService, GPTService, SearchService
+    from backend.services import SkyscannerService, GPTService
 
 
 class PlanService:
@@ -54,13 +54,13 @@ class PlanService:
         self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
     ):
 
-        if is_search_enabled_province(trip_info.province):
-            search_result = self.search_service.search_category(
-                categories=trip_info.categories,
-                province=trip_info.province,
-            )
-        else:
-            search_result = ""
+        # if is_search_enabled_province(trip_info.province):
+        #     search_result = self.search_service.search_category(
+        #         categories=trip_info.categories,
+        #         province=trip_info.province,
+        #     )
+        # else:
+        search_result = ""
 
         with ThreadPoolExecutor(max_workers=2) as executor:
             if trigger_skyscanner:
@@ -171,12 +171,12 @@ class PlanService:
             if component:
                 province = plan.province
                 previous_activity = component.activity
-                if is_search_enabled_province(province):
-                    search_result = self.search_service.search_query(
-                        query=msg, province=province
-                    )
-                else:
-                    search_result = ""
+                # if is_search_enabled_province(province):
+                #     search_result = self.search_service.search_query(
+                #         query=msg, province=province
+                #     )
+                # else:
+                search_result = ""
                 new_activity = self.gpt_service.edit_activity(
                     previous_activity, msg, search_result
                 )
