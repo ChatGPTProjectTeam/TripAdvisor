@@ -1,6 +1,6 @@
 // import dummy from '../frontDB/chatLog.json'
 import styles from "../Sidebar.module.css";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {Link} from "react-router-dom";
 import useFetch from "../hooks/loadData.jsx";
 import asyncFetch from "../hooks/loadWaitData.jsx";
@@ -17,7 +17,7 @@ function dateFilter(dateString) {
     return `${year}/${month}/${day}`;
 }
 
-async function fetchPlans() {
+async function fetchPlans(pages) {
     try {
         const response = await fetch('https://japan.visit-with-tripper.site/api/v1/plans');
         if (!response.ok) {
@@ -47,7 +47,7 @@ export default function ChatList() {
     // console.log("what's in it:", plans)
 
     return (
-        <ul style={{ listStyleType: 'none', maxHeight: '900px', overflowY: 'auto' }}>
+        <ul style={{ listStyleType: 'none', maxHeight: '980px', overflowY: 'auto' }}>
             {target.plan_list.slice().reverse().map((plan) => (
                 <li key={plan.trip_plan_id}>
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
