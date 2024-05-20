@@ -7,6 +7,8 @@ class JapanTravelDestination(Document):
     name = Text()
     description = Text()
     province = Text()
+    category = Text()
+    image_url = Text()
     feature_vector = DenseVector(dims=768)
 
     class Index:
