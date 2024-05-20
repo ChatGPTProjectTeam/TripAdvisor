@@ -127,15 +127,15 @@ class SkyscannerService:
 
         data = response_list[0]
         # reviewsSummary가 없어서 에러나는 경우가 생겨 reviewsSummary 있는 숙소만 찾도록 변경했습니다.
-        accommodation = None
-        for hotel in data["data"]["results"]["hotelCards"]:
-            if hotel["reviewsSummary"] != None:
-                accommodation = hotel
-                break
-
+        accommodation = data["data"]["results"]["hotelCards"][0]
         if accommodation is None:
             return None
-
+        
+        if accommodation["reviewsSummary"] == None:
+            accommodation_rating = ""
+        else:
+            accommodation_rating = str(accommodation["reviewsSummary"]["score"])
+        
         accommodation_id = accommodation["id"]
 
         # check-in time, check-out time, location
@@ -152,7 +152,7 @@ class SkyscannerService:
                 if accommodation["lowestPrice"]
                 else ""
             ),
-            rating=str(accommodation["reviewsSummary"]["score"]),
+            rating=accommodation_rating,
             location=detailed_data["data"]["location"]["address"],
             # accommodation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
         )
@@ -183,9 +183,9 @@ class SkyscannerService:
         location_id = ""
         
         if trip_info.province == "일본 홋카이도":
-            location_id = "81974298"
+            location_id = "27537553"
         elif trip_info.province == "일본 도호쿠 지방":
-            location_id = "27546288"
+            location_id = "27541662"
         elif trip_info.province == "일본 간사이 지방":
             location_id = "27542908"
         elif trip_info.province == "일본 주코쿠 지방":
@@ -206,16 +206,8 @@ class SkyscannerService:
     def create_plane_info_dto(
         self, trip_info: TripInfo, direction: int
     ) -> PlaneInfoDTO:
-        """
-        flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.
-        왕복대신 편도를 쓴 이유는 왕복으로 찾을 경우 갈 때 가격, 올 때 가격을 따로 계산하지 않고 합쳐서 계산하기 때문에
-        나중에 feedback 받을 때 수정하기 어려울 것 같아서 이렇게 했습니다.
-        사실 왕복으로 검색하고 flights/detail api로 각 비행 id를 넣어 따로 계산할 순 있는데 귀찮아서 일단 이렇게 했습니다.
-        """
+        # flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.\
         location_id = self._search_airport(trip_info)
-
-        if location_id == "":
-            return None
 
         if direction == 0:  # 가는 비행기
             data = self._call_api(
@@ -248,49 +240,36 @@ class SkyscannerService:
             
         if data == None:
             # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
-            return None
+            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
+            return self.create_plane_info_dto(trip_info, direction)
+        
         status = data["data"]["context"]["status"]
+        if status == "failure":
+            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
+            return self.create_plane_info_dto(trip_info, direction)
 
-        if status == "incomplete":
-            session_id = data["data"]["context"]["sessionId"]
-            return self._search_incomplete(session_id)
-        elif status == "failure":
-            return None
-
-        # 저희 일정이 가는날 오전/오기 바로 전날 저녁까지 만들어지기 때문에 아침 도착 비행기만 검색하도록 만들었습니다. 데모 이후 변경 필요합니다.
         flight = None
-        if direction == 0:
-            # 가는 비행기면 오전 10시 이전에 도착하는 비행기만 조회
-            for itinerary in data["data"]["itineraries"]:
+        # 가는 비행기면 오전 10시 이전에 도착하는 비행기만 조회
+        for itinerary in data["data"]["itineraries"]:
+            stop_count = itinerary["legs"][0]["stopCount"]
+            if stop_count == 0:
                 arrival_time = datetime.strptime(
                     itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
                 )
-                if arrival_time < datetime(
-                    arrival_time.year, arrival_time.month, arrival_time.day, 10
-                ):
-                    flight = itinerary
-                    break
-        else:
-            # 돌아오는 비행기면 첫번째 추천 비행기 이용 (시간 제약 X)
-            flight = data["data"]["itineraries"][0]
-
-        # 만약 가는 비행기가 10시 이전에 도착하는게 없다면, incomplete 검색 한번 해봄
+                
+                if direction == 0:
+                    if arrival_time < datetime(
+                        arrival_time.year, arrival_time.month, arrival_time.day, 10
+                    ):
+                        flight = itinerary
+                        break
+                
+                flight = data["data"]["itineraries"][0]      
+                
         if flight == None:
-            status = data["data"]["context"]["status"]
-            if status == "incomplete":
-                session_id = data["data"]["context"]["sessionId"]
-                search_complete = self._search_incomplete(session_id)
-                if search_complete.price == "fail":
-                    # search_incomplete 했는데 status == failure or 10시 이전 비행기 없으면 첫번째 추천 비행기 이용
-                    flight = data["data"]["itineraries"][0]
-                else:
-                    # 성공했으면 그대로 return
-                    return search_complete
-            elif status == "complete":
-                print("오전에 도착하는 비행기 없음")
-                # status == complete && 10시 이전 비행기 없으면 첫번째 추천 비행기 이용
-                flight = data["data"]["itineraries"][0]
-
+            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
+            return self.create_plane_info_dto(trip_info, direction)
+        
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
             origin=flight["legs"][0]["origin"]["name"],
@@ -324,62 +303,6 @@ class SkyscannerService:
             airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
 
         return airport_id
-
-    def _search_incomplete(self, session_id: str) -> PlaneInfoDTO:
-
-        data = self._call_api(
-            "https://sky-scanner3.p.rapidapi.com/flights/search-incomplete",
-            {
-                "sessionId": session_id,
-                "currency": "KRW",
-                "market": "KR",
-                "locale": "ko-KR",
-            },
-        )
-        
-        status = data["data"]["context"]["status"]
-        # search_incomplete 했는데 failure 떴을 경우
-        if status == "failure":
-            return PlaneInfoDTO(
-                price="fail",
-                origin="",
-                destination="",
-                departure="",
-                arrival="",
-                airline=""
-            )
-
-        # 가는 비행기만 search_incomplete 하므로 10시 이전 검색해도 상관없음
-        flight = None
-        for itinerary in data["data"]["itineraries"]:
-            arrival_time = datetime.strptime(
-                itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
-            )
-            if arrival_time < datetime(
-                arrival_time.year, arrival_time.month, arrival_time.day, 10
-            ):
-                flight = itinerary
-                break
-
-        if flight == None:
-            # complete한 비행기 정보 리스트에도 10시 이전 비행기가 없을 때
-            return PlaneInfoDTO(
-                price="fail",
-                origin="",
-                destination="",
-                departure="",
-                arrival="",
-                airline=""
-            )
-
-        return PlaneInfoDTO(
-            price=str(flight["price"]["formatted"]),
-            origin=flight["legs"][0]["origin"]["name"],
-            destination=flight["legs"][0]["destination"]["name"],
-            departure=flight["legs"][0]["departure"],
-            arrival=flight["legs"][0]["arrival"],
-            airline=flight["legs"][0]["carriers"]["marketing"][0]["name"],
-        )
 
     def _call_api(self, end_point: str, querystring: dict) -> dict:
         """
