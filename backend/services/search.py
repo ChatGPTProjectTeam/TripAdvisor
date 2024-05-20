@@ -38,14 +38,6 @@ class SearchService:
         텍스트를 검색합니다.
         """
         query_vector = self.get_vector(query)
-        return self._search_similar_vectors(
-            province=province, query_vector=query_vector
-        )
-
-    def _search_similar_vectors(self, province: str, query_vector: list) -> str:
-        """
-        벡터와 유사한 벡터를 검색합니다.
-        """
         s = Search(index=INDEX_NAME).query(
             "script_score",
             query=Q("match", province=province),
@@ -53,11 +45,11 @@ class SearchService:
                 "source": "cosineSimilarity(params.query_vector, 'feature_vector') + 1.0",
                 "params": {"query_vector": query_vector},
             },
-        )
+        )[:2]
         response = s.execute()
         result = ""
         for hit in response:
-            result += f"Name: {hit.name}, Description: {hit.description}\n"
+            result += f"추천 여행지 TITLE: {hit.name}, Description: {hit.description}\n"
         return result
 
     def get_vector(self, text: str) -> list[float]:

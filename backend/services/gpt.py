@@ -4,6 +4,7 @@ from backend.prompts import (
     SYSTEM_PROMPT_CREATE,
     SYSTEM_PROMPT_EDIT,
     SYSTEM_PROMPT_CREATE_WITH_SEARCH,
+    SYSTEM_PROMPT_EDIT_WITH_SEARCH,
 )
 from backend.dtos import TripInfo
 from backend.settings import settings
@@ -52,15 +53,22 @@ class GPTService:
         return response.choices[0].message.content
 
     def edit_activity(
-        self, previous_activity: str, message: str
+        self, previous_activity: str, message: str, search_query: str
     ) -> str:  # 기존 활동 string 유저 메세지에 따라 수정하는 함수 구현
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
+
+        system_prompt = (
+            SYSTEM_PROMPT_EDIT_WITH_SEARCH.format(travel_sites=search_query)
+            if search_query
+            else SYSTEM_PROMPT_EDIT
+        )
+
         response = self.openai.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": SYSTEM_PROMPT_EDIT},
+                {"role": "system", "content": system_prompt},
                 {"role": "assistant", "content": previous_activity},
                 {"role": "user", "content": message},
             ],

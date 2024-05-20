@@ -162,9 +162,27 @@ class PlanService:
                 .filter(PlanComponent.component_type == "activity")
                 .all()
             )
-            if components:
-                previous_activity = components[0].activity
-                new_activity = self.gpt_service.edit_activity(previous_activity, msg)
-
-                components[0].activity = new_activity
+            component = components[0]
+            plan = component.plan
+        if component:
+            province = plan.province
+            previous_activity = component.activity
+            if is_search_enabled_province(province):
+                search_result = self.search_service.search_query(
+                    query=msg, province=province
+                )
+            else:
+                search_result = ""
+            new_activity = self.gpt_service.edit_activity(
+                previous_activity, msg, search_result
+            )
+            with SessionLocal() as session:
+                components = (
+                    session.query(PlanComponent)
+                    .filter(PlanComponent.trip_plan_id == plan_id)
+                    .filter(PlanComponent.component_type == "activity")
+                    .all()
+                )
+                component = components[0]
+                component.activity = new_activity
                 session.commit()
