@@ -54,8 +54,8 @@ class PlanService:
     ):
 
         if is_search_enabled_province(trip_info.province):
-            search_result = self.search_service.search_query(
-                query=trip_info.trip_style_text,
+            search_result = self.search_service.search_category(
+                categories=trip_info.categories,
                 province=trip_info.province,
             )
         else:

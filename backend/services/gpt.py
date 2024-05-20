@@ -1,6 +1,10 @@
 from openai import OpenAI
 
-from backend.prompts import SYSTEM_PROMPT_CREATE, SYSTEM_PROMPT_EDIT
+from backend.prompts import (
+    SYSTEM_PROMPT_CREATE,
+    SYSTEM_PROMPT_EDIT,
+    SYSTEM_PROMPT_CREATE_WITH_SEARCH,
+)
 from backend.dtos import TripInfo
 from backend.settings import settings
 
@@ -13,21 +17,35 @@ class GPTService:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
-        response = self.openai.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT_CREATE.format(
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    SYSTEM_PROMPT_CREATE_WITH_SEARCH.format(
                         mbti=trip_info.mbti,
                         province=trip_info.province,
                         days=trip_info.days,
                         start_date=trip_info.start_date,
                         trip_member_num=trip_info.trip_member_num,
                         trip_style_text=trip_info.trip_style_text,
-                    ),
-                }
-            ],
+                        travel_sites=search_result,
+                    )
+                    if search_result
+                    else SYSTEM_PROMPT_CREATE.format(
+                        mbti=trip_info.mbti,
+                        province=trip_info.province,
+                        days=trip_info.days,
+                        start_date=trip_info.start_date,
+                        trip_member_num=trip_info.trip_member_num,
+                        trip_style_text=trip_info.trip_style_text,
+                    )
+                ),
+            }
+        ]
+
+        response = self.openai.chat.completions.create(
+            model="gpt-4",
+            messages=messages,
             temperature=0.6,
         )
 

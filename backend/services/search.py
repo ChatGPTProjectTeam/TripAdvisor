@@ -20,6 +20,19 @@ class SearchService:
         self.tokenizer = BertTokenizer.from_pretrained("snunlp/KR-BERT-char16424")
         self.model = BertModel.from_pretrained("snunlp/KR-BERT-char16424")
 
+    def search_category(self, categories: list[str], province: str) -> str:
+        s = Search(index=INDEX_NAME).query(
+            Q("match", province=province) & Q("terms", category=categories)
+        )[:5]
+        response = s.execute()
+        result = ""
+        for hit in response:
+            result += (
+                f"추천 여행지 TITLE: {hit.name}, " f"DESCRIPTION: {hit.description}, "
+            )
+            result += f"여행지 사진: {hit.image_url}\n" if hit.image_url else "\n"
+        return result
+
     def search_query(self, query: str, province: str) -> str:
         """
         텍스트를 검색합니다.
@@ -33,8 +46,7 @@ class SearchService:
         """
         벡터와 유사한 벡터를 검색합니다.
         """
-        s = Search(index=INDEX_NAME)
-        s = s.query(
+        s = Search(index=INDEX_NAME).query(
             "script_score",
             query=Q("match", province=province),
             script={
