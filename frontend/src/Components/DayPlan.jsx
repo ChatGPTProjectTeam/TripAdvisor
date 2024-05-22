@@ -68,6 +68,10 @@ const DayPlan = ({ component, targetId, componentId }) => {
   };
 
   const handleReloadClick = async () => {
+    if (!inputMessages[componentId] || inputMessages[componentId].trim() === "") {
+      alert("빈 공란은 허용되지 않습니다.");
+      return; // Early return if input is blank
+    }
     const id = parseInt(targetId);
     setIsLoading(true);
     const fixedDataRequest = {

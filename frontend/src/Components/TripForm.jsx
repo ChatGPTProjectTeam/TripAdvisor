@@ -241,7 +241,7 @@ function TripForm() {
                         </div>
                         {errors.province && <div className="error">{errors.province}</div>}
                         <div className= 'japanMap' style={{marginTop: '10px'}}></div>
-                        <PopUp><MapForForm/></PopUp>
+                        <PopUp buttonText="뭐가 뭔지 모르겠어요"><MapForForm/></PopUp>
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                             <div className="text-box">

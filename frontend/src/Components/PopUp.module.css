@@ -98,7 +98,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: 100px;
+  /*width: 100px;*/
   will-change: transform;
 }
 
