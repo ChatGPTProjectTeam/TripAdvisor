@@ -9,6 +9,8 @@ import CalendarComp from "./CalendarComp.jsx";
 import './CalendarComp.css';
 import LoadingScreen from "./LoadingScreen.jsx";
 import { useNavigate } from 'react-router-dom';
+import PopUp from "./PopUp.jsx";
+import MapForForm from "./MapForForm.jsx";
 
 function TripForm() {
     const provinceLabels = [
@@ -116,7 +118,7 @@ function TripForm() {
         };
 
         if (selectedCategory.length === 0) {
-            newErrors.category = '스타일을 선택해주세요.';
+            newErrors.category = '카테고리를 선택해주세요.';
             valid = false;
         }
 
@@ -209,7 +211,7 @@ function TripForm() {
                         <div className="input_area">
                             <div style={{display: 'flex', justifyContent: 'center'}}>
                                 {categoryOptions.map((option, index) => (
-                                <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                                    <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
                                     <input
                                         type="checkbox"
                                         id={`category-${index}`}
@@ -238,6 +240,8 @@ function TripForm() {
                             ))}
                         </div>
                         {errors.province && <div className="error">{errors.province}</div>}
+                        <div className= 'japanMap' style={{marginTop: '10px'}}></div>
+                        <PopUp buttonText="뭐가 뭔지 모르겠어요"><MapForForm/></PopUp>
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                             <div className="text-box">
@@ -298,7 +302,7 @@ function TripForm() {
                         </div>
                         {errors.launch && <div className="error">{errors.launch}</div>}
                         <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                            <button className="button-80 submit-button" type="submit ">코스 생성</button>
+                            <button className="submitButton" type="submit ">코스 생성</button>
                         </div>
                     </div>
                 </form>
