@@ -107,7 +107,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
                     <p className="day-plan-info">
                       <ReactMarkdown>{activity}</ReactMarkdown>
                     </p>
-                    {index < activities.length - 1 && <div>[행사 일정 들어갈 곳]</div>}
+                    {index < activities.length && <div>[행사 일정 들어갈 곳]</div>}
                   </React.Fragment>
                 ))}
                 <div className="plan-text-box">
