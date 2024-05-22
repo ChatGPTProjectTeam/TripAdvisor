@@ -9,6 +9,8 @@ import CalendarComp from "./CalendarComp.jsx";
 import './CalendarComp.css';
 import LoadingScreen from "./LoadingScreen.jsx";
 import { useNavigate } from 'react-router-dom';
+import PopUp from "./PopUp.jsx";
+import MapForForm from "./MapForForm.jsx";
 
 function TripForm() {
     const provinceLabels = [
@@ -209,7 +211,7 @@ function TripForm() {
                         <div className="input_area">
                             <div style={{display: 'flex', justifyContent: 'center'}}>
                                 {categoryOptions.map((option, index) => (
-                                <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                                    <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
                                     <input
                                         type="checkbox"
                                         id={`category-${index}`}
@@ -238,6 +240,8 @@ function TripForm() {
                             ))}
                         </div>
                         {errors.province && <div className="error">{errors.province}</div>}
+                        <div className= 'japanMap' style={{marginTop: '10px'}}></div>
+                        <PopUp><MapForForm/></PopUp>
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                             <div className="text-box">
