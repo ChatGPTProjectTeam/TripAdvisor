@@ -1,4 +1,3 @@
-import torch
 from elasticsearch_dsl import Search, Q
 from elasticsearch_dsl import connections
 from transformers import BertModel, BertTokenizer
@@ -53,6 +52,7 @@ class SearchService:
         return result
 
     def get_vector(self, text: str) -> list[float]:
+        import torch
         # 텍스트를 토크나이저로 인코딩
         inputs = self.tokenizer(
             text, return_tensors="pt", truncation=True, max_length=512
