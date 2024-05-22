@@ -59,6 +59,14 @@ const DayPlan = ({ component, targetId, componentId }) => {
     }));
   };
 
+  const regexActivity = (activityText) => {
+    if (activityText) {
+      const regex = /(\*\*\d+일차.*?\*\*|\#\# \d+일차.*?)[\s\S]*?(?=\*\*\d+일차.*?\*\*|\#\# \d+일차.*?|$)/g;
+      return activityText.match(regex) || [];
+    }
+    return [];
+  };
+
   const handleReloadClick = async () => {
     const id = parseInt(targetId);
     setIsLoading(true);
@@ -67,17 +75,14 @@ const DayPlan = ({ component, targetId, componentId }) => {
       msg: inputMessages[componentId]
     };
 
-    // console.log("beforeㄴㅇ: ", inputMessages[componentId]);
     const fixedData = await SendChat(fixedDataRequest, targetId);
     setIsLoading(false);
     if (fixedData && fixedData.NewMessage) {
-          console.log('hella',fixedData)
-
       window.location.reload();
     }
-        console.log('hella',fixedData)
-
   };
+
+  const activities = regexActivity(activityText);
 
   return (
     <div>
@@ -88,15 +93,19 @@ const DayPlan = ({ component, targetId, componentId }) => {
         <div className="day-plan-container">
           <div>
             {isLoading ? (
-                <div style={{height:'300px'}}>
-                  <LoadingForChange />
-                </div>
-
+              <div style={{height:'300px'}}>
+                <LoadingForChange />
+              </div>
             ) : (
               <>
-                <p className="day-plan-info">
-                  <ReactMarkdown>{activityText}</ReactMarkdown>
-                </p>
+                {activities.map((activity, index) => (
+                  <React.Fragment key={index}>
+                    <p className="day-plan-info">
+                      <ReactMarkdown>{activity}</ReactMarkdown>
+                    </p>
+                    {index < activities.length - 1 && <div>[행사 일정 들어갈 곳]</div>}
+                  </React.Fragment>
+                ))}
                 <div className="plan-text-box">
                   <InputComponent
                     id={`input_${componentId}`}

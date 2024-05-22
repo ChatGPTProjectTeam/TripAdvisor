@@ -118,7 +118,7 @@ function TripForm() {
         };
 
         if (selectedCategory.length === 0) {
-            newErrors.category = '스타일을 선택해주세요.';
+            newErrors.category = '카테고리를 선택해주세요.';
             valid = false;
         }
 
@@ -302,7 +302,7 @@ function TripForm() {
                         </div>
                         {errors.launch && <div className="error">{errors.launch}</div>}
                         <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                            <button className="button-80 submit-button" type="submit ">코스 생성</button>
+                            <button className="submitButton" type="submit ">코스 생성</button>
                         </div>
                     </div>
                 </form>

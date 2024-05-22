@@ -31,7 +31,7 @@ function PopUp({ children, buttonText = "지도 보기" }) {
                     <div className={`${styles.overlay} ${fade ? styles.fadeOut : ""}`} onClick={toggleModal}></div>
                     <div className={`${styles.modalContent} ${fade ? styles.fadeOut : ""}`}>
                         {children}
-                        <button className={styles.modalButton} onClick={toggleModal}>
+                        <button style={{marginTop: '10px'}} className={styles.modalButton} onClick={toggleModal}>
                             Close
                         </button>
 
