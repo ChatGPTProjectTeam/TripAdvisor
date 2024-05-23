@@ -45,37 +45,10 @@ class GPTService:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
+        
+        categories_str = ", ".join(trip_info.categories)
         if search_result:
-            messages = [
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT_CREATE_1
-                },
-                {
-                    "role": "assistant",
-                    "content": ASSISTANT_PROMPT_CREATE_1,
-                },
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT_CREATE_2,
-                },
-                {
-                    "role": "assistant",
-                    "content": ASSISTANT_PROMPT_CREATE_2,
-                },
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT_CREATE_3.format(
-                        mbti=trip_info.mbti,
-                        province=trip_info.province,
-                        days=trip_info.days,
-                        start_date=trip_info.start_date,
-                        trip_member_num=trip_info.trip_member_num,
-                        trip_style_text=trip_info.trip_style_text
-                    ),                
-                }  
-            ]
-        else:
+            travel_sites_str = ",\n".join(search_result)
             messages = [
                 {
                     "role": "system",
@@ -96,16 +69,47 @@ class GPTService:
                 {
                     "role": "system",
                     "content": SYSTEM_PROMPT_CREATE_WITH_SEARCH_3.format(
-                        mbti=trip_info.mbti,
+                        categories=categories_str,
                         province=trip_info.province,
                         days=trip_info.days,
                         start_date=trip_info.start_date,
                         trip_member_num=trip_info.trip_member_num,
                         trip_style_text=trip_info.trip_style_text,
-                        travel_sites=travel_sites
+                        travel_sites=travel_sites_str
+                    ),                
+                }  
+            ] 
+        else:
+            messages = [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_1
+                },
+                {
+                    "role": "assistant",
+                    "content": ASSISTANT_PROMPT_CREATE_1,
+                },
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_2,
+                },
+                {
+                    "role": "assistant",
+                    "content": ASSISTANT_PROMPT_CREATE_2,
+                },
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_3.format(
+                        categories=categories_str,
+                        province=trip_info.province,
+                        days=trip_info.days,
+                        start_date=trip_info.start_date,
+                        trip_member_num=trip_info.trip_member_num,
+                        trip_style_text=trip_info.trip_style_text
                     ),                
                 }  
             ]
+            
 
         response = self.openai.chat.completions.create(
             model="gpt-4",
@@ -121,14 +125,9 @@ class GPTService:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
-        
-        system_prompt_4 = (
-            SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=search_query)
-            if search_query
-            else SYSTEM_PROMPT_EDIT_4
-        )
-        
+
         if search_query:
+            travel_sites_str = ",\n".join(search_result)
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_1},
                 {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_1},
@@ -138,7 +137,7 @@ class GPTService:
                 {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_3},
                 {"role": "user", "content": USER_PROMPT_EDIT_WITH_SEARCH_2},
                 {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_3},
-                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=search_query)},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=travel_sites_str)},
                 {"role": "assistant", "content": previous_activity},
                 {"role": "user", "content": message},
             ]
