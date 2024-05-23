@@ -31,6 +31,7 @@ function App() {
                       <Route path="/flight" element={<FlightPlan/>}/>
                       <Route path="/test" element={<div style={{flex:'4'}}><PopUp/></div>}/>
                       <Route path="/intro" element={<IntroPage/>}/>
+                      <Route path="/info/:targetId" element={<PopUp/>}></Route>
                       <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
               </div>

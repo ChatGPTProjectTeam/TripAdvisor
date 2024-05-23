@@ -19,7 +19,7 @@ export async function SendChat(fixedRequestedData, targetId) {
         }
 
         const responseData = await formResponse.json();
-        alert('reloading');
+        // alert('reloading');
         return {
             NewMessage: responseData
         };

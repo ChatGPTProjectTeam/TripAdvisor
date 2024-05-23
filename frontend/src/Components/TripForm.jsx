@@ -167,6 +167,7 @@ function TripForm() {
         } else {
             const validation =  validateForm();
             if (!validation) {
+                // alert("정보를 정확하게 입력 해주세요!")
                 return;
             }
 
@@ -180,7 +181,6 @@ function TripForm() {
             const personFilter = personChecked ? '1' : inputPerson;
             const styleFilter = styleChecked ? '평범한' : inputStyle;
 
-            //// Place your form submission logic here if the input is valid
             const formData = {
                 category: selectedCategory,
                 province: `일본 ${selectedProvince}`,
