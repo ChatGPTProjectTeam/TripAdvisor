@@ -112,9 +112,9 @@ const DayPlan = ({ component, targetId, componentId }) => {
                       <ReactMarkdown>{activity}</ReactMarkdown>
                     </p>
                     {/*{index < activities.length &&*/}
-                    {/*    <div style={{marginBottom: '10px'}}>*/}
+                    {/*    <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>*/}
                     {/*      <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton}`}>*/}
-                    {/*        <div>hello</div>*/}
+                    {/*        <div style={{textAlign:'center'}}>행사일정 보기</div>*/}
                     {/*      </Link>*/}
                     {/*    </div>}*/}
                   </React.Fragment>
