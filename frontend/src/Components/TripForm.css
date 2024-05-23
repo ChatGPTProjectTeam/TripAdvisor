@@ -72,9 +72,10 @@
     }
 
 }
-@media (max-width: 1100px) {
+@media (max-width: 1360px) {
   .second-option {
-    display: block !important;
+    /*display: block !important;*/
+    flex-direction: column;
     margin-left: 20px;
   }
 }
