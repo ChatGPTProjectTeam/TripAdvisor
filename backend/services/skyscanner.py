@@ -196,7 +196,9 @@ class SkyscannerService:
             location_id = "27550855"
         elif trip_info.province == "일본 주부 지방":
             location_id = "31976076"
-        elif trip_info.province == "일본 규슈/오키나와":
+        elif trip_info.province == "일본 규슈":
+            location_id = "27541740"
+        elif trip_info.province == "일본 오키나와":
             location_id = "27540768"
         else:
             location_id = "27542089"
@@ -297,8 +299,10 @@ class SkyscannerService:
             airport_id = "eyJlIjoiMTI4NjY3NDUyIiwicyI6IlRBSyIsImgiOiIyNzU1MDg1NSIsInQiOiJBSVJQT1JUIn0="
         elif trip_info.province == "일본 주부 지방":
             airport_id = "eyJlIjoiMjc1NDUxMDYiLCJzIjoiSk5HTyIsImgiOiIyNzU0NTEwNiIsInQiOiJDSVRZIn0="
-        elif trip_info.province == "일본 규슈/오키나와":
+        elif trip_info.province == "일본 규슈":
             airport_id = "eyJlIjoiMTI4NjY3OTU3IiwicyI6IkZVSyIsImgiOiIyNzU0MTc0MCIsInQiOiJBSVJQT1JUIn0="
+        elif trip_info.province == "일본 오키나와":
+            airport_id = "eyJlIjoiMTI4NjY4OTA0IiwicyI6Ik9LQSIsImgiOiIyNzU0MDc2OCIsInQiOiJBSVJQT1JUIn0="
         else:
             airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
 
