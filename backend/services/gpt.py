@@ -48,7 +48,6 @@ class GPTService:
         
         categories_str = ", ".join(trip_info.categories)
         if search_result:
-            travel_sites_str = ",\n".join(search_result)
             messages = [
                 {
                     "role": "system",
@@ -75,7 +74,7 @@ class GPTService:
                         start_date=trip_info.start_date,
                         trip_member_num=trip_info.trip_member_num,
                         trip_style_text=trip_info.trip_style_text,
-                        travel_sites=travel_sites_str
+                        travel_sites=search_result
                     ),                
                 }  
             ] 
@@ -127,7 +126,6 @@ class GPTService:
         """
 
         if search_query:
-            travel_sites_str = ",\n".join(search_result)
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_1},
                 {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_1},
@@ -137,7 +135,7 @@ class GPTService:
                 {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_3},
                 {"role": "user", "content": USER_PROMPT_EDIT_WITH_SEARCH_2},
                 {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_3},
-                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=travel_sites_str)},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=search_query)},
                 {"role": "assistant", "content": previous_activity},
                 {"role": "user", "content": message},
             ]
