@@ -15,7 +15,7 @@ import MapForForm from "./MapForForm.jsx";
 function TripForm() {
     const provinceLabels = [
         "홋카이도", "도호쿠 지방", "간사이 지방", "주코쿠 지방",
-        "간토 지방", "시코쿠", "주부 지방", "규슈/오키나와"
+        "간토 지방", "시코쿠", "주부 지방", "규슈", "오키나와"
     ];
     const categoryOptions = ["관광", "역사", "음식", "쇼핑", "문화"];
 
