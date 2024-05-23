@@ -1,10 +1,37 @@
 from openai import OpenAI
 
 from backend.prompts import (
-    SYSTEM_PROMPT_CREATE,
-    SYSTEM_PROMPT_EDIT,
-    SYSTEM_PROMPT_CREATE_WITH_SEARCH,
-    SYSTEM_PROMPT_EDIT_WITH_SEARCH,
+    SYSTEM_PROMPT_CREATE_1,
+    SYSTEM_PROMPT_CREATE_2,
+    SYSTEM_PROMPT_CREATE_3,
+    ASSISTANT_PROMPT_CREATE_1,
+    ASSISTANT_PROMPT_CREATE_2,
+    
+    SYSTEM_PROMPT_CREATE_WITH_SEARCH_1,
+    SYSTEM_PROMPT_CREATE_WITH_SEARCH_2,
+    SYSTEM_PROMPT_CREATE_WITH_SEARCH_3,
+    ASSISTANT_PROMPT_CREATE_WITH_SEARCH_1,
+    ASSISTANT_PROMPT_CREATE_WITH_SEARCH_2,
+    
+    SYSTEM_PROMPT_EDIT_1,
+    SYSTEM_PROMPT_EDIT_2,
+    SYSTEM_PROMPT_EDIT_3,
+    SYSTEM_PROMPT_EDIT_4,
+    ASSISTANT_PROMPT_EDIT_1,
+    ASSISTANT_PROMPT_EDIT_2,
+    ASSISTANT_PROMPT_EDIT_3,
+    USER_PROMPT_EDIT_1,
+    USER_PROMPT_EDIT_2,
+    
+    SYSTEM_PROMPT_EDIT_WITH_SEARCH_1,
+    SYSTEM_PROMPT_EDIT_WITH_SEARCH_2,
+    SYSTEM_PROMPT_EDIT_WITH_SEARCH_3,
+    SYSTEM_PROMPT_EDIT_WITH_SEARCH_4,
+    ASSISTANT_PROMPT_EDIT_WITH_SEARCH_1,
+    ASSISTANT_PROMPT_EDIT_WITH_SEARCH_2,
+    ASSISTANT_PROMPT_EDIT_WITH_SEARCH_3,
+    USER_PROMPT_EDIT_WITH_SEARCH_1,
+    USER_PROMPT_EDIT_WITH_SEARCH_2
 )
 from backend.dtos import TripInfo
 from backend.settings import settings
@@ -18,31 +45,67 @@ class GPTService:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
-        messages = [
-            {
-                "role": "system",
-                "content": (
-                    SYSTEM_PROMPT_CREATE_WITH_SEARCH.format(
+        if search_result:
+            messages = [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_1
+                },
+                {
+                    "role": "assistant",
+                    "content": ASSISTANT_PROMPT_CREATE_1,
+                },
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_2,
+                },
+                {
+                    "role": "assistant",
+                    "content": ASSISTANT_PROMPT_CREATE_2,
+                },
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_3.format(
+                        mbti=trip_info.mbti,
+                        province=trip_info.province,
+                        days=trip_info.days,
+                        start_date=trip_info.start_date,
+                        trip_member_num=trip_info.trip_member_num,
+                        trip_style_text=trip_info.trip_style_text
+                    ),                
+                }  
+            ]
+        else:
+            messages = [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_WITH_SEARCH_1
+                },
+                {
+                    "role": "assistant",
+                    "content": ASSISTANT_PROMPT_CREATE_WITH_SEARCH_1,
+                },
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_WITH_SEARCH_2,
+                },
+                {
+                    "role": "assistant",
+                    "content": ASSISTANT_PROMPT_CREATE_WITH_SEARCH_2,
+                },
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_CREATE_WITH_SEARCH_3.format(
                         mbti=trip_info.mbti,
                         province=trip_info.province,
                         days=trip_info.days,
                         start_date=trip_info.start_date,
                         trip_member_num=trip_info.trip_member_num,
                         trip_style_text=trip_info.trip_style_text,
-                        travel_sites=search_result,
-                    )
-                    if search_result
-                    else SYSTEM_PROMPT_CREATE.format(
-                        mbti=trip_info.mbti,
-                        province=trip_info.province,
-                        days=trip_info.days,
-                        start_date=trip_info.start_date,
-                        trip_member_num=trip_info.trip_member_num,
-                        trip_style_text=trip_info.trip_style_text,
-                    )
-                ),
-            }
-        ]
+                        travel_sites=travel_sites
+                    ),                
+                }  
+            ]
 
         response = self.openai.chat.completions.create(
             model="gpt-4",
@@ -58,20 +121,45 @@ class GPTService:
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
-
-        system_prompt = (
-            SYSTEM_PROMPT_EDIT_WITH_SEARCH.format(travel_sites=search_query)
+        
+        system_prompt_4 = (
+            SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=search_query)
             if search_query
-            else SYSTEM_PROMPT_EDIT
+            else SYSTEM_PROMPT_EDIT_4
         )
-
-        response = self.openai.chat.completions.create(
-            model="gpt-4",
+        
+        if search_query:
             messages=[
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_1},
+                {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_1},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_2},
+                {"role": "user", "content": USER_PROMPT_EDIT_WITH_SEARCH_1},
+                {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_2},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_3},
+                {"role": "user", "content": USER_PROMPT_EDIT_WITH_SEARCH_2},
+                {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_WITH_SEARCH_3},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_WITH_SEARCH_4.format(travel_sites=search_query)},
                 {"role": "assistant", "content": previous_activity},
                 {"role": "user", "content": message},
-            ],
+            ]
+        else:
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_1},
+                {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_1},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_2},
+                {"role": "user", "content": USER_PROMPT_EDIT_1},
+                {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_2},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_3},
+                {"role": "user", "content": USER_PROMPT_EDIT_2},
+                {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_3},
+                {"role": "system", "content": SYSTEM_PROMPT_EDIT_4},
+                {"role": "assistant", "content": previous_activity},
+                {"role": "user", "content": message},
+            ]
+        
+        response = self.openai.chat.completions.create(
+            model="gpt-4",
+            messages=messages,
             temperature=0.6,
         )
 
