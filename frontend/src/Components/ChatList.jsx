@@ -47,7 +47,7 @@ export default function ChatList() {
     // console.log("what's in it:", plans)
 
     return (
-        <ul style={{ listStyleType: 'none', maxHeight: '980px', overflowY: 'auto' }}>
+        <ul className={`${styles.sidebarChatList}`}>
             {target.plan_list.slice().reverse().map((plan) => (
                 <li key={plan.trip_plan_id}>
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>

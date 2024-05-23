@@ -3,8 +3,10 @@ import useFetch from "../hooks/loadData.jsx";
 import ReloadIcon from '../icons/reload-button-icon.svg';
 import { SendChat } from "./SendChat.jsx";
 import ReactMarkdown from 'react-markdown';
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import LoadingForChange from "./LoadingForChange.jsx";
+import PopUp from "./PopUp.jsx";
+import styles from "../Sidebar.module.css";
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -81,7 +83,9 @@ const DayPlan = ({ component, targetId, componentId }) => {
 
     const fixedData = await SendChat(fixedDataRequest, targetId);
     setIsLoading(false);
-    if (fixedData && fixedData.NewMessage) {
+    if (!fixedData.NewMessage) {
+      alert("유효하지 않는 요청입니다.")
+    } else {
       window.location.reload();
     }
   };
@@ -107,7 +111,12 @@ const DayPlan = ({ component, targetId, componentId }) => {
                     <p className="day-plan-info">
                       <ReactMarkdown>{activity}</ReactMarkdown>
                     </p>
-                    {index < activities.length && <div>[행사 일정 들어갈 곳]</div>}
+                    {/*{index < activities.length &&*/}
+                    {/*    <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>*/}
+                    {/*      <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton}`}>*/}
+                    {/*        <div style={{textAlign:'center'}}>행사일정 보기</div>*/}
+                    {/*      </Link>*/}
+                    {/*    </div>}*/}
                   </React.Fragment>
                 ))}
                 <div className="plan-text-box">

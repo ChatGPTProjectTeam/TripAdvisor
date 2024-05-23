@@ -2,14 +2,94 @@
   width: 250px; /* Set the width of the sidebar */
   height: 1080px; /* Full-view height */
   background-color: #f4f4f4; /* Light grey background */
-  border-left: solid black;
+  /*border-left: solid black;*/
   border-right: solid black;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for depth */
   z-index: 800;
 }
+
+.sidebarChatList {
+  list-style-type: none;
+  max-height: 980px;
+  overflow-y: auto;
+}
 @media (min-width: 610px) {
   .sidebar {
     z-index: 0;
+  }
+}
+@media (min-width: 1300px) and (min-height: 800px) {
+  .sidebar {
+    height: 1000px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 780px; /* Adjust the height as needed */
+  }
+}
+
+@media (min-height: 900px) {
+  .sidebar {
+    height: 1000px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 880px; /* Adjust the height as needed */
+  }
+
+}
+
+@media (min-height: 1000px) {
+  .sidebar {
+    height: 1100px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 980px; /* Adjust the height as needed */
+  }
+
+}
+@media (min-height: 1100px) {
+  .sidebar {
+    height: 1200px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 1080px; /* Adjust the height as needed */
+  }
+}
+
+@media (min-height: 1200px) {
+  .sidebar {
+    height: 1300px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 1180px; /* Adjust the height as needed */
+  }
+}
+
+@media (min-height: 1300px) {
+  .sidebar {
+    height: 1400px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 1280px; /* Adjust the height as needed */
+  }
+}
+
+@media (min-height: 1400px) {
+  .sidebar {
+    height: 1500px; /* Adjust the height as needed */
+  }
+  .sidebarChatList {
+    height: 1380px; /* Adjust the height as needed */
+  }
+}
+
+@media (min-height: 1500px) {
+  .sidebar {
+    height: 1600px; /* Adjust the height as needed */
+  }
+
+  .sidebarChatList {
+    height: 1480px; /* Adjust the height as needed */
+
   }
 }
 

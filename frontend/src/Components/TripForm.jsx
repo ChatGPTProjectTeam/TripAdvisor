@@ -167,6 +167,7 @@ function TripForm() {
         } else {
             const validation =  validateForm();
             if (!validation) {
+                // alert("정보를 정확하게 입력 해주세요!")
                 return;
             }
 
@@ -180,7 +181,6 @@ function TripForm() {
             const personFilter = personChecked ? '1' : inputPerson;
             const styleFilter = styleChecked ? '평범한' : inputStyle;
 
-            //// Place your form submission logic here if the input is valid
             const formData = {
                 category: selectedCategory,
                 province: `일본 ${selectedProvince}`,
@@ -233,14 +233,19 @@ function TripForm() {
                         <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                         <div className='second-option'>
                             {provinceLabels.map((label, index) => (
-                                <button key={index} type="button"
-                                        className={`province-option ${selectedProvince === label ? 'active' : ''}`}
-                                        onClick={() => setSelectedProvince(label)}>{label}
-                                </button>
+                                <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                                    <input
+                                        type="checkbox"
+                                        id={`province-${index}`}
+                                        checked={selectedProvince === label}
+                                        onChange={() => setSelectedProvince(label)}
+                                    />
+                                    <label htmlFor={`province-${index}`}>{label}</label>
+                                </div>
                             ))}
                         </div>
                         {errors.province && <div className="error">{errors.province}</div>}
-                        <div className= 'japanMap' style={{marginTop: '10px'}}></div>
+                        <div className='japanMap' style={{marginTop: '10px'}}></div>
                         <PopUp buttonText="뭐가 뭔지 모르겠어요"><MapForForm/></PopUp>
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
@@ -292,14 +297,27 @@ function TripForm() {
                         <div className='sub-font'>
                             밤에 출발하는 걸 선호하시나요 아니면 낮에 출발하는걸 선호 하시나요?
                         </div>
-                        <div className="input_area">
-                            <button type="button" className={`option ${selectedLaunch === '낮' ? 'active' : ''}`}
-                                    onClick={() => handleLaunchOption('낮')}>낮
-                            </button>
-                            <button type="button" className={`option ${selectedLaunch === '밤' ? 'active' : ''}`}
-                                    onClick={() => handleLaunchOption('밤')}>밤
-                            </button>
+                        <div className="input_area" style={{display:'flex', justifyContent:'center'}}>
+                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                                <input
+                                    type="checkbox"
+                                    id="launch-day"
+                                    checked={selectedLaunch === '낮'}
+                                    onChange={() => handleLaunchOption('낮')}
+                                />
+                                <label htmlFor="launch-day">낮</label>
+                            </div>
+                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                                <input
+                                    type="checkbox"
+                                    id="launch-night"
+                                    checked={selectedLaunch === '밤'}
+                                    onChange={() => handleLaunchOption('밤')}
+                                />
+                                <label htmlFor="launch-night">밤</label>
+                            </div>
                         </div>
+
                         {errors.launch && <div className="error">{errors.launch}</div>}
                         <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
                             <button className="submitButton" type="submit ">코스 생성</button>
