@@ -22,7 +22,7 @@ class SearchService:
     def search_category(self, categories: list[str], province: str) -> str:
         s = Search(index=INDEX_NAME).query(
             Q("match", province=province) & Q("terms", category=categories)
-        )[:5]
+        )[:10]
         response = s.execute()
         result = ""
         for hit in response:
