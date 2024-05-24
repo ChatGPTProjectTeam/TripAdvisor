@@ -1,4 +1,3 @@
-import torch
 from elasticsearch_dsl import Search, Q
 from elasticsearch_dsl import connections
 from transformers import BertModel, BertTokenizer
@@ -58,7 +57,6 @@ class SearchService:
             text, return_tensors="pt", truncation=True, max_length=512
         )
         # 모델에 인코딩된 입력 제공
-        with torch.no_grad():
-            outputs = self.model(**inputs)
+        outputs = self.model(**inputs)
         # [CLS] 토큰의 벡터를 반환
         return list(outputs.last_hidden_state[0, 0].numpy())

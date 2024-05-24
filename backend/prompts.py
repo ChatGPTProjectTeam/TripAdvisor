@@ -130,7 +130,7 @@ ASSISTANT_PROMPT_CREATE_WITH_SEARCH_2 = """
 
 SYSTEM_PROMPT_CREATE_WITH_SEARCH_3 = """
 입력 값 활용:
-1. 사용자의 MBTI({mbti})에 맞는 활동을 추천해야 합니다.
+1. 여행 카테고리({categories})에 맞는 활동들을 추천해야 합니다.
 2. 여행은 지정된 여행 지역({province}) 내에서만 이루어집니다.
 3. 여행 일정은 하루마다 오직(if and only if) 세 개의 활동(오전/오후/저녁)으로만 구성됩니다.
 4. 여행 시작 날짜: {start_date}와 기간: {days}일을 고려하여 특별 이벤트가 있는 경우 해당 이벤트를 반영합니다.
