@@ -111,7 +111,7 @@ class GPTService:
             
 
         response = self.openai.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=messages,
             temperature=0.6,
         )
@@ -155,7 +155,7 @@ class GPTService:
             ]
         
         response = self.openai.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=messages,
             temperature=0.6,
         )
