@@ -72,7 +72,6 @@ starlette==0.37.2
 sympy==1.12
 tokenizers==0.19.1
 tomlkit==0.12.4
-torch==2.3.0
 tqdm==4.66.2
 transformers==4.41.0
 trove-classifiers==2024.4.10
