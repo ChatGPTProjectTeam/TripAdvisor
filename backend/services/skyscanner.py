@@ -209,15 +209,15 @@ class SkyscannerService:
         self, trip_info: TripInfo, direction: int
     ) -> PlaneInfoDTO:
         # flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.\
-        location_id = self._search_airport(trip_info)
+        airport_id = self._search_airport(trip_info)
 
         if direction == 0:  # 가는 비행기
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
                 {
-                    "fromEntityId": "eyJzIjoiSUNOIiwiZSI6Ijk1NjczNjU5IiwiaCI6IjI3NTM4NjM4In0=",
-                    "toEntityId": location_id,
-                    "departDate": trip_info.start_date,
+                    "fromEntityId": "ICN",
+                    "toEntityId": airport_id,
+                    "departDate": trip_info.start_date, 
                     "market": "KR",
                     "locale": "ko-KR",
                     "currency": "KRW",
@@ -230,8 +230,8 @@ class SkyscannerService:
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
                 {
-                    "fromEntityId": location_id,
-                    "toEntityId": "eyJzIjoiSUNOIiwiZSI6Ijk1NjczNjU5IiwiaCI6IjI3NTM4NjM4In0=",
+                    "fromEntityId": airport_id,
+                    "toEntityId": "ICN",
                     "departDate": return_date,
                     "market": "KR",
                     "locale": "ko-KR",
@@ -286,25 +286,25 @@ class SkyscannerService:
         airport_id = ""
         
         if trip_info.province == "일본 홋카이도":
-            airport_id = "eyJlIjoiMjc1Mzc1NTMiLCJzIjoiU1BLQSIsImgiOiIyNzUzNzU1MyIsInQiOiJDSVRZIn0="
+            airport_id = "CTS"
         elif trip_info.province == "일본 도호쿠 지방":
-            airport_id = "eyJlIjoiMTI4NjY4OTk1IiwicyI6IlNESiIsImgiOiIyNzU0NjI4OCIsInQiOiJBSVJQT1JUIn0="
+            airport_id = "FKS"
         elif trip_info.province == "일본 간사이 지방":
-            airport_id = "eyJlIjoiMTI4NjY3ODAyIiwicyI6IktJWCIsImgiOiIyNzU0MjkwOCIsInQiOiJBSVJQT1JUIn0="
+            airport_id = "OSAA"
         elif trip_info.province == "일본 주코쿠 지방":
-            airport_id = "eyJlIjoiMTI4NjY3ODIxIiwicyI6IkhJSiIsImgiOiIyNzU0MjA1NyIsInQiOiJBSVJQT1JUIn0="
+            airport_id = "HIJ"
         elif trip_info.province == "일본 간토 지방":
-            airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
+            airport_id = "NRT"
         elif trip_info.province == "일본 시코쿠":
-            airport_id = "eyJlIjoiMTI4NjY3NDUyIiwicyI6IlRBSyIsImgiOiIyNzU1MDg1NSIsInQiOiJBSVJQT1JUIn0="
+            airport_id = "TAK"
         elif trip_info.province == "일본 주부 지방":
-            airport_id = "eyJlIjoiMjc1NDUxMDYiLCJzIjoiSk5HTyIsImgiOiIyNzU0NTEwNiIsInQiOiJDSVRZIn0="
+            airport_id = "NGO"
         elif trip_info.province == "일본 규슈":
-            airport_id = "eyJlIjoiMTI4NjY3OTU3IiwicyI6IkZVSyIsImgiOiIyNzU0MTc0MCIsInQiOiJBSVJQT1JUIn0="
+            airport_id = "FUK"
         elif trip_info.province == "일본 오키나와":
-            airport_id = "eyJlIjoiMTI4NjY4OTA0IiwicyI6Ik9LQSIsImgiOiIyNzU0MDc2OCIsInQiOiJBSVJQT1JUIn0="
+            airport_id = "OKA"
         else:
-            airport_id = "eyJlIjoiMjc1NDIwODkiLCJzIjoiVFlPQSIsImgiOiIyNzU0MjA4OSIsInQiOiJDSVRZIn0="
+            airport_id = "NRT"
 
         return airport_id
 
