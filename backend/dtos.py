@@ -31,6 +31,8 @@ class AccommodationInfoDTO(BaseModel):
     )
     rating: str = Field(description="리뷰 평균 평점")
     location: str = Field(description="주소")
+    latitude: str = Field(description="위도")
+    longitude: str = Field(description="경도")
 
     class Config:
         from_attributes = True

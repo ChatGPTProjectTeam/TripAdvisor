@@ -73,6 +73,8 @@ class SkyscannerService:
                 lowest_price="",
                 rating="",
                 location="",
+                latitude="",
+                longitude=""
             )
         else:
             accommodation_info = AccommodationInfo(
@@ -81,6 +83,8 @@ class SkyscannerService:
                 lowest_price=accommodation_info_data.lowest_price,
                 rating=accommodation_info_data.rating,
                 location=accommodation_info_data.location,
+                latitude=accommodation_info_data.latitude,
+                longitude=accommodation_info_data.longitude
             )
 
         with SessionLocal() as session:
@@ -154,6 +158,8 @@ class SkyscannerService:
             ),
             rating=accommodation_rating,
             location=detailed_data["data"]["location"]["address"],
+            latitude=str(accommodation["coordinates"]["latitude"]),
+            longitude=str(accommodation["coordinates"]["longitude"])
             # accommodation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
         )
 
@@ -210,7 +216,7 @@ class SkyscannerService:
     ) -> PlaneInfoDTO:
         # flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.\
         airport_id = self._search_airport(trip_info)
-
+        
         if direction == 0:  # 가는 비행기
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
@@ -249,6 +255,11 @@ class SkyscannerService:
         if status == "failure":
             trip_info.start_date = trip_info.start_date + timedelta(days = 1)
             return self.create_plane_info_dto(trip_info, direction)
+        
+        total_results = data["data"]["context"]["totalResults"]
+        if total_results < 10:
+            # 한번 검색했을 때 결과 수가 0일 수도 있어서 예외처리
+            return self.create_plane_info_dto(trip_info, direction)
 
         flight = None
         # 가는 비행기면 오전 10시 이전에 도착하는 비행기만 조회
@@ -286,7 +297,7 @@ class SkyscannerService:
         airport_id = ""
         
         if trip_info.province == "일본 홋카이도":
-            airport_id = "CTS"
+            airport_id = "eyJlIjoiMTI4NjY4NDQ3IiwicyI6IkNUUyIsImgiOiIyNzUzNzU1MyIsInQiOiJBSVJQT1JUIn0="     # 홋카이도 신치토세 공항 = CTS 인데 오류 뜸
         elif trip_info.province == "일본 도호쿠 지방":
             airport_id = "FKS"
         elif trip_info.province == "일본 간사이 지방":
