@@ -45,6 +45,8 @@ class AccommodationInfo(Base):
     lowest_price = Column(String(100))
     rating = Column(String(100))
     location = Column(String(100))
+    latitude = Column(String(100))
+    longitude = Column(String(100))
 
 
 class PlaneInfo(Base):

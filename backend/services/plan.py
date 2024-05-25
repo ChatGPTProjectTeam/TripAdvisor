@@ -102,6 +102,8 @@ class PlanService:
                 lowest_price="",
                 rating="",
                 location="Location: 9-15 togano-cho, Kita-ku, 530-0056 Osaka, Japan",
+                longitude="",
+                latitude=""
             )
             with SessionLocal() as session:
                 session.add(from_plane_info)
