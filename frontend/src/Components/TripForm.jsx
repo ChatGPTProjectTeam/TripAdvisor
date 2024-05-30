@@ -19,7 +19,6 @@ function TripForm() {
     ];
     const categoryOptions = ["관광", "역사", "음식", "쇼핑", "문화"];
 
-    // States to store the selected values for each option and checkbox states
     const [selectedMbti, setSelectedMbti] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState(null);
