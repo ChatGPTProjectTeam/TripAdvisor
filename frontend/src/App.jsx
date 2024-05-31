@@ -16,6 +16,7 @@ import LoadingScreen from "./Components/LoadingScreen.jsx";
 import Footer from "./Components/Footer.jsx";
 import LoadingForChange from "./Components/LoadingForChange.jsx";
 import PopUp from "./Components/PopUp.jsx";
+import MapInfo from "./Components/MapInfo.jsx";
 function App() {
   return (
       <BrowserRouter>
@@ -29,7 +30,7 @@ function App() {
                       <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                       <Route path="/create_chat" element={<CreateForm/>}/>
                       <Route path="/flight" element={<FlightPlan/>}/>
-                      <Route path="/test" element={<div style={{flex:'4'}}><PopUp/></div>}/>
+                      <Route path="/test" element={<div style={{flex:'4', alignContent:'center'}}><PopUp><MapInfo/></PopUp></div>}/>
                       <Route path="/intro" element={<IntroPage/>}/>
                       <Route path="/info/:targetId" element={<PopUp/>}></Route>
                       <Route path="*" element={<EmptyPage/>}/>

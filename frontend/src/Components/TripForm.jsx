@@ -221,7 +221,6 @@ function TripForm() {
                                 </div>
                             ))}
                             </div>
-
                         </div>
                         {errors.category && <div className="error">{errors.category}</div>}
                         <div className='sub-font'>언제 출발하는 걸 선호 하시나요?</div>
