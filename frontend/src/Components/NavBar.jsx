@@ -59,7 +59,7 @@ function Navbar() {
   return (
     <header style={{ position: 'fixed', width: '100%', top: 0, zIndex: 1000 }}>
       <nav className={`${styles.navbar}`}>
-        <div className={`${styles.logo}`}>
+        <div style={{width:'100%'}} className={`${styles.logo}`}>
           {   <Link to="/">
             <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
           </Link>   }

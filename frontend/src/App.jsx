@@ -21,7 +21,7 @@ function App() {
   return (
       <BrowserRouter>
           <div style={{position: "relative", display:'flex', flexDirection: 'column'}}>
-              <div style={{marginBottom:'49px'}}><NavBar/></div>
+
               <div style={{display: "flex"}}>
                   <SideBar/>
                   <Routes>
@@ -30,7 +30,9 @@ function App() {
                       <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                       <Route path="/create_chat" element={<CreateForm/>}/>
                       <Route path="/flight" element={<FlightPlan/>}/>
-                      <Route path="/test" element={<div style={{flex:'4', alignContent:'center'}}><PopUp><MapInfo/></PopUp></div>}/>
+                      <Route path="/test"
+                             element={<div style={{flex: '4', alignContent: 'center'}}><PopUp><MapInfo/></PopUp>
+                             </div>}/>
                       <Route path="/intro" element={<IntroPage/>}/>
                       <Route path="/info/:targetId" element={<PopUp/>}></Route>
                       <Route path="*" element={<EmptyPage/>}/>

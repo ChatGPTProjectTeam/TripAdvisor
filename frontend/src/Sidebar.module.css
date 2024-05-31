@@ -1,7 +1,7 @@
 .sidebar {
   width: 250px; /* Set the width of the sidebar */
   height: 1080px; /* Full-view height */
-  background-color: #f4f4f4; /* Light grey background */
+  background-color: #FFFFFF; /* Light grey background */
   /*border-left: solid black;*/
   border-right: solid black;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for depth */

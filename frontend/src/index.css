@@ -50,7 +50,7 @@ button {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #FFA4A4;
+    background-color: #ECECEC;
   }
   a:hover {
     color: #747bff;
