@@ -10,8 +10,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        ref: main
 
     - name: Node.js 설정
       uses: actions/setup-node@v2
