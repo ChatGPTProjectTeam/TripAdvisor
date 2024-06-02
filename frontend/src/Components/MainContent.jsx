@@ -13,9 +13,9 @@ export default function MainPlanContents() {
     const { targetId } = useParams();
     //THIS IS TEMPORAL JSON SERVER DATA
     //YOU MUST ADJUST THIS API FOR DEMO!!!
-    // const tripData = useFetch(`https://japan.visit-with-tripper.site/api/v1/plans`);
+    // const tripData = useFetch(`https://api.visit-with-tripper.site/api/v1/plans`);
     const [filteredPlan, setFilteredPlan] = useState([]);
-    const { data: tripData, loading, error } = asyncFetch(`https://japan.visit-with-tripper.site/api/v1/plan/${targetId}`);
+    const { data: tripData, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [startAnimation, setStartAnimation] = useState(false);
 
