@@ -130,12 +130,12 @@ class SkyscannerService:
         accommodation = data["data"]["results"]["hotelCards"][0]
         if accommodation is None:
             return None
-        
+
         if accommodation["reviewsSummary"] == None:
             accommodation_rating = ""
         else:
             accommodation_rating = str(accommodation["reviewsSummary"]["score"])
-        
+
         accommodation_id = accommodation["id"]
 
         # check-in time, check-out time, location
@@ -179,9 +179,9 @@ class SkyscannerService:
         return response
 
     def _search_location(self, trip_info: TripInfo) -> str:
-        
+
         location_id = ""
-        
+
         if trip_info.province == "일본 홋카이도":
             location_id = "27537553"
         elif trip_info.province == "일본 도호쿠 지방":
@@ -200,7 +200,7 @@ class SkyscannerService:
             location_id = "27540768"
         else:
             location_id = "27542089"
-        
+
         return location_id
 
     def create_plane_info_dto(
@@ -237,15 +237,15 @@ class SkyscannerService:
                     "adults": trip_info.trip_member_num,
                 },
             )
-            
+
         if data == None:
             # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
+            trip_info.start_date = trip_info.start_date + timedelta(days=1)
             return self.create_plane_info_dto(trip_info, direction)
-        
+
         status = data["data"]["context"]["status"]
         if status == "failure":
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
+            trip_info.start_date = trip_info.start_date + timedelta(days=1)
             return self.create_plane_info_dto(trip_info, direction)
 
         flight = None
@@ -256,20 +256,20 @@ class SkyscannerService:
                 arrival_time = datetime.strptime(
                     itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
                 )
-                
+
                 if direction == 0:
                     if arrival_time < datetime(
                         arrival_time.year, arrival_time.month, arrival_time.day, 10
                     ):
                         flight = itinerary
                         break
-                
-                flight = data["data"]["itineraries"][0]      
-                
+
+                flight = data["data"]["itineraries"][0]
+
         if flight == None:
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
+            trip_info.start_date = trip_info.start_date + timedelta(days=1)
             return self.create_plane_info_dto(trip_info, direction)
-        
+
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
             origin=flight["legs"][0]["origin"]["name"],
@@ -282,7 +282,7 @@ class SkyscannerService:
     def _search_airport(self, trip_info: TripInfo) -> str:
 
         airport_id = ""
-        
+
         if trip_info.province == "일본 홋카이도":
             airport_id = "eyJlIjoiMjc1Mzc1NTMiLCJzIjoiU1BLQSIsImgiOiIyNzUzNzU1MyIsInQiOiJDSVRZIn0="
         elif trip_info.province == "일본 도호쿠 지방":

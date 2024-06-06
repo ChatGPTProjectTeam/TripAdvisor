@@ -156,7 +156,7 @@ class PlanService:
 
     def update_plan(self, plan_id: int, msg: str) -> bool:
         harmful: bool = self.gpt_service.moderation(msg)
-        
+
         if not harmful:
             with SessionLocal() as session:
                 # plan = session.query(Plan).filter(Plan.id == plan_id).one()
@@ -180,10 +180,10 @@ class PlanService:
                 new_activity = self.gpt_service.edit_activity(
                     previous_activity, msg, search_result
                 )
-                
+
                 p = re.compile(".Invalid.")
-                check = p.match(new_activity)    
-                if (check is None):
+                check = p.match(new_activity)
+                if check is None:
                     with SessionLocal() as session:
                         components = (
                             session.query(PlanComponent)
@@ -196,5 +196,5 @@ class PlanService:
                         session.commit()
                 else:
                     harmful = True
-                    
+
         return harmful

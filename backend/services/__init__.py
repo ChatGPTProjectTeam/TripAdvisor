@@ -1,5 +1,7 @@
 from .gpt import GPTService
 from .plan import PlanService
+from .festival import FestivalService
+
 # from .search import SearchService
 from .skyscanner import SkyscannerService
 
@@ -11,3 +13,5 @@ plan_service: PlanService = PlanService(
     skyscanner_service=skyscanner_service,
     gpt_service=gpt_service,
 )
+
+festival_service: FestivalService = FestivalService()

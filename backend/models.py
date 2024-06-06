@@ -57,3 +57,17 @@ class PlaneInfo(Base):
     departure = Column(String(100))
     arrival = Column(String(100))
     airline = Column(String(100))
+
+
+"""추가된 model"""
+
+
+class Festival(Base):
+    __tablename__ = "festivals"
+
+    festival_ID = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    festival_title = Column(String(50))
+    province = Column(String(50), ForeignKey("plan.province"))
+    month = Column(Integer, nullable=False)
+    festival_content = Column(String(300))
+    festival_photo = Column(String, nullable=True)

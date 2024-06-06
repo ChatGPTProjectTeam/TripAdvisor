@@ -51,12 +51,26 @@ class RestaurantInfo(BaseModel):
         from_attributes = True
 
 
+class FestivalDTO(BaseModel):
+
+    festival_ID: int
+    festival_title: str
+    province: str
+    month: int
+    festival_content: str
+    festival_photo: str | None
+
+    class Config:
+        from_attributes = True
+
+
 class PlanComponentDTO(BaseModel):
     component_id: int
     component_type: str
     plane_info: PlaneInfoDTO | None
     accommodation_info: AccommodationInfoDTO | None
     activity: str | None
+    festival: FestivalDTO | None
 
     class Config:
         from_attributes = True
