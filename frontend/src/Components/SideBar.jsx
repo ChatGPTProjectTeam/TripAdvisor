@@ -9,6 +9,7 @@ import NavBar from "./NavBar.jsx";
 import {Link} from "react-router-dom";
 
 function Sidebar() {
+    const [width, setWidth] = useState(450);
     return(
         <div style={{flex: 1}} className={`${styles.sidebar}`}>
             <div style={{display: 'flex', flexDirection: 'column', width: '100%', minHeight: '1080'}}>
