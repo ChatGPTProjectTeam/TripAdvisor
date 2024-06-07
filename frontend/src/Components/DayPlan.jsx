@@ -29,7 +29,7 @@ const InputComponent = ({ id, value, placeholder, onChange }) => {
 
 const ReloadButton = ({ onClick }) => {
   return (
-    <button onClick={onClick} className="reload-button" style={{ border: 'none', background: 'none' }}>
+    <button onClick={onClick} className="reload-button" style={{ border: 'none', background: 'none', color:'black'}}>
       <img src={ReloadIcon} alt="Reload" style={{ width: 20, height: 20 }} />
     </button>
   );
@@ -102,37 +102,37 @@ const DayPlan = ({ component, targetId, componentId }) => {
         <div className="day-plan-container">
           <div>
             {isLoading ? (
-              <div style={{height:'300px'}}>
-                <LoadingForChange />
+              <div>
+                <DayPlanLoadingScreen/>
               </div>
             ) : (
-              // <>
-              //   {activities.map((activity, index) => (
-              //     <React.Fragment key={index}>
-              //       <p className="day-plan-info">
-              //         <ReactMarkdown>{activity}</ReactMarkdown>
-              //       </p>
-              //       {/*{index < activities.length &&*/}
-              //       {/*    <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>*/}
-              //       {/*      <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton}`}>*/}
-              //       {/*        <div style={{textAlign:'center'}}>행사일정 보기</div>*/}
-              //       {/*      </Link>*/}
-              //       {/*    </div>}*/}
-              //     </React.Fragment>
-              //   ))}
-              //   <div className="plan-text-box">
-              //     <InputComponent
-              //       id={`input_${componentId}`}
-              //       placeholder="Enter your message"
-              //       value={inputMessages[componentId] || ''}
-              //       onChange={handleInputMessage}
-              //     />
-              //     <div>
-              //       <ReloadButton onClick={handleReloadClick} />
-              //     </div>
-              //   </div>
-              // </>
-                <DayPlanLoadingScreen/>
+              <>
+                {activities.map((activity, index) => (
+                  <React.Fragment key={index}>
+                    <p className="day-plan-info">
+                      <ReactMarkdown>{activity}</ReactMarkdown>
+                    </p>
+                    {/*{index < activities.length &&*/}
+                    {/*    <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>*/}
+                    {/*      <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton}`}>*/}
+                    {/*        <div style={{textAlign:'center'}}>행사일정 보기</div>*/}
+                    {/*      </Link>*/}
+                    {/*    </div>}*/}
+                  </React.Fragment>
+                ))}
+                <div className="plan-text-box">
+                  <InputComponent
+                    id={`input_${componentId}`}
+                    placeholder="Enter your message"
+                    value={inputMessages[componentId] || ''}
+                    onChange={handleInputMessage}
+                  />
+                  <div>
+                    <ReloadButton onClick={handleReloadClick} />
+                  </div>
+                </div>
+              </>
+
             )}
           </div>
         </div>
