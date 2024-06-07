@@ -9,7 +9,9 @@ import CalendarComp from "./CalendarComp.jsx";
 import './CalendarComp.css';
 import LoadingScreen from "./LoadingScreen.jsx";
 import { useNavigate } from 'react-router-dom';
+// import PopUp from "./PopUp.jsx";
 import PopUp from "./PopUp.jsx";
+
 import MapForForm from "./MapForForm.jsx";
 
 function TripForm() {
@@ -223,6 +225,7 @@ function TripForm() {
                             </div>
                         </div>
                         {errors.category && <div className="error">{errors.category}</div>}
+                        {/*날짜*/}
                         <div className='sub-font'>언제 출발하는 걸 선호 하시나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                             <CalendarComp onSelect={handleDateSelect}/>
@@ -245,6 +248,7 @@ function TripForm() {
                         {errors.province && <div className="error">{errors.province}</div>}
                         <div className='japanMap' style={{marginTop: '10px'}}></div>
                         <PopUp buttonText="뭐가 뭔지 모르겠어요"><MapForForm/></PopUp>
+                        {/*날짜*/}
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
                             <div className="text-box">
