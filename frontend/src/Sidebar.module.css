@@ -89,7 +89,6 @@
 
   .sidebarChatList {
     height: 1480px; /* Adjust the height as needed */
-
   }
 }
 
@@ -130,6 +129,10 @@
   width: 100%;
   padding-top: 20px;
   justify-content: center;
+}
+
+.festivalButton {
+  padding: 6px;
 }
 
 /*this is for 1980x1080*/

@@ -112,12 +112,12 @@ const DayPlan = ({ component, targetId, componentId }) => {
                     <p className="day-plan-info">
                       <ReactMarkdown>{activity}</ReactMarkdown>
                     </p>
-                    {/*{index < activities.length &&*/}
-                    {/*    <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>*/}
-                    {/*      <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton}`}>*/}
-                    {/*        <div style={{textAlign:'center'}}>행사일정 보기</div>*/}
-                    {/*      </Link>*/}
-                    {/*    </div>}*/}
+                    {index < activities.length &&
+                        <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>
+                          <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton} ${styles.festivalButton}`}>
+                            <div style={{textAlign:'center', fontSize:'16px'}}>행사일정 보기</div>
+                          </Link>
+                        </div>}
                   </React.Fragment>
                 ))}
                 <div className="plan-text-box">

@@ -29,7 +29,7 @@ const LoadingScreen = () => {
       const nextIndex = (currentIndex + 1) % targetImages.length;
       setCurrentIndex(nextIndex);
       setFadeIn(true);
-    }, 2000); // Adjust the delay as needed
+    }, 1000); // Adjust the delay as needed
 
     return () => clearTimeout(timer);
   }, [currentIndex]);
