@@ -1,3 +1,4 @@
+import torch
 from elasticsearch_dsl import Search, Q
 from elasticsearch_dsl import connections
 from transformers import BertModel, BertTokenizer
@@ -27,7 +28,9 @@ class SearchService:
         result = ""
         for hit in response:
             result += (
-                f"추천 여행지 TITLE: {hit.name}, " f"DESCRIPTION: {hit.description}, "
+                f"추천 여행지 TITLE: {hit.name}, "
+                f"DESCRIPTION: {hit.description}, "
+                f"LAT: {hit.lat}, LONG: {hit.lat}, "
             )
             result += f"여행지 사진: {hit.image_url}\n" if hit.image_url else "\n"
         return result
@@ -57,6 +60,7 @@ class SearchService:
             text, return_tensors="pt", truncation=True, max_length=512
         )
         # 모델에 인코딩된 입력 제공
-        outputs = self.model(**inputs)
+        with torch.no_grad():
+            outputs = self.model(**inputs)
         # [CLS] 토큰의 벡터를 반환
         return list(outputs.last_hidden_state[0, 0].numpy())

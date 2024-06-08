@@ -1,6 +1,8 @@
 import json
 import sys
+from contextlib import suppress
 
+from backend.constants import INDEX_NAME
 from backend.es.documents import JapanTravelDestination
 from backend.services import search_service
 from backend.utils import get_category
@@ -29,9 +31,10 @@ def get_description(_data: dict) -> str:
 category_set = set()
 
 if __name__ == "__main__":
-    JapanTravelDestination._index.delete()
-    JapanTravelDestination.init()
-    Search(index="japan_travel_destination").query().delete()
+    with suppress(Exception):
+        JapanTravelDestination._index.delete()
+        Search(index=INDEX_NAME).query().delete()
+        JapanTravelDestination.init()
     for i in range(1, len(sys.argv)):
         file_path = sys.argv[i]
         f = open(file_path)
@@ -41,6 +44,12 @@ if __name__ == "__main__":
             name = data["nameKo"]
             if not name:
                 continue
+            location = data["location"]
+            if not location:
+                continue
+            lat = location["lat"]
+            lon = location["lon"]
+
             description = get_description(data)
             vector = search_service.get_vector(name + " " + description)
             province = get_province(file_path)
@@ -57,4 +66,6 @@ if __name__ == "__main__":
                     )
                 ),
                 image_url=data["image"]["photoURL"] if data["image"] else "",
+                lat=lat,
+                lon=lon,
             ).save()

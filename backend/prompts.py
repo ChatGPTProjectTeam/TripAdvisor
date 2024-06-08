@@ -65,8 +65,6 @@ SYSTEM_PROMPT_CREATE_3 = """
 """
 
 
-
-
 # PROMPT_CREATE_WITH_SEARCH
 
 SYSTEM_PROMPT_CREATE_WITH_SEARCH_1 = """
@@ -141,9 +139,8 @@ SYSTEM_PROMPT_CREATE_WITH_SEARCH_3 = """
 {travel_sites}
 9. 검색된 여행지 목록 정보를 최대한 활용하여 구체적인 활동을 제안합니다.
 10. 검색된 여행지 목록 정보를 활용하는 경우, DESCRIPTION 의 내용을 참고할 수 있도록 제공합니다.
+11. 자연스러운 여행 경로 추천을 위해 위도 경도를 반영해서 작성해줘
 """
-
-
 
 
 ### PROMPT_EDIT
@@ -213,7 +210,6 @@ SYSTEM_PROMPT_EDIT_4 = """
 USER 메세지를 통해 사용자의 요구사항을 들어주되, 이전 ASSISTANT 메세지 형식을 유지하고, 바뀐 부분을 포함하여 출력하세요.
 사용자의 요구사항을 참고해서 2개 이하로 일정을 수정하세요.
 """
-
 
 
 ### PROMPT_EDIT_WITH_SEARCH
