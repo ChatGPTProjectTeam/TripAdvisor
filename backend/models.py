@@ -1,11 +1,4 @@
-from sqlalchemy import (
-    Column,
-    DateTime,
-    String,
-    Text,
-    ForeignKey,
-    Integer,
-)
+from sqlalchemy import Column, DateTime, String, Text, ForeignKey, Integer, JSON
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from backend.database import Base
@@ -18,6 +11,7 @@ class Plan(Base):
     province = Column(String(100))
     plan_component_list = relationship("PlanComponent")
     created_at = Column(DateTime)
+    locations = Column(JSON, nullable=True)
 
 
 class PlanComponent(Base):

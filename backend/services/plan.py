@@ -4,21 +4,26 @@ import re
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
-from backend.dtos import TripInfo, PlanDTO
+from backend.dtos import TripInfo, PlanDTO, Location
 from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
 from backend.utils import is_search_enabled_province
 
 if TYPE_CHECKING:
-    from backend.services import SkyscannerService, GPTService, FestivalService, SearchService
+    from backend.services import (
+        SkyscannerService,
+        GPTService,
+        FestivalService,
+        SearchService,
+    )
 
 
 class PlanService:
     def __init__(
-            self,
-            search_service: "SearchService",
-            skyscanner_service: "SkyscannerService",
-            gpt_service: "GPTService",
-            festival_service: "FestivalService"
+        self,
+        search_service: "SearchService",
+        skyscanner_service: "SkyscannerService",
+        gpt_service: "GPTService",
+        festival_service: "FestivalService",
     ):
         self.search_service = search_service
         self.skyscanner_service = skyscanner_service
@@ -50,20 +55,37 @@ class PlanService:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        self._create_plan(plan, trip_info, trigger_skyscanner)
+        locations = self._create_plan(plan, trip_info, trigger_skyscanner)
+        plan.locations = [location.dict() for location in locations]
+        with SessionLocal() as session:
+            session.add(plan)
+            session.commit()
+            session.refresh(plan)
 
     def _create_plan(
-            self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
-    ):
-
+        self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
+    ) -> list[Location]:
         if is_search_enabled_province(trip_info.province):
-            search_result = self.search_service.search_category(
+            locations = self.search_service.search_category(
                 categories=trip_info.categories,
                 province=trip_info.province,
             )
+            search_result = ""
+            for location in locations:
+                search_result += (
+                    f"추천 여행지 TITLE: {location.name}, "
+                    f"DESCRIPTION: {location.description}, "
+                    f"LAT: {location.lat}, LON: {location.lon}, "
+                )
+                search_result += (
+                    f"여행지 사진: {location.image_url}\n"
+                    if location.image_url
+                    else "\n"
+                )
         else:
             search_result = ""
-            
+            locations = []
+
         festival_info = self.festival_service.get_festival_info(trip_info)
 
         with ThreadPoolExecutor(max_workers=2) as executor:
@@ -107,7 +129,7 @@ class PlanService:
                 rating="",
                 location="Location: 9-15 togano-cho, Kita-ku, 530-0056 Osaka, Japan",
                 longitude="",
-                latitude=""
+                latitude="",
             )
             with SessionLocal() as session:
                 session.add(from_plane_info)
@@ -123,8 +145,8 @@ class PlanService:
         except Exception as e:
             print("activity error", e)
             activities = (
-                    "GPT 서버 이슈로 활동 정보를 불러오지 못했어요. 나중에 다시 시도해주세요. 대신에 제가 간단하게 일본에서 즐길 거리를 소개해드릴게요.\n"
-                    + """
+                "GPT 서버 이슈로 활동 정보를 불러오지 못했어요. 나중에 다시 시도해주세요. 대신에 제가 간단하게 일본에서 즐길 거리를 소개해드릴게요.\n"
+                + """
 도쿄 탐험: 도쿄는 현대적인 스카이라인과 전통적인 일본 문화가 공존하는 도시입니다. 시부야와 신주쿠와 같은 번화가는 쇼핑과 식사를 즐기기에 완벽하며, 아사쿠사와 같은 지역에서는 센소지 같은 역사적인 사원을 방문할 수 있습니다.\n
 교토의 역사적인 명소 방문: 교토는 일본의 고도로서 수많은 사찰, 신사 및 전통적인 일본 정원이 있습니다. 금각사, 은각사, 청수사 등을 방문해 보세요.\n
 오사카에서의 먹거리 체험: 오사카는 일본에서 "미식의 도시"로 알려져 있습니다. 도톤보리와 같은 지역에서 타코야키(문어볼), 오코노미야키(일본식 팬케이크)와 같은 길거리 음식을 맛볼 수 있습니다.\n
@@ -166,6 +188,9 @@ class PlanService:
             session.add(festival_component)
             session.commit()
 
+        # 별도의 위도, 경도 표시를 위해 location 반환
+        return locations
+
     def update_plan(self, plan_id: int, msg: str) -> bool:
         harmful: bool = self.gpt_service.moderation(msg)
 
@@ -195,7 +220,7 @@ class PlanService:
 
                 p = re.compile(".Invalid.")
                 check = p.match(new_activity)
-                if (check is None):
+                if check is None:
                     with SessionLocal() as session:
                         components = (
                             session.query(PlanComponent)

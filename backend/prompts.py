@@ -102,6 +102,7 @@ SYSTEM_PROMPT_CREATE_WITH_SEARCH_2 = """
 NAME: 히로시마 성, DESCRIPTION: 오늘날 히로시마 성은 원폭 이전 히로시마의 역사를 기록한 박물관으로 쓰입니다. 과거 실존했던 건물을 최대한 정확히 고증해 지어진 곳입니다."]
 9. 검색된 여행지 목록 정보를 최대한 활용하여 구체적인 활동을 제안합니다.
 10. 검색된 여행지 목록 정보를 활용하는 경우, DESCRIPTION 의 내용을 참고할 수 있도록 제공합니다.
+11. travel_sites 의 위도(LAT) 경도(LON)를 반영해서 자연스러운 여행 경로 추천해주세요. 
 """
 
 ASSISTANT_PROMPT_CREATE_WITH_SEARCH_2 = """
@@ -139,7 +140,7 @@ SYSTEM_PROMPT_CREATE_WITH_SEARCH_3 = """
 {travel_sites}
 9. 검색된 여행지 목록 정보를 최대한 활용하여 구체적인 활동을 제안합니다.
 10. 검색된 여행지 목록 정보를 활용하는 경우, DESCRIPTION 의 내용을 참고할 수 있도록 제공합니다.
-11. 자연스러운 여행 경로 추천을 위해 위도 경도를 반영해서 작성해줘
+11. travel_sites 의 위도(LAT) 경도(LON)를 반영해서 자연스러운 여행 경로 추천해주세요.
 """
 
 

@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class PlaneInfoDTO(BaseModel):
@@ -31,8 +31,8 @@ class AccommodationInfoDTO(BaseModel):
     )
     rating: str = Field(description="리뷰 평균 평점")
     location: str = Field(description="주소")
-    latitude: str = Field(description="위도")
-    longitude: str = Field(description="경도")
+    latitude: str | None = Field("", description="위도")
+    longitude: str | None = Field("", description="경도")
 
     class Config:
         from_attributes = True
@@ -54,7 +54,7 @@ class RestaurantInfo(BaseModel):
 
 
 class FestivalInfoDTO(BaseModel):
-    
+
     title: str = Field(description="축제 이름")
     province: str = Field(description="지역")
     month: int = Field(description="축제가 열리는 달")
@@ -79,11 +79,20 @@ class PlanComponentDTO(BaseModel):
         from_attributes = True
 
 
+class Location(BaseModel):
+    name: str = ""
+    description: str = ""
+    image_url: str = ""
+    lat: float
+    lon: float
+
+
 class PlanDTO(BaseModel):
     trip_plan_id: int | None
     province: str
     created_at: datetime
     plan_component_list: list[PlanComponentDTO]
+    locations: list[Location] | None = Field(default_factory=list)
 
     class Config:
         from_attributes = True

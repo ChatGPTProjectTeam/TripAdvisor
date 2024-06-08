@@ -4,6 +4,7 @@ from elasticsearch_dsl import connections
 from transformers import BertModel, BertTokenizer
 
 from backend.constants import INDEX_NAME
+from backend.dtos import Location
 from backend.settings import settings
 
 
@@ -20,20 +21,24 @@ class SearchService:
         self.tokenizer = BertTokenizer.from_pretrained("snunlp/KR-BERT-char16424")
         self.model = BertModel.from_pretrained("snunlp/KR-BERT-char16424")
 
-    def search_category(self, categories: list[str], province: str) -> str:
+    def search_category(self, categories: list[str], province: str) -> list[Location]:
         s = Search(index=INDEX_NAME).query(
             Q("match", province=province) & Q("terms", category=categories)
         )[:10]
         response = s.execute()
-        result = ""
+        locations = []
+
         for hit in response:
-            result += (
-                f"추천 여행지 TITLE: {hit.name}, "
-                f"DESCRIPTION: {hit.description}, "
-                f"LAT: {hit.lat}, LONG: {hit.lat}, "
+            locations.append(
+                Location(
+                    name=hit.name,
+                    description=hit.description,
+                    lat=hit.lat,
+                    lon=hit.lon,
+                    image_url=hit.image_url,
+                )
             )
-            result += f"여행지 사진: {hit.image_url}\n" if hit.image_url else "\n"
-        return result
+        return locations
 
     def search_query(self, query: str, province: str) -> str:
         """
