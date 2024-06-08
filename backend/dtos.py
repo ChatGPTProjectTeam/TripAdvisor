@@ -105,7 +105,7 @@ Request, Response DTOs
 
 class FormRequestDTO(BaseModel):
     mbti: str = "F"
-    categories: list[str] = Field(default_factory=list)
+    category: list[str] = Field(default_factory=list)
     province: str
     days: int | None | str
     start_date: date | None | str
@@ -161,7 +161,7 @@ class TripInfo(BaseModel):
 
         return cls(
             mbti=form_request_dto.mbti,
-            categories=form_request_dto.categories,
+            categories=form_request_dto.category,
             province=form_request_dto.province,
             days=days,
             start_date=start_date,
