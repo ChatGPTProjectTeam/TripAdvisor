@@ -12,11 +12,11 @@ from elasticsearch_dsl import Search
 def get_province(file_path: str) -> str:
     province = file_path.split("_")[0]
     if province == "도쿄":
-        return "간토 지방"
+        return "일본 간토 지방"
     elif province == "오사카":
-        return "간사이 지방"
+        return "일본 간사이 지방"
     elif province == "오키나와":
-        return "규슈/오키나와"
+        return "일본 오키나와"
     raise ValueError("Invalid province")
 
 
