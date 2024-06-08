@@ -9,7 +9,7 @@ from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
 from backend.utils import is_search_enabled_province
 
 if TYPE_CHECKING:
-    from backend.services import SkyscannerService, GPTService, SearchService
+    from backend.services import SkyscannerService, GPTService, FestivalService, SearchService
 
 
 class PlanService:
@@ -18,10 +18,12 @@ class PlanService:
             search_service: "SearchService",
             skyscanner_service: "SkyscannerService",
             gpt_service: "GPTService",
+            festival_service: "FestivalService"
     ):
         self.search_service = search_service
         self.skyscanner_service = skyscanner_service
         self.gpt_service = gpt_service
+        self.festival_service = festival_service
 
     def get_plans(self) -> list[PlanDTO]:
         with SessionLocal() as session:
@@ -61,6 +63,8 @@ class PlanService:
             )
         else:
             search_result = ""
+            
+        festival_info = self.festival_service.get_festival_info(trip_info)
 
         with ThreadPoolExecutor(max_workers=2) as executor:
             if trigger_skyscanner:
@@ -147,6 +151,11 @@ class PlanService:
             activity=activities,
             plan=plan,
         )
+        festival_component = PlanComponent(
+            component_type="festival_info",
+            festival_info=festival_info,
+            plan=plan,
+        )
 
         with SessionLocal() as session:
             # 원래 논의됐던대로 plane, accommodation, activity, plane 순으로 수정
@@ -154,6 +163,7 @@ class PlanService:
             session.add(accommodation_component)
             session.add(activity_component)
             session.add(to_plane_component)
+            session.add(festival_component)
             session.commit()
 
     def update_plan(self, plan_id: int, msg: str) -> bool:

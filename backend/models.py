@@ -33,6 +33,8 @@ class PlanComponent(Base):
         ForeignKey("accommodation_info.accommodation_info_id")
     )
     accommodation_info = relationship("AccommodationInfo")
+    festival_id = mapped_column(ForeignKey("festivals.festival_id"))
+    festival_info = relationship("FestivalInfo")
     activity = Column(Text, nullable=True)
 
 
@@ -59,3 +61,19 @@ class PlaneInfo(Base):
     departure = Column(String(100))
     arrival = Column(String(100))
     airline = Column(String(100))
+
+
+"""추가된 model"""
+
+
+class FestivalInfo(Base):
+    __tablename__ = "festivals"
+
+    festival_id = Column(Integer, primary_key=True)
+    title = Column(String(50))
+    province = Column(String(50))
+    month = Column(Integer, nullable=False)
+    festival_content = Column(String(300))
+    festival_photo = Column(String, nullable=True)
+    latitude = Column(String(50))
+    longitude = Column(String(50))

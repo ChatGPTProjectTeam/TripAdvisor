@@ -53,12 +53,27 @@ class RestaurantInfo(BaseModel):
         from_attributes = True
 
 
+class FestivalInfoDTO(BaseModel):
+    
+    title: str = Field(description="축제 이름")
+    province: str = Field(description="지역")
+    month: int = Field(description="축제가 열리는 달")
+    festival_content: str = Field(description="축제 내용")
+    festival_photo: str | None = Field(description="축제 사진")
+    latitude: str = Field(description="위도")
+    longitude: str = Field(description="경도")
+
+    class Config:
+        from_attributes = True
+
+
 class PlanComponentDTO(BaseModel):
     component_id: int
     component_type: str
     plane_info: PlaneInfoDTO | None
     accommodation_info: AccommodationInfoDTO | None
     activity: str | None
+    festival_info: FestivalInfoDTO | None
 
     class Config:
         from_attributes = True
