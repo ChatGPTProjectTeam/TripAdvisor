@@ -64,6 +64,7 @@ class PlanService:
         self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
     ) -> list[Location]:
         if is_search_enabled_province(trip_info.province):
+            print("searching locations...")
             locations = self.search_service.search_category(
                 categories=trip_info.categories,
                 province=trip_info.province,
@@ -80,6 +81,8 @@ class PlanService:
                     if location.image_url
                     else "\n"
                 )
+            print("search_result: ", search_result)
+            print("locations: ", locations)
         else:
             search_result = ""
             locations = []
