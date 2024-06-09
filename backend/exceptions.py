@@ -1,0 +1,2 @@
+class PlanNotFound(Exception):
+    pass

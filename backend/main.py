@@ -1,6 +1,6 @@
 import sentry_sdk
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.dtos import (
@@ -10,6 +10,7 @@ from backend.dtos import (
     PlanDTO,
     UserInput,
 )
+from backend.exceptions import PlanNotFound
 from backend.settings import settings
 
 load_dotenv()
@@ -57,7 +58,11 @@ def get_plans() -> PlanListResponseDTO:
 def get_plan(plan_id: int) -> PlanDTO:
     from backend.services import plan_service
 
-    return plan_service.get_plan(plan_id)
+    try:
+        plan = plan_service.get_plan(plan_id)
+    except PlanNotFound:
+        raise HTTPException(status_code=404, detail="존재하지 않는 plan 입니다.")
+    return plan
 
 
 @app.post("/api/v1/plans")

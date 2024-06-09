@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class PlaneInfoDTO(BaseModel):
@@ -31,6 +31,8 @@ class AccommodationInfoDTO(BaseModel):
     )
     rating: str = Field(description="리뷰 평균 평점")
     location: str = Field(description="주소")
+    latitude: str | None = Field("", description="위도")
+    longitude: str | None = Field("", description="경도")
 
     class Config:
         from_attributes = True
@@ -51,12 +53,44 @@ class RestaurantInfo(BaseModel):
         from_attributes = True
 
 
+class FestivalInfoDTO(BaseModel):
+
+    title: str = Field(description="축제 이름")
+    province: str = Field(description="지역")
+    month: int = Field(description="축제가 열리는 달")
+    festival_content: str = Field(description="축제 내용")
+    festival_photo: str | None = Field(description="축제 사진")
+    latitude: str = Field(description="위도")
+    longitude: str = Field(description="경도")
+
+    class Config:
+        from_attributes = True
+
+
 class PlanComponentDTO(BaseModel):
     component_id: int
     component_type: str
     plane_info: PlaneInfoDTO | None
     accommodation_info: AccommodationInfoDTO | None
     activity: str | None
+    festival_info: FestivalInfoDTO | None
+
+    class Config:
+        from_attributes = True
+
+
+class Location(BaseModel):
+    name: str = ""
+    description: str = ""
+    image_url: str = ""
+    lat: float
+    lon: float
+
+
+class PlanListDTO(BaseModel):
+    trip_plan_id: int | None
+    province: str
+    created_at: datetime
 
     class Config:
         from_attributes = True
@@ -67,6 +101,7 @@ class PlanDTO(BaseModel):
     province: str
     created_at: datetime
     plan_component_list: list[PlanComponentDTO]
+    locations: list[Location] | None = Field(default_factory=list)
 
     class Config:
         from_attributes = True
@@ -79,7 +114,7 @@ Request, Response DTOs
 
 class FormRequestDTO(BaseModel):
     mbti: str = "F"
-    categories: list[str] = Field(default_factory=list)
+    category: list[str] = Field(default_factory=list)
     province: str
     days: int | None | str
     start_date: date | None | str
@@ -88,7 +123,7 @@ class FormRequestDTO(BaseModel):
 
 
 class PlanListResponseDTO(BaseModel):
-    plan_list: list[PlanDTO]
+    plan_list: list[PlanListDTO]
 
 
 class UserInput(BaseModel):
@@ -135,7 +170,7 @@ class TripInfo(BaseModel):
 
         return cls(
             mbti=form_request_dto.mbti,
-            categories=form_request_dto.categories,
+            categories=form_request_dto.category,
             province=form_request_dto.province,
             days=days,
             start_date=start_date,
