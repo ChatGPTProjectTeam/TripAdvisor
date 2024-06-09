@@ -122,6 +122,7 @@ const DayPlan = ({ component, targetId, componentId }) => {
                           {/*</Link>*/}
                           {/*    <FestivalPopUp buttonText="지도보기" targetId={targetId}><MapForForm/></FestivalPopUp>*/}
                               {/*<img src="/logo.svg" alt="Logo" width="100px" height="40px"/>*/}
+                          {/*<div>지도</div>*/}
 
                         </div>}
                     </div>
@@ -139,7 +140,8 @@ const DayPlan = ({ component, targetId, componentId }) => {
                   </div>
                 </div>
                 <div style={{marginTop:'20px'}}>
-                  <InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>
+                  <div>지도여기</div>
+                  {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
                 </div>
 
               </>

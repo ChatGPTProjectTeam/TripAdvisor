@@ -27,7 +27,7 @@ const AccommodationPlan = ({ component, targetId }) => {
                         <p className='place-name'>{accommodation_info.name}</p>
                         <p className='place-location'>Rating: {accommodation_info.rating}</p>
                         <p className='place-location'>Location: {accommodation_info.location}</p>
-                        <div style={{paddingTop:'10px'}}><InternalPopUp buttonText='숙소 정보 보기'></InternalPopUp></div>
+                        {/*<div style={{paddingTop:'10px'}}><InternalPopUp buttonText='숙소 정보 보기'></InternalPopUp></div>*/}
                     </>
                 )}
                 {/* Conditional rendering for "Sorry!" message */}

@@ -3,6 +3,7 @@ import styles from "./PopUp.module.css";
 import {useParams, useNavigate} from "react-router-dom";
 import React from "react";
 import asyncFetch from "../hooks/loadWaitData.jsx";
+import {APIProvider,Map,AdvancedMarker,Pin,InfoWindow,} from "@vis.gl/react-google-maps";
 
 
 const FestivalInfo = () => {
@@ -26,6 +27,14 @@ const FestivalInfo = () => {
     const handleRedirect = () => {
         navigate(`/chat/${targetId}`);
     };
+    // const googleMap = () => {
+    //     return (
+    //         <APIProvider apiKey={}>
+    //             <div>GOOGLE MAP</div>
+    //         </APIProvider>
+    //
+    //     )
+    // };
 
     return(
         <div style={{ display: 'block', padding: '20px' }}>
@@ -45,7 +54,7 @@ const FestivalInfo = () => {
                     돌아가기
                 </button>
             </div>
-            <PopUp/>
+            <PopUp></PopUp>
         </div>
     );
 }
