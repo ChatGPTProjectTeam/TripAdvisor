@@ -87,6 +87,15 @@ class Location(BaseModel):
     lon: float
 
 
+class PlanListDTO(BaseModel):
+    trip_plan_id: int | None
+    province: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
 class PlanDTO(BaseModel):
     trip_plan_id: int | None
     province: str
@@ -114,7 +123,7 @@ class FormRequestDTO(BaseModel):
 
 
 class PlanListResponseDTO(BaseModel):
-    plan_list: list[PlanDTO]
+    plan_list: list[PlanListDTO]
 
 
 class UserInput(BaseModel):

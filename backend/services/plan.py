@@ -4,7 +4,7 @@ import re
 from typing import TYPE_CHECKING
 
 from backend.database import SessionLocal
-from backend.dtos import TripInfo, PlanDTO, Location
+from backend.dtos import TripInfo, PlanDTO, Location, PlanListDTO
 from backend.exceptions import PlanNotFound
 from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
 from backend.utils import is_search_enabled_province
@@ -31,10 +31,10 @@ class PlanService:
         self.gpt_service = gpt_service
         self.festival_service = festival_service
 
-    def get_plans(self) -> list[PlanDTO]:
+    def get_plans(self) -> list[PlanListDTO]:
         with SessionLocal() as session:
             plans = session.query(Plan).all()
-            plan_list = [PlanDTO.from_orm(plan) for plan in plans]
+            plan_list = [PlanListDTO.from_orm(plan) for plan in plans]
         return plan_list
 
     def get_plan(self, plan_id: int) -> PlanDTO:
