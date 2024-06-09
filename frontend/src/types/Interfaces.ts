@@ -3,6 +3,7 @@ export interface TripPlan {
     province: string;
     created_at: string;
     plan_component_list: PlanComponent[];
+    locations: Location[];
 }
 
 export interface PlanComponent {
@@ -11,6 +12,14 @@ export interface PlanComponent {
     plane_info?: PlaneInfo;
     accommodation_info?: AccommodationInfo;
     activity?: string;
+}
+
+export interface Location {
+    name?: string;
+    description?: string;
+    image_url?: string;
+    lat?: number;
+    lon?: number;
 }
 
 export interface PlaneInfo {

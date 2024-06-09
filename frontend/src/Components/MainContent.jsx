@@ -8,6 +8,7 @@ import DayPlan from "./DayPlan.jsx";
 import LoadingScreen from "./LoadingScreen.jsx";
 import './MainContent.css'
 import asyncFetch from '../hooks/loadWaitData.jsx'
+import {InternalPopUp} from "./PopUp.jsx";
 
 export default function MainPlanContents() {
     const { targetId } = useParams();

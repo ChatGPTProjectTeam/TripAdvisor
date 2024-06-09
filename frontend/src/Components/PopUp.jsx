@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./PopUp.module.css";
-
+import {Link} from "react-router-dom";
 
 export default function PopUp({ children, buttonText = "지도 보기" }) {
     const [modal, setModal] = useState(false);
@@ -22,7 +22,6 @@ export default function PopUp({ children, buttonText = "지도 보기" }) {
 
     return (
         <div>
-
             <button onClick={toggleModal} className={`${styles.modalButton}`}>
                 {buttonText}
             </button>
@@ -35,7 +34,6 @@ export default function PopUp({ children, buttonText = "지도 보기" }) {
                         <button style={{marginTop: '10px'}} className={styles.modalButton} onClick={toggleModal}>
                             Close
                         </button>
-
                     </div>
                 </div>
             )}
@@ -43,9 +41,10 @@ export default function PopUp({ children, buttonText = "지도 보기" }) {
     );
 }
 
-export function FestivalPopUp({ children, buttonText = "지도 보기" }) {
+export function InternalPopUp({ children, buttonText = "지도 보기", targetId }) {
     const [modal, setModal] = useState(false);
     const [fade, setFade] = useState(false);
+    console.log("targeto:",targetId);
 
     const toggleModal = () => {
         if (modal) {
@@ -64,19 +63,20 @@ export function FestivalPopUp({ children, buttonText = "지도 보기" }) {
     return (
         <div>
 
-            <button onClick={toggleModal} className={`${styles.modalButton}`}>
+            <Link to={`/info/${targetId}`} onClick={toggleModal} className={`${styles.modalButton}`}>
                 {buttonText}
-            </button>
-
+            </Link>
+            {/*<button onClick={toggleModal} className={`${styles.modalButton}`}>*/}
+            {/*    {buttonText}*/}
+            {/*</button>*/}
             {modal && (
                 <div className={styles.modal}>
                     <div className={`${styles.overlay} ${fade ? styles.fadeOut : ""}`} onClick={toggleModal}></div>
                     <div className={`${styles.modalContent} ${fade ? styles.fadeOut : ""}`}>
                         {children}
-                        <button style={{marginTop: '10px'}} className={styles.modalButton} onClick={toggleModal}>
+                        <Link to="/chat/${targetId}" style={{marginTop: '10px'}} className={styles.modalButton} onClick={toggleModal}>
                             Close
-                        </button>
-
+                        </Link>
                     </div>
                 </div>
             )}
