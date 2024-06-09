@@ -24,6 +24,7 @@ jobs:
     - name: frontend 빌드하기
       run: |
         cd frontend
+        export REACT_APP_API_URL=${{ secrets.VITE_APP_GOOGLE_MAPS_API_KEY }}
         npm run build
 
     - name: AWS credentials 설정
