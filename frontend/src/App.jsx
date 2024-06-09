@@ -15,12 +15,14 @@ import TripForm from "./Components/TripForm.jsx";
 import LoadingScreen from "./Components/LoadingScreen.jsx";
 import Footer from "./Components/Footer.jsx";
 import LoadingForChange from "./Components/LoadingForChange.jsx";
-import PopUp from "./Components/PopUp.jsx";
+import {InternalPopUp} from "./Components/PopUp.jsx";
+import MapInfo from "./Components/MapInfo.jsx";
+import FestivalInfo from "./Components/FestivalInfo.jsx";
 function App() {
   return (
       <BrowserRouter>
           <div style={{position: "relative", display:'flex', flexDirection: 'column'}}>
-              <div style={{marginBottom:'49px'}}><NavBar/></div>
+
               <div style={{display: "flex"}}>
                   <SideBar/>
                   <Routes>
@@ -29,10 +31,15 @@ function App() {
                       <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                       <Route path="/create_chat" element={<CreateForm/>}/>
                       <Route path="/flight" element={<FlightPlan/>}/>
-                      <Route path="/test" element={<div style={{flex:'4'}}><PopUp/></div>}/>
+                      <Route path="/festival/:targetId"
+                             element={
+                          <div style={{flex: '4', alignContent: 'center'}}>
+                              <MapInfo/>
+                          </div>}/>
                       <Route path="/intro" element={<IntroPage/>}/>
-                      <Route path="/info/:targetId" element={<PopUp/>}></Route>
-                      <Route path="*" element={<EmptyPage/>}/>
+                      <Route path="/info/:targetId" element={<div style={{flex: '4', alignContent: 'center'}}><FestivalInfo/></div>}>
+                      </Route>
+                          <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
               </div>
 

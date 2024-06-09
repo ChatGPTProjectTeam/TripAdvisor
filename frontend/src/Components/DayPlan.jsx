@@ -5,8 +5,11 @@ import { SendChat } from "./SendChat.jsx";
 import ReactMarkdown from 'react-markdown';
 import {Link, useNavigate} from "react-router-dom";
 import LoadingForChange from "./LoadingForChange.jsx";
-import PopUp from "./PopUp.jsx";
+import {InternalPopUp} from "./PopUp.jsx";
 import styles from "../Sidebar.module.css";
+import DayPlanLoadingScreen from "./DayPlanLoadingScreen.jsx";
+import MapForForm from "./MapForForm.jsx";
+import FestivalInfo from "./FestivalInfo.jsx";
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -28,7 +31,7 @@ const InputComponent = ({ id, value, placeholder, onChange }) => {
 
 const ReloadButton = ({ onClick }) => {
   return (
-    <button onClick={onClick} className="reload-button" style={{ border: 'none', background: 'none' }}>
+    <button onClick={onClick} className="reload-button" style={{ border: 'none', background: 'none', color:'black'}}>
       <img src={ReloadIcon} alt="Reload" style={{ width: 20, height: 20 }} />
     </button>
   );
@@ -98,11 +101,11 @@ const DayPlan = ({ component, targetId, componentId }) => {
         <p>일정</p>
       </div>
       <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-        <div className="day-plan-container">
+        <div className="day-plan-container" id={'plan'}>
           <div>
             {isLoading ? (
-              <div style={{height:'300px'}}>
-                <LoadingForChange />
+              <div>
+                <DayPlanLoadingScreen/>
               </div>
             ) : (
               <>
@@ -111,12 +114,18 @@ const DayPlan = ({ component, targetId, componentId }) => {
                     <p className="day-plan-info">
                       <ReactMarkdown>{activity}</ReactMarkdown>
                     </p>
-                    {/*{index < activities.length &&*/}
-                    {/*    <div style={{display:'flex', margin:'auto',marginBottom: '20px', width:'200px'}}>*/}
-                    {/*      <Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton}`}>*/}
-                    {/*        <div style={{textAlign:'center'}}>행사일정 보기</div>*/}
-                    {/*      </Link>*/}
-                    {/*    </div>}*/}
+                    <div style={{display:'flex'}}>
+                    {index < activities.length &&
+                        <div style={{display:'flex', justifyContent:'center' ,margin:'auto',marginBottom: '20px', width:'200px'}}>
+                          {/*<Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton} ${styles.festivalButton}`}>*/}
+                          {/*  <div style={{textAlign:'center', fontSize:'16px'}}>행사일정 보기</div>*/}
+                          {/*</Link>*/}
+                          {/*    <FestivalPopUp buttonText="지도보기" targetId={targetId}><MapForForm/></FestivalPopUp>*/}
+                              {/*<img src="/logo.svg" alt="Logo" width="100px" height="40px"/>*/}
+                          {/*<div>지도</div>*/}
+
+                        </div>}
+                    </div>
                   </React.Fragment>
                 ))}
                 <div className="plan-text-box">
@@ -130,7 +139,13 @@ const DayPlan = ({ component, targetId, componentId }) => {
                     <ReloadButton onClick={handleReloadClick} />
                   </div>
                 </div>
+                <div style={{marginTop:'20px'}}>
+                  <div>지도여기</div>
+                  {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
+                </div>
+
               </>
+
             )}
           </div>
         </div>

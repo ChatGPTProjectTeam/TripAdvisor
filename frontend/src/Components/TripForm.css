@@ -72,7 +72,7 @@
     }
 
 }
-@media (max-width: 1360px) {
+@media (max-width: 1448px) {
   .second-option {
     /*display: block !important;*/
     flex-direction: column;
