@@ -77,6 +77,7 @@ export default function MainPlanContents() {
                             <FlightPlan component={component} targetId={targetId} index={index}/>
                             <AccommodationPlan component={component} targetId={targetId}/>
                             <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
+                            {/*<FestivalPlan component={component} targetId={targetId} componentId={index + 1}/>*/}
                         </div>
                     ))}
                 </div>
