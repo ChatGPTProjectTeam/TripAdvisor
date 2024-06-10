@@ -1,17 +1,16 @@
 import PopUp from "./PopUp.jsx";
 import styles from "./PopUp.module.css";
 import {useParams, useNavigate} from "react-router-dom";
-import React from "react";
+import React, {useState} from "react";
 import asyncFetch from "../hooks/loadWaitData.jsx";
 import {APIProvider,Map,AdvancedMarker,Pin,InfoWindow,} from "@vis.gl/react-google-maps";
 
 
-const FestivalInfo = () => {
-    const {targetId} = useParams();
+const FestivalPlan = ({component, targetId, componentId}) => {
     const navigate = useNavigate();
     const { data: tripData, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
-
-
+    // const [festivalInfo, setFestivalInfo] = useState(component.fes);
+    console.log(component.component_type);
     const festivalDummy = {
         festival_id: 1,
         title: "스미다 공원 벚꽃 축제",
@@ -23,6 +22,11 @@ const FestivalInfo = () => {
         longitude: "139.80145059753443",
         festival_link: "https://www.gotokyo.org/kr/spot/ev188/index.html"
     }
+    if (component.component_type !== 'festival_info') {
+    return null;
+  }
+    const regex = /일본/;
+    const provinceFileter = festivalDummy.province.replace(regex, "").trim();
 
     const handleRedirect = () => {
         navigate(`/chat/${targetId}`);
@@ -37,9 +41,10 @@ const FestivalInfo = () => {
     // };
 
     return(
-        <div style={{ display: 'block', padding: '20px' }}>
-            <h1>{festivalDummy.title}</h1>
-            <div style={{display:'flex', maxWidth:'300px', margin:'auto'}}>
+        <div style={{display: 'block'}}>
+            <div className='title-container'><p> {provinceFileter} 행사 정보</p></div>
+            <h2>{festivalDummy.title}</h2>
+            <div style={{display: 'flex', maxWidth: '300px', margin: 'auto'}}>
                 <img src={festivalDummy.festival_photo} alt={festivalDummy.title}
                      style={{width: '100%', maxHeight: '400px', objectFit: 'cover'}}/>
             </div>
@@ -49,14 +54,8 @@ const FestivalInfo = () => {
             <p><strong>Details:</strong> {festivalDummy.festival_content}</p>
             <p><strong>Location:</strong> {festivalDummy.latitude}, {festivalDummy.longitude}</p>
             <a href={festivalDummy.festival_link} target="_blank" rel="noopener noreferrer">More Info</a>
-            <div style={{ marginTop: '10px' }}>
-                <button onClick={handleRedirect} className={styles.modalButton}>
-                    돌아가기
-                </button>
-            </div>
-            <PopUp></PopUp>
         </div>
     );
 }
 
-export default FestivalInfo
+export default FestivalPlan
