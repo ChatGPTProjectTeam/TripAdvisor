@@ -49,12 +49,14 @@ class PlanService:
             province=trip_info.province,
             created_at=datetime.now(),
         )
+        locations = self._create_plan(plan, trip_info, trigger_skyscanner)
+        plan.locations = [location.dict() for location in locations]
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        locations = self._create_plan(plan, trip_info, trigger_skyscanner)
-        plan.locations = [location.dict() for location in locations]
+        # locations = self._create_plan(plan, trip_info, trigger_skyscanner)
+        # plan.locations = [location.dict() for location in locations]
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
@@ -185,8 +187,9 @@ class PlanService:
             session.add(from_plane_component)
             session.add(accommodation_component)
             session.add(activity_component)
-            session.add(to_plane_component)
+
             session.add(festival_component)
+            session.add(to_plane_component)
             session.commit()
 
         # 별도의 위도, 경도 표시를 위해 location 반환
