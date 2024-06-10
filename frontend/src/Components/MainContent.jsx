@@ -10,6 +10,7 @@ import './MainContent.css'
 import asyncFetch from '../hooks/loadWaitData.jsx'
 import {InternalPopUp} from "./PopUp.jsx";
 import FestivalPlan from "./FestivalPlan.jsx";
+import MapInfo from "./MapInfo.jsx";
 
 export default function MainPlanContents() {
     const { targetId } = useParams();

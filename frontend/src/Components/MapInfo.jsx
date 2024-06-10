@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./MapInfo.module.css";
 import TripForm from "./TripForm.jsx";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
@@ -8,10 +8,14 @@ function MapInfo() {
     const googleMapApi = import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY;
     const googleMapId = import.meta.env.VITE_APP_GOOGLE_MAPS_ID;
     console.log("entered?");
-
+//     const [zoom, setZoom] = '12';
+// useEffect(() => {
+//         // Filter plans only after the data has been loaded and is not null
+//         setZoom(zoom);
+//     }, zoom);
     const festivalDummy = [
         {
-            id: 1,
+            festival_ID: 1,
             position: { lat: 35.71390976284157, lng: 139.80145059753443 },
             title: "스미다 공원 벚꽃 축제",
             province: "일본 간토 지방",
