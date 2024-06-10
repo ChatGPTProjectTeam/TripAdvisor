@@ -1,7 +1,7 @@
 import torch
 from elasticsearch_dsl import Search, Q
 from elasticsearch_dsl import connections
-from transformers import BertModel, BertTokenizer
+from transformers import DistilBertTokenizer, DistilBertModel
 
 from backend.constants import INDEX_NAME
 from backend.dtos import Location
@@ -9,8 +9,8 @@ from backend.settings import settings
 
 
 class SearchService:
-    tokenizer: BertTokenizer
-    model: BertModel
+    tokenizer: DistilBertTokenizer
+    model: DistilBertModel
 
     def __init__(self):
         connections.create_connection(
@@ -18,8 +18,8 @@ class SearchService:
             http_auth=("elastic", settings.ELASTIC_PASSWORD),
             timeout=20,
         )
-        self.tokenizer = BertTokenizer.from_pretrained("snunlp/KR-BERT-char16424")
-        self.model = BertModel.from_pretrained("snunlp/KR-BERT-char16424")
+        self.tokenizer = DistilBertTokenizer.from_pretrained("monologg/distilkobert")
+        self.model = DistilBertModel.from_pretrained("monologg/distilkobert")
 
     def search_category(self, categories: list[str], province: str) -> list[Location]:
         s = Search(index=INDEX_NAME).query(
@@ -62,7 +62,7 @@ class SearchService:
     def get_vector(self, text: str) -> list[float]:
         # 텍스트를 토크나이저로 인코딩
         inputs = self.tokenizer(
-            text, return_tensors="pt", truncation=True, max_length=512
+            text, return_tensors="pt", truncation=True, padding=True, max_length=512
         )
         # 모델에 인코딩된 입력 제공
         with torch.no_grad():
