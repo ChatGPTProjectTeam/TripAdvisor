@@ -9,7 +9,8 @@ import {InternalPopUp} from "./PopUp.jsx";
 import styles from "../Sidebar.module.css";
 import DayPlanLoadingScreen from "./DayPlanLoadingScreen.jsx";
 import MapForForm from "./MapForForm.jsx";
-import FestivalInfo from "./FestivalInfo.jsx";
+import FestivalPlan from "./FestivalPlan.jsx";
+import MapInfo from "./MapInfo.jsx";
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -37,17 +38,21 @@ const ReloadButton = ({ onClick }) => {
   );
 };
 
-const DayPlan = ({ component, targetId, componentId }) => {
+const DayPlan = ({ locationComponent, component, targetId, componentId }) => {
   const [inputMessages, setInputMessages] = useState({});
   const [activityText, setActivityText] = useState(component.activity);
   const [originalActivityText, setOriginalActivityText] = useState(component.activity);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [locationPlan, setLocationPlan] = useState([]);
 
   useEffect(() => {
     setActivityText(component.activity);
     setOriginalActivityText(component.activity);
   }, [component.activity, targetId]);
+    useEffect(() => {
+      setLocationPlan(locationComponent);
+  }, [locationComponent, targetId]);
 
   useEffect(() => {
     setInputMessages({});
@@ -139,13 +144,12 @@ const DayPlan = ({ component, targetId, componentId }) => {
                     <ReloadButton onClick={handleReloadClick} />
                   </div>
                 </div>
+                <div style={{marginTop:'30px'}}><h3>지도 정보 테스트</h3></div>
                 <div style={{marginTop:'20px'}}>
-                  <div>지도여기</div>
+                  <MapInfo></MapInfo>
                   {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
                 </div>
-
               </>
-
             )}
           </div>
         </div>
