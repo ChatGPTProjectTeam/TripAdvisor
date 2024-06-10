@@ -28,7 +28,7 @@ class PlanComponent(Base):
     )
     accommodation_info = relationship("AccommodationInfo")
     festival_id = mapped_column(ForeignKey("festivals.festival_id"))
-    festival_info = relationship("FestivalInfo")
+    festival_info = relationship("FestivalPlan")
     activity = Column(Text, nullable=True)
 
 

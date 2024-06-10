@@ -9,7 +9,8 @@ import {InternalPopUp} from "./PopUp.jsx";
 import styles from "../Sidebar.module.css";
 import DayPlanLoadingScreen from "./DayPlanLoadingScreen.jsx";
 import MapForForm from "./MapForForm.jsx";
-import FestivalInfo from "./FestivalInfo.jsx";
+import FestivalPlan from "./FestivalPlan.jsx";
+import MapInfo from "./MapInfo.jsx";
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -140,12 +141,10 @@ const DayPlan = ({ component, targetId, componentId }) => {
                   </div>
                 </div>
                 <div style={{marginTop:'20px'}}>
-                  <div>지도여기</div>
+                  <MapInfo/>
                   {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
                 </div>
-
               </>
-
             )}
           </div>
         </div>

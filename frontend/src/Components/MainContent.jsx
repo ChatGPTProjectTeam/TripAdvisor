@@ -9,6 +9,7 @@ import LoadingScreen from "./LoadingScreen.jsx";
 import './MainContent.css'
 import asyncFetch from '../hooks/loadWaitData.jsx'
 import {InternalPopUp} from "./PopUp.jsx";
+import FestivalPlan from "./FestivalPlan.jsx";
 
 export default function MainPlanContents() {
     const { targetId } = useParams();
@@ -77,7 +78,8 @@ export default function MainPlanContents() {
                             <FlightPlan component={component} targetId={targetId} index={index}/>
                             <AccommodationPlan component={component} targetId={targetId}/>
                             <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
-                            {/*<FestivalPlan component={component} targetId={targetId} componentId={index + 1}/>*/}
+                            <FestivalPlan component={component} targetId={targetId} />
+
                         </div>
                     ))}
                 </div>
