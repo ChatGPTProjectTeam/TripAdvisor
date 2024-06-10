@@ -49,12 +49,14 @@ class PlanService:
             province=trip_info.province,
             created_at=datetime.now(),
         )
+        locations = self._create_plan(plan, trip_info, trigger_skyscanner)
+        plan.locations = [location.dict() for location in locations]
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
             session.refresh(plan)
-        locations = self._create_plan(plan, trip_info, trigger_skyscanner)
-        plan.locations = [location.dict() for location in locations]
+        # locations = self._create_plan(plan, trip_info, trigger_skyscanner)
+        # plan.locations = [location.dict() for location in locations]
         with SessionLocal() as session:
             session.add(plan)
             session.commit()
