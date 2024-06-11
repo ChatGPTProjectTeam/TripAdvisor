@@ -59,7 +59,7 @@ export default function MainPlanContents() {
     );
     return (
         <section className={`main-plan-container ${ startAnimation ? 'show-animate' : ''}`}>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div style={{display: 'flex', justifyContent: 'center', marginLeft:'20px', marginRight:'20px'}}>
                 <div style={{display: "flex", justifyContent: 'center', maxWidth: '980px', marginBottom: '20px', flexDirection:'column'}}>
                     <div style={{display: "flex", justifyContent: 'center', maxWidth: '980px', marginBottom: '20px'}}>
                         <PlanTitleLogo/>
@@ -78,7 +78,7 @@ export default function MainPlanContents() {
                             {/*    )}*/}
                             <FlightPlan component={component} targetId={targetId} index={index}/>
                             <AccommodationPlan component={component} targetId={targetId}/>
-                            <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
+                            <DayPlan locationComponent={filteredPlan.locations} component={component} targetId={targetId} componentId={index + 1}/>
                             <FestivalPlan component={component} targetId={targetId} />
 
                         </div>

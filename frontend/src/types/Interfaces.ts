@@ -12,6 +12,18 @@ export interface PlanComponent {
     plane_info?: PlaneInfo;
     accommodation_info?: AccommodationInfo;
     activity?: string;
+    festival_info?: FestivalInfo[];
+}
+
+export interface FestivalInfo {
+    festival_content: string;
+    festival_photo: string;
+    latitude: number;
+    longitude: number;
+    month: number;
+    province: string;
+    title: string;
+
 }
 
 export interface Location {
