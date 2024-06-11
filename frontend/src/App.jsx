@@ -18,6 +18,7 @@ import LoadingForChange from "./Components/LoadingForChange.jsx";
 import {InternalPopUp} from "./Components/PopUp.jsx";
 import MapInfo from "./Components/MapInfo.jsx";
 import FestivalPlan from "./Components/FestivalPlan.jsx";
+import NewMapInfo from "./Components/NewMapInfo.jsx";
 function App() {
   return (
       <BrowserRouter>
@@ -38,6 +39,10 @@ function App() {
                       {/*    </div>}/>*/}
                       <Route path="/intro" element={<IntroPage/>}/>
                       <Route path="/map" element={<div style={{flex: '4', alignContent: 'center'}}><MapInfo/></div>}>
+
+                      </Route>
+                      <Route path="/new_map" element={<NewMapInfo/>}>
+
                       </Route>
                           <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
