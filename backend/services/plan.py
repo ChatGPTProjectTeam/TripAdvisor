@@ -83,8 +83,6 @@ class PlanService:
                     if location.image_url
                     else "\n"
                 )
-            print("search_result: ", search_result)
-            print("locations: ", locations)
         else:
             search_result = ""
             locations = []
@@ -101,7 +99,10 @@ class PlanService:
                 skyscanner_result = None
 
             activities = executor.submit(
-                self.gpt_service.generate_activities, trip_info, search_result, festival_info
+                self.gpt_service.generate_activities,
+                trip_info,
+                search_result,
+                festival_info,
             )
         try:
             from_plane_info, to_plane_info, accommodation_info = (
