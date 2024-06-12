@@ -77,12 +77,13 @@ class PlanService:
                     f"추천 여행지 TITLE: {location.name}, "
                     f"DESCRIPTION: {location.description}, "
                     f"LAT: {location.lat}, LON: {location.lon}, "
+                    "\n"
                 )
-                search_result += (
-                    f"여행지 사진: {location.image_url}\n"
-                    if location.image_url
-                    else "\n"
-                )
+                # search_result += (
+                #     f"여행지 사진: {location.image_url}\n"
+                #     if location.image_url
+                #     else "\n"
+                # )
         else:
             search_result = ""
             locations = []
