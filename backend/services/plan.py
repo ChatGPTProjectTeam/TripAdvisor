@@ -197,46 +197,72 @@ class PlanService:
         return locations
 
     def update_plan(self, plan_id: int, msg: str) -> bool:
-        harmful: bool = self.gpt_service.moderation(msg)
+        
+        if (self.gpt_service.moderation(msg)):
+            return True
 
-        if not harmful:
-            with SessionLocal() as session:
-                # plan = session.query(Plan).filter(Plan.id == plan_id).one()
-                components = (
-                    session.query(PlanComponent)
-                    .filter(PlanComponent.trip_plan_id == plan_id)
-                    .filter(PlanComponent.component_type == "activity")
-                    .all()
+        with SessionLocal() as session:
+            # plan = session.query(Plan).filter(Plan.id == plan_id).one()
+            components = (
+                session.query(PlanComponent)
+                .filter(PlanComponent.trip_plan_id == plan_id)
+                .filter(PlanComponent.component_type == "activity")
+                .all()
+            )
+            component = components[0]
+            plan = component.plan
+        if component:
+            province = plan.province
+            previous_activity = component.activity
+            if is_search_enabled_province(province):
+                print("searching locations...")
+                locations = self.search_service.search_category(
+                    query=msg,
+                    province=province,
                 )
-                component = components[0]
-                plan = component.plan
-            if component:
-                province = plan.province
-                previous_activity = component.activity
-                if is_search_enabled_province(province):
-                    search_result = self.search_service.search_query(
-                        query=msg, province=province
+                search_result = ""
+                for location in locations:
+                    search_result += (
+                        f"추천 여행지 TITLE: {location.name}, "
+                        f"DESCRIPTION: {location.description}, "
+                        f"LAT: {location.lat}, LON: {location.lon}, "
+                        "\n"
                     )
-                else:
-                    search_result = ""
-                new_activity = self.gpt_service.edit_activity(
-                    previous_activity, msg, search_result
-                )
+                    # search_result += (
+                    #     f"여행지 사진: {location.image_url}\n"
+                    #     if location.image_url
+                    #     else "\n"
+                    # )
+            else:
+                search_result = ""
+            try:
+                festival_info = component.festival_info
+            except Exception as e:
+                festival_info = None
+        
+            new_activity = self.gpt_service.edit_activity(
+                previous_activity, msg, search_result, festival_info
+            )
 
-                p = re.compile(".Invalid.")
-                check = p.match(new_activity)
-                if check is None:
-                    with SessionLocal() as session:
-                        components = (
-                            session.query(PlanComponent)
-                            .filter(PlanComponent.trip_plan_id == plan_id)
-                            .filter(PlanComponent.component_type == "activity")
-                            .all()
-                        )
-                        component = components[0]
-                        component.activity = new_activity
-                        session.commit()
-                else:
-                    harmful = True
-
-        return harmful
+            p = re.compile(".Invalid.")
+            check = p.match(new_activity)
+            if check is None:
+                with SessionLocal() as session:
+                    components = (
+                        session.query(PlanComponent)
+                        .filter(PlanComponent.trip_plan_id == plan_id)
+                        .filter(PlanComponent.component_type == "activity")
+                        .all()
+                    )
+                    component = components[0]
+                    component.activity = new_activity
+                    session.commit()
+                    
+                    # original_locations = (
+                    #     session.query(Plan.locations)
+                    #     .filter(Plan.trip_plan_id == plan_id)
+                    #     .all()
+                    # )
+                return False
+        
+        return True

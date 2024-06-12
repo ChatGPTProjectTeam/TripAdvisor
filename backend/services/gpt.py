@@ -87,11 +87,24 @@ class GPTService:
         return response.choices[0].message.content
 
     def edit_activity(
-        self, previous_activity: str, message: str, search_query: str
+        self, previous_activity: str, message: str, search_result: str, festival_info: FestivalInfo
     ) -> str:  # 기존 활동 string 유저 메세지에 따라 수정하는 함수 구현
         """
         여행 정보를 바탕으로 여행 활동을 생성합니다.
         """
+        
+        if search_result is None:
+            search_result = ""
+        
+        if festival_info:
+            festival_str = "TITLE: " + festival_info.title
+            festival_str += ", PROVINCE: " + festival_info.province
+            festival_str += ", MONTH: " + str(festival_info.month)
+            festival_str += ", DESCRIPTION: " + festival_info.festival_content
+            festival_str += ", LAT: " + festival_info.latitude
+            festival_str += ", LON: " + festival_info.longitude
+        else:
+            festival_str = ""
 
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT_EDIT_1},
@@ -102,6 +115,12 @@ class GPTService:
             {"role": "system", "content": SYSTEM_PROMPT_EDIT_3},
             {"role": "user", "content": USER_PROMPT_EDIT_2},
             {"role": "assistant", "content": ASSISTANT_PROMPT_EDIT_3},
+            {"role": "system",
+             "content": SYSTEM_PROMPT_EDIT_4.format(
+                    travel_sites=search_result,
+                    festival=festival_str
+                ),
+            },
             {"role": "assistant", "content": previous_activity},
             {"role": "user", "content": message},
         ]
