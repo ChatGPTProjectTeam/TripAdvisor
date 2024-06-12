@@ -10,7 +10,7 @@ const FestivalPlan = ({component, targetId, componentId}) => {
     const navigate = useNavigate();
     const { data: tripData, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
     // const [festivalInfo, setFestivalInfo] = useState(component.fes);
-    console.log(component.component_type);
+    // console.log(component.component_type);
     const festivalDummy = {
         festival_id: 1,
         title: "스미다 공원 벚꽃 축제",

@@ -38,6 +38,7 @@ function App() {
                       {/*    </div>}/>*/}
                       <Route path="/intro" element={<IntroPage/>}/>
                       <Route path="/map" element={<div style={{flex: '4', alignContent: 'center'}}><MapInfo/></div>}>
+
                       </Route>
                           <Route path="*" element={<EmptyPage/>}/>
                   </Routes>
