@@ -21,6 +21,73 @@ export default function MainPlanContents() {
     const { data: tripData, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [startAnimation, setStartAnimation] = useState(false);
+    // testcode
+    const [coordinates, setCoordinates] = useState([]);
+const [festivalPlan, setFestivalPlan] = useState([]);
+
+
+
+useEffect(() => {
+    if (tripData && !loading) {
+        const coords = [];
+
+        // Extract from locations
+        if (Array.isArray(tripData.locations)) {
+            tripData.locations.forEach(location => {
+                if (location.lat && location.lon) {
+                    coords.push({
+                        lat: location.lat,
+                        lon: location.lon,
+                        type: 'location',
+                        description: location.description || '' // Add description for location
+                    });
+                }
+            });
+        }
+
+        // Extract from plan components
+        if (Array.isArray(tripData.plan_component_list)) {
+            tripData.plan_component_list.forEach(component => {
+                if (component.accommodation_info) {
+                    const lat = parseFloat(component.accommodation_info.latitude);
+                    const lon = parseFloat(component.accommodation_info.longitude);
+                    coords.push({
+                        lat,
+                        lon,
+                        type: 'accommodation',
+                        description: component.accommodation_info.location || '' // Add description for accommodation
+                    });
+                }
+
+                // Ensure festival_info is an array
+                const festivalInfoList = component.festival_info || [];
+                if (Array.isArray(festivalInfoList)) {
+                    festivalInfoList.forEach(festival => {
+                        const lat = parseFloat(festival.latitude);
+                        const lon = parseFloat(festival.longitude);
+                        coords.push({
+                            lat,
+                            lon,
+                            type: 'festival',
+                            description: festival.festival_content || '' // Add description for festival
+                        });
+                    });
+                }
+            });
+        }
+
+        setCoordinates(coords);
+        setFilteredPlan(tripData);
+
+        const festivals = tripData.plan_component_list
+            .filter(component => component.festival_info)
+            .map(component => component.festival_info);
+        setFestivalPlan(festivals);
+
+        setStartAnimation(true);
+    }
+}, [tripData, loading]);
+
 
     useEffect(() => {
         // Filter plans only after the data has been loaded and is not null
@@ -30,6 +97,77 @@ export default function MainPlanContents() {
             }, 50);
 
     }, [tripData, targetId]);
+//     useEffect(() => {
+//     if (filteredPlan.plan_component_list && filteredPlan.plan_component_list.length > 0) {
+//         const festivals = filteredPlan.plan_component_list
+//             .filter(component => component.festival_info)
+//             .map(component => component.festival_info);
+//         setFestivalPlan(festivals);
+//     }
+// }, [filteredPlan, targetId]);
+
+   useEffect(() => {
+    if (tripData && !loading) {
+        const coords = [];
+
+        // Extract from locations
+        if (Array.isArray(tripData.locations)) {
+            tripData.locations.forEach(location => {
+                if (location.lat && location.lon) {
+                    coords.push({
+                        lat: location.lat,
+                        lon: location.lon,
+                        type: 'location',
+                        descriptionOne: location.name || '',
+                        descriptionTwo: location.description || ''
+                    });
+                }
+            });
+        }
+
+        // Extract from plan components
+        if (Array.isArray(tripData.plan_component_list)) {
+            tripData.plan_component_list.forEach(component => {
+                if (component.accommodation_info) {
+                    const lat = parseFloat(component.accommodation_info.latitude);
+                    const lon = parseFloat(component.accommodation_info.longitude);
+                    coords.push({
+                        lat,
+                        lon,
+                        type: 'accommodation',
+                        descriptionOne: component.accommodation_info.location || '',
+                        descriptionTwo: component.accommodation_info.lowest_price || ''// Add description for accommodation
+                    });
+                }
+
+                // Ensure festival_info is an array
+                // const festivalInfoList = component.festival_info || [];
+                if (component.festival_info) {
+
+                        const lat = parseFloat(component.festival_info.latitude);
+                        const lon = parseFloat(component.festival_info.longitude);
+                        coords.push({
+                            lat,
+                            lon,
+                            type: 'festival',
+                            descriptionOne: component.festival_info.title || '',
+                            descriptionTwo: component.festival_info.festival_content || ''// Add description for festival
+                        });
+
+                }
+            });
+        }
+
+        setCoordinates(coords);
+        setFilteredPlan(tripData);
+        setStartAnimation(true);
+    }
+}, [tripData, loading]);
+
+// console.log('Coordinates:', coordinates);
+
+
+
 
     console.log('check this data', filteredPlan);
 
@@ -66,6 +204,7 @@ export default function MainPlanContents() {
                         <h1 style={{fontSize: '30px'}}> {filteredPlan.province} Plan</h1>
                         <PlanTitleLogo/>
                     </div>
+                    {/*<h1>{filteredPlan.plan_component_list[4].festival_info.title}</h1>*/}
                     {filteredPlan.plan_component_list.map((component, index) => (
                         <div key={index}>
                             {/*{component.plane_info && (*/}
@@ -78,9 +217,13 @@ export default function MainPlanContents() {
                             {/*    )}*/}
                             <FlightPlan component={component} targetId={targetId} index={index}/>
                             <AccommodationPlan component={component} targetId={targetId}/>
-                            <DayPlan locationComponent={filteredPlan.locations} component={component} targetId={targetId} componentId={index + 1}/>
+                            <DayPlan locationComponent={filteredPlan.locations} component={component} targetId={targetId} componentId={index + 1} mapData={coordinates}/>
                             <FestivalPlan component={component} targetId={targetId} />
-
+                            {component.festival_info && (
+                                    <div>
+                                        <p>Flight Price: {component.festival_info.title}</p>
+                                    </div>
+                                )}
                         </div>
                     ))}
                 </div>
@@ -97,3 +240,6 @@ export function MainFormContents() {
         </div>
     );
 }
+
+
+
