@@ -33,7 +33,7 @@ const ReloadButton = ({ onClick }) => {
   );
 };
 
-const DayPlan = ({ locationComponent, component, targetId, componentId }) => {
+const DayPlan = ({ locationComponent, component, targetId, componentId, mapData }) => {
   const [inputMessages, setInputMessages] = useState({});
   const [activityText, setActivityText] = useState(component.activity);
   const [originalActivityText, setOriginalActivityText] = useState(component.activity);
@@ -71,13 +71,15 @@ const DayPlan = ({ locationComponent, component, targetId, componentId }) => {
     }));
   };
 
-  const regexActivity = (activityText) => {
+const regexActivity = (activityText) => {
     if (activityText) {
       const regex = /(\*\*\d+일차.*?\*\*|\#\# \d+일차.*?)[\s\S]*?(?=\*\*\d+일차.*?\*\*|\#\# \d+일차.*?|$)/g;
       return activityText.match(regex) || [];
     }
     return [];
   };
+
+
 
   const handleReloadClick = async () => {
     if (!inputMessages[componentId] || inputMessages[componentId].trim() === "") {
@@ -154,7 +156,7 @@ const DayPlan = ({ locationComponent, component, targetId, componentId }) => {
                 <div style={{ marginTop: '30px' }}><h3>지도 정보</h3></div>
                 <div style={{ marginTop: '20px',paddingLeft:'30px', paddingRight:'30px' }}>
                   {!isLocationBlank ? (
-                    <MapInfo locationData={locationPlan} festivalData={component.festival_info} targetMapId={targetId}></MapInfo>
+                    <MapInfo  targetMapId={targetId} mapDataList={mapData}></MapInfo>
                   ) : (
                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                       <img src="/construction.svg" alt="Logo" width="100px" height="40px" />

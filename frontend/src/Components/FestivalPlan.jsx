@@ -1,61 +1,65 @@
 import PopUp from "./PopUp.jsx";
 import styles from "./PopUp.module.css";
-import {useParams, useNavigate} from "react-router-dom";
-import React, {useState} from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import asyncFetch from "../hooks/loadWaitData.jsx";
-import {APIProvider,Map,AdvancedMarker,Pin,InfoWindow,} from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
 
-
-const FestivalPlan = ({component, targetId, componentId}) => {
+const FestivalPlan = ({ component, targetId }) => {
     const navigate = useNavigate();
     const { data: tripData, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
-    // const [festivalInfo, setFestivalInfo] = useState(component.fes);
-    // console.log(component.component_type);
-    const festivalDummy = {
-        festival_id: 1,
-        title: "스미다 공원 벚꽃 축제",
-        province: "일본 간토 지방",
-        month: 3,
-        festival_content: "3월 16일부터 4월 초까지 벚꽃 축제",
-        festival_photo: "https://frontend-tripper.s3.ap-northeast-2.amazonaws.com/festival_images/smida.webp",
-        latitude: "35.71390976284157",
-        longitude: "139.80145059753443",
-        festival_link: "https://www.gotokyo.org/kr/spot/ev188/index.html"
-    }
+    const [festivalInfo, setFestivalInfo] = useState(component.festival_info || {});
+
+    useEffect(() => {
+        if (component.festival_info) {
+            setFestivalInfo(component.festival_info);
+        }
+    }, [component.festival_info, targetId]);
+
     if (component.component_type !== 'festival_info') {
-    return null;
-  }
+        return null;
+    }
+
     const regex = /일본/;
-    const provinceFileter = festivalDummy.province.replace(regex, "").trim();
+    const provinceFileter = festivalInfo.province ? festivalInfo.province.replace(regex, "").trim() : '';
+    const isFestivalBlank = !festivalInfo || !festivalInfo.title || festivalInfo.title.trim() === '';
 
     const handleRedirect = () => {
         navigate(`/chat/${targetId}`);
     };
-    // const googleMap = () => {
-    //     return (
-    //         <APIProvider apiKey={}>
-    //             <div>GOOGLE MAP</div>
-    //         </APIProvider>
-    //
-    //     )
-    // };
 
-    return(
-        <div style={{display: 'block'}}>
+    return (
+        <div style={{ display: 'block' }}>
             <div className='title-container'><p> {provinceFileter} 행사 정보</p></div>
-            <h2>{festivalDummy.title}</h2>
-            <div style={{display: 'flex', maxWidth: '300px', margin: 'auto'}}>
-                <img src={festivalDummy.festival_photo} alt={festivalDummy.title}
-                     style={{width: '100%', maxHeight: '400px', objectFit: 'cover'}}/>
+            <h2>{festivalInfo.title}</h2>
+            <div style={{ display: 'flex', maxWidth: '300px', margin: 'auto' }}>
+                {festivalInfo.festival_photo && (
+                    <img
+                        src={festivalInfo.festival_photo}
+                        alt={festivalInfo.title}
+                        style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }}
+                    />
+                )}
             </div>
 
-            <p><strong>Province:</strong> {festivalDummy.province}</p>
-            <p><strong>Month:</strong> {festivalDummy.month}</p>
-            <p><strong>Details:</strong> {festivalDummy.festival_content}</p>
-            <p><strong>Location:</strong> {festivalDummy.latitude}, {festivalDummy.longitude}</p>
-            <a href={festivalDummy.festival_link} target="_blank" rel="noopener noreferrer">More Info</a>
+            {festivalInfo.province && <p><strong>Province:</strong> {festivalInfo.province}</p>}
+            {festivalInfo.month && <p><strong>Month:</strong> {festivalInfo.month}</p>}
+            {festivalInfo.festival_content && <p><strong>Details:</strong> {festivalInfo.festival_content}</p>}
+            {festivalInfo.latitude && festivalInfo.longitude && (
+                <p><strong>Location:</strong> {festivalInfo.latitude}, {festivalInfo.longitude}</p>
+            )}
+            {festivalInfo.festival_link && (
+                <a href={festivalInfo.festival_link} target="_blank" rel="noopener noreferrer">More Info</a>
+            )}
+
+            {isFestivalBlank && (
+                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <img src="/construction.svg" alt="Logo" width="100px" height="40px" />
+                    <h3>정보를 불러올 수가 없어요</h3>
+                </div>
+            )}
         </div>
     );
 }
 
-export default FestivalPlan
+export default FestivalPlan;

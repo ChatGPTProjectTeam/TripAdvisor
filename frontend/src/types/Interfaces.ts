@@ -16,13 +16,13 @@ export interface PlanComponent {
 }
 
 export interface FestivalInfo {
-    festival_content: string;
-    festival_photo: string;
-    latitude: number;
-    longitude: number;
-    month: number;
-    province: string;
-    title: string;
+    festival_content?: string;
+    festival_photo?: string;
+    latitude?: number;
+    longitude?: number;
+    month?: number;
+    province?: string;
+    title?: string;
 
 }
 
@@ -49,4 +49,6 @@ export interface AccommodationInfo {
     lowest_price: string;
     rating: string;
     location: string;
+    latitude: string;
+    longitude: string;
 }
