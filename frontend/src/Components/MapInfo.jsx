@@ -7,23 +7,26 @@ function MapInfo({ mapDataList, targetMapId }) {
     const googleMapApi = import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY;
     const googleMapId = import.meta.env.VITE_APP_GOOGLE_MAPS_ID;
     const [openInfoWindowId, setOpenInfoWindowId] = useState(null);
-    const [mapData, setMapData] = useState(mapDataList);
+    const [mapData, setMapData] = useState([]);
+    const [mapKey, setMapKey] = useState(0); // Added to force re-render
 
     useEffect(() => {
         setMapData(mapDataList);
+        setMapKey(prevKey => prevKey + 1); // Increment key to force re-render
     }, [mapDataList, targetMapId]);
 
     return (
         <div style={{ maxWidth: '1000px', height: '600px', margin: 'auto' }}>
             <APIProvider apiKey={googleMapApi}>
                 <div style={{ height: '100%', width: '100%' }}>
-                    {mapDataList && mapDataList.length > 0 && (
+                    {mapData && mapData.length > 0 && (
                         <Map
+                            key={mapKey} // Unique key to force re-render
                             defaultZoom={12}
-                            defaultCenter={{ lat: mapDataList[0].lat, lng: mapDataList[0].lon }}
+                            defaultCenter={{ lat: mapData[0].lat, lng: mapData[0].lon }}
                             mapId={googleMapId}
                         >
-                            {mapDataList.map((marker, index) => (
+                            {mapData.map((marker, index) => (
                                 <AdvancedMarker
                                     key={index}
                                     position={{ lat: marker.lat, lng: marker.lon }}
@@ -46,7 +49,7 @@ function MapInfo({ mapDataList, targetMapId }) {
                                     )}
                                 </AdvancedMarker>
                             ))}
-                            {mapDataList.map((marker, index) => (
+                            {mapData.map((marker, index) => (
                                 openInfoWindowId === index && (
                                     <InfoWindow
                                         key={index}

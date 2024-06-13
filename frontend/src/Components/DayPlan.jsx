@@ -41,6 +41,7 @@ const DayPlan = ({ locationComponent, component, targetId, componentId, mapData 
   const [isLoading, setIsLoading] = useState(false);
   const [locationPlan, setLocationPlan] = useState([]);
   const [festivalPlan, setFestivalPlan] = useState([]);
+  console.log(mapData)
 
   useEffect(() => {
     setActivityText(component.activity);
@@ -102,7 +103,7 @@ const regexActivity = (activityText) => {
     }
   };
 
-  const isLocationBlank = !locationPlan || locationPlan.length === 0 || !locationPlan[0].name || locationPlan[0].name.trim() === '';
+  const isLocationBlank = mapData.length === 0;
 
   const activities = regexActivity(activityText);
 
