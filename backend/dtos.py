@@ -60,8 +60,8 @@ class FestivalInfoDTO(BaseModel):
     month: int = Field(description="축제가 열리는 달")
     festival_content: str = Field(description="축제 내용")
     festival_photo: str | None = Field(description="축제 사진")
-    latitude: str = Field(description="위도")
-    longitude: str = Field(description="경도")
+    latitude: str | None = Field(description="위도")
+    longitude: str | None = Field(description="경도")
 
     class Config:
         from_attributes = True

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from backend.database import SessionLocal
 from backend.dtos import TripInfo, PlanDTO, Location, PlanListDTO
 from backend.exceptions import PlanNotFound
-from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
+from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo, FestivalInfo
 from backend.utils import is_search_enabled_province
 
 if TYPE_CHECKING:
@@ -89,6 +89,16 @@ class PlanService:
             locations = []
 
         festival_info = self.festival_service.get_festival_info(trip_info)
+        if festival_info is None:
+            festival_info = FestivalInfo(
+                title="축제 정보가 없습니다.",
+                province=trip_info.province,
+                month=0,
+                festival_content="",
+                festival_photo=None,
+                latitude=None,
+                longitude=None
+            )
 
         with ThreadPoolExecutor(max_workers=2) as executor:
             if trigger_skyscanner:
@@ -206,26 +216,27 @@ class PlanService:
             components = (
                 session.query(PlanComponent)
                 .filter(PlanComponent.trip_plan_id == plan_id)
-                .filter(PlanComponent.component_type == "activity")
                 .all()
             )
-            component = components[0]
-            plan = component.plan
-        if component:
-            province = plan.province
-            previous_activity = component.activity
-            if is_search_enabled_province(province):
-                print("searching locations...")
-                locations = self.search_service.search_category(
-                    query=msg,
-                    province=province,
-                )
+            for component in components:
+                if component.component_type == "activity":
+                    activity_component = component
+                elif component.component_type == "festival_info":
+                    festival_component = component
+            
+            festival_info = festival_component.festival_info
+            plan = activity_component.plan
+            locations = plan.locations
+        if components:
+            previous_activity = activity_component.activity
+            if locations:
                 search_result = ""
                 for location in locations:
+                    print(location)
                     search_result += (
-                        f"추천 여행지 TITLE: {location.name}, "
-                        f"DESCRIPTION: {location.description}, "
-                        f"LAT: {location.lat}, LON: {location.lon}, "
+                        f"추천 여행지 TITLE: {location['name']}, "
+                        f"DESCRIPTION: {location['description']}, "
+                        f"LAT: {location['lat']}, LON: {location['lon']}, "
                         "\n"
                     )
                     # search_result += (
@@ -235,11 +246,7 @@ class PlanService:
                     # )
             else:
                 search_result = ""
-            try:
-                festival_info = component.festival_info
-            except Exception as e:
-                festival_info = None
-        
+
             new_activity = self.gpt_service.edit_activity(
                 previous_activity, msg, search_result, festival_info
             )
