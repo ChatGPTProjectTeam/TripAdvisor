@@ -69,5 +69,5 @@ class FestivalInfo(Base):
     month = Column(Integer, nullable=False)
     festival_content = Column(String(300))
     festival_photo = Column(String(2048), nullable=True)
-    latitude = Column(String(50))
-    longitude = Column(String(50))
+    latitude = Column(String(50), nullable=True)
+    longitude = Column(String(50), nullable=True)

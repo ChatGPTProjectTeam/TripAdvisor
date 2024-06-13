@@ -34,7 +34,7 @@ class GPTService:
         if search_result is None:
             search_result = ""
         
-        if festival_info:
+        if festival_info.month != 0:
             festival_str = "TITLE: " + festival_info.title
             festival_str += ", PROVINCE: " + festival_info.province
             festival_str += ", MONTH: " + str(festival_info.month)
@@ -96,7 +96,7 @@ class GPTService:
         if search_result is None:
             search_result = ""
         
-        if festival_info:
+        if festival_info.month != 0:
             festival_str = "TITLE: " + festival_info.title
             festival_str += ", PROVINCE: " + festival_info.province
             festival_str += ", MONTH: " + str(festival_info.month)
