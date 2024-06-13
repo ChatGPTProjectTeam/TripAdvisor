@@ -23,7 +23,10 @@ class SearchService:
 
     def search_category(self, categories: list[str], province: str) -> list[Location]:
         s = Search(index=INDEX_NAME).query(
-            Q("match", province=province) & Q("terms", category=categories)
+            Q(
+                "bool",
+                must=[Q("match", province=province), Q("terms", category=categories)],
+            )
         )[:10]
         response = s.execute()
         locations = []
