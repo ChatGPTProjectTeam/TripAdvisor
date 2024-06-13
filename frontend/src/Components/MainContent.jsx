@@ -149,11 +149,11 @@ export default function MainPlanContents() {
                             <DayPlan locationComponent={filteredPlan.locations} component={component}
                                      targetId={targetId} componentId={index + 1} mapData={coordinates}/>
                             <FestivalPlan component={component} targetId={targetId}/>
-                            {component.festival_info && (
-                                <div>
-                                    <p>Flight Price: {component.festival_info.title}</p>
-                                </div>
-                            )}
+                            {/*{component.festival_info && (*/}
+                            {/*    <div>*/}
+                            {/*        <p>Flight Price: {component.festival_info.title}</p>*/}
+                            {/*    </div>*/}
+                            {/*)}*/}
                         </div>
                     ))}
                 </div>
