@@ -13,7 +13,6 @@ const AccommodationPlan = ({ component, targetId }) => {
     // Check if any of the required data fields are blank
     const isDataBlank = (
         accommodation_info.name.trim() === '' ||
-        accommodation_info.rating.trim() === '' ||
         accommodation_info.location.trim() === ''
     );
 

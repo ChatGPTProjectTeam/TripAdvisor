@@ -22,7 +22,7 @@ const FestivalPlan = ({ component, targetId }) => {
 
     const regex = /일본/;
     const provinceFileter = festivalInfo.province ? festivalInfo.province.replace(regex, "").trim() : '';
-    const isFestivalBlank = !festivalInfo || !festivalInfo.title || festivalInfo.title.trim() === '';
+    const isFestivalBlank =  festivalInfo.month === 0;
 
     const handleRedirect = () => {
         navigate(`/chat/${targetId}`);
@@ -31,32 +31,33 @@ const FestivalPlan = ({ component, targetId }) => {
     return (
         <div style={{ display: 'block' }}>
             <div className='title-container'><p> {provinceFileter} 행사 정보</p></div>
-            <h2>{festivalInfo.title}</h2>
-            <div style={{ display: 'flex', maxWidth: '300px', margin: 'auto' }}>
-                {festivalInfo.festival_photo && (
-                    <img
-                        src={festivalInfo.festival_photo}
-                        alt={festivalInfo.title}
-                        style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }}
-                    />
-                )}
-            </div>
-
-            {festivalInfo.province && <p><strong>Province:</strong> {festivalInfo.province}</p>}
-            {festivalInfo.month && <p><strong>Month:</strong> {festivalInfo.month}</p>}
-            {festivalInfo.festival_content && <p><strong>Details:</strong> {festivalInfo.festival_content}</p>}
-            {festivalInfo.latitude && festivalInfo.longitude && (
-                <p><strong>Location:</strong> {festivalInfo.latitude}, {festivalInfo.longitude}</p>
-            )}
-            {festivalInfo.festival_link && (
-                <a href={festivalInfo.festival_link} target="_blank" rel="noopener noreferrer">More Info</a>
-            )}
-
-            {isFestivalBlank && (
+            {isFestivalBlank ? (
                 <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                     <img src="/construction.svg" alt="Logo" width="100px" height="40px" />
                     <h3>정보를 불러올 수가 없어요</h3>
                 </div>
+            ) : (
+                <>
+                    <h2>{festivalInfo.title}</h2>
+                    <div style={{ display: 'flex', maxWidth: '300px', margin: 'auto' }}>
+                        {festivalInfo.festival_photo && (
+                            <img
+                                src={festivalInfo.festival_photo}
+                                alt={festivalInfo.title}
+                                style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }}
+                            />
+                        )}
+                    </div>
+                    {!isFestivalBlank && festivalInfo.province && <p><strong>Province:</strong> {festivalInfo.province}</p>}
+                    {!isFestivalBlank && festivalInfo.month && <p><strong>Month:</strong> {festivalInfo.month}</p>}
+                    {!isFestivalBlank && festivalInfo.festival_content && <p><strong>Details:</strong> {festivalInfo.festival_content}</p>}
+                    {!isFestivalBlank && festivalInfo.latitude && festivalInfo.longitude && (
+                        <p><strong>Location:</strong> {festivalInfo.latitude}, {festivalInfo.longitude}</p>
+                    )}
+                    {!isFestivalBlank && festivalInfo.festival_link && (
+                        <a href={festivalInfo.festival_link} target="_blank" rel="noopener noreferrer">More Info</a>
+                    )}
+                </>
             )}
         </div>
     );
