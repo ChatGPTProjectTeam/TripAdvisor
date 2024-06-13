@@ -232,10 +232,11 @@ class PlanService:
             if locations:
                 search_result = ""
                 for location in locations:
+                    print(location)
                     search_result += (
-                        f"추천 여행지 TITLE: {location.name}, "
-                        f"DESCRIPTION: {location.description}, "
-                        f"LAT: {location.lat}, LON: {location.lon}, "
+                        f"추천 여행지 TITLE: {location['name']}, "
+                        f"DESCRIPTION: {location['description']}, "
+                        f"LAT: {location['lat']}, LON: {location['lon']}, "
                         "\n"
                     )
                     # search_result += (
