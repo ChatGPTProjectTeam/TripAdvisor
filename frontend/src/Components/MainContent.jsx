@@ -165,7 +165,7 @@ export default function MainPlanContents() {
 
 export function MainFormContents() {
     return (
-        <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
+        <div className="bg-neutral-700 h-full" style={{ marginTop: '40px', overflowY: "auto"}}>
             <TripForm/>
         </div>
     );

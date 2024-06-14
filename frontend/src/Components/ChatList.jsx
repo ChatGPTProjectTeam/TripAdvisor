@@ -47,6 +47,7 @@ export default function ChatList() {
     // console.log("what's in it:", plans)
 
     return (
+        // <ul className={`${styles.sidebarChatList}`}>
         <ul className={`${styles.sidebarChatList}`}>
             {target.plan_list.slice().reverse().map((plan) => (
                 <li key={plan.trip_plan_id}>
