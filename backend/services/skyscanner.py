@@ -179,7 +179,7 @@ class SkyscannerService:
                 "market": "KR",
                 "locale": "ko-KR",
                 "currency": "KRW",
-                "sorting": "-rating",  # Default value: -relevance
+                #"sorting": "-rating",  # Default value: -relevance
             },
         )
         return response
