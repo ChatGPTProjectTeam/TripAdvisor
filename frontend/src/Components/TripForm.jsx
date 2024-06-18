@@ -232,6 +232,9 @@ function TripForm() {
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <CalendarComp onSelect={handleDateSelect}/>
                         </div>
+                        <div style={{display: 'flex', justifyContent: 'center'}}>
+
+                        </div>
                         {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
                         <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                         <div className='second-option'>
@@ -263,7 +266,7 @@ function TripForm() {
                                        style={{fontSize: '10px'}}>숫자만 작성
                                     해주세요!</label>
                             </div>
-                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                            <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input type="checkbox" name="day" id="cb-day" checked={dayChecked}
                                        onChange={() => setDayChecked(!dayChecked)}/>
                                 <label htmlFor="cb-day">너가 정해</label>
