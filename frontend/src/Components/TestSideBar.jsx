@@ -56,7 +56,7 @@ export default function Sidebar() {
 
             {/* Handle */}
             <div
-                className="w-2 cursor-col-resize"
+                className="w-2 cursor-col-resize bg-gray-400"
                 onMouseDown={() => {
                     isResized.current = true;
                 }}

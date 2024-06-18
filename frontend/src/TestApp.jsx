@@ -10,7 +10,7 @@ import FlightPlan from "./Components/FlightPlan.jsx";
 export default function TestApp() {
     return (
         <BrowserRouter>
-            <div className="w-full h-screen grid grid-cols-[max-content_auto] grid-rows-1 gap-y-2 p-2 bg-black">
+            <div className="w-full h-screen grid grid-cols-[max-content_auto] grid-rows-1 gap-y-2 p-2 bg-gray-300">
                 <Sidebar className="h-full" />
                 <Routes>
                     <Route>

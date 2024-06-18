@@ -159,10 +159,11 @@ const regexActivity = (activityText) => {
                   {!isLocationBlank ? (
                     <MapInfo  targetMapId={targetId} mapDataList={mapData}></MapInfo>
                   ) : (
-                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                      <img src="/construction.svg" alt="Logo" width="100px" height="40px" />
-                      <h3>정보를 불러올 수가 없어요</h3>
-                    </div>
+                      <div style={{marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column'}}>
+                        <div style={{margin: 'auto'}}><img src="/construction.svg" alt="Logo" width="100px"
+                                                           height="40px"/></div>
+                        <h3>정보를 불러올 수가 없어요</h3>
+                      </div>
                   )}
                   {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
                 </div>

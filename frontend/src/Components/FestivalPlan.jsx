@@ -32,8 +32,8 @@ const FestivalPlan = ({ component, targetId }) => {
         <div style={{ display: 'block' }}>
             <div className='title-container'><p> {provinceFileter} 행사 정보</p></div>
             {isFestivalBlank ? (
-                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                    <img src="/construction.svg" alt="Logo" width="100px" height="40px" />
+                <div style={{ marginTop: '20px', marginBottom: '20px', display:'flex', flexDirection:'column'}}>
+                    <div style={{margin:'auto'}}><img src="/construction.svg" alt="Logo" width="100px" height="40px" /></div>
                     <h3>정보를 불러올 수가 없어요</h3>
                 </div>
             ) : (
