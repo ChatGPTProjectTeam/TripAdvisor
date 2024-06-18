@@ -14,6 +14,7 @@
   max-height: calc(100vh - 180px);
   overflow-y: auto;
 }
+
 /*@media (min-width: 610px) {*/
 /*  .sidebar {*/
 /*    z-index: 0;*/
@@ -116,13 +117,12 @@
 }
 .sidebarLoadButton {
   background-color: #FF8F8F; /* Bootstrap primary blue */
-
+  /*height: 80px;*/
 }
 
 .sidebarNewChatBox {
   width: 100%;
   padding: 10px 20px;
-  border-bottom: 2px solid black;
   justify-content: center;
 }
 
@@ -131,9 +131,22 @@
   padding-top: 20px;
   justify-content: center;
 }
+.responsiveBar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
 .festivalButton {
   padding: 6px;
 }
 
-/*this is for 1980x1080*/
+
+/*@media (min-width: 450px) {*/
+/*  .responsiveBar {*/
+/*    flex-direction: row;*/
+/*  }*/
+/*}*/
+
+
+

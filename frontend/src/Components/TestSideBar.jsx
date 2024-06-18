@@ -12,6 +12,21 @@ export default function Sidebar() {
     const [width, setWidth] = useState(defaultWidth);
     const isResized = useRef(false);
 
+    const SideBarIcon = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style={{ fill: 'rgba(0, 0, 0, 1)', transform: 'rotate(90deg)' }}
+        >
+            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
+        </svg>
+    );
+};
+
+
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (!isResized.current) {
@@ -20,9 +35,7 @@ export default function Sidebar() {
 
             setWidth((previousWidth) => {
                 const newWidth = previousWidth + e.movementX / 2;
-
                 const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
-
                 return isWidthInRange ? newWidth : previousWidth;
             });
         };
@@ -42,8 +55,8 @@ export default function Sidebar() {
 
     return (
         <div className="flex">
-            <div style={{ width: `${width / 16}rem` }} className="bg-neutral-700">
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '1080px' }}>
+            <div style={{ width: `${width / 16}rem` }} className="bg-gray-200">
+                <div className={styles.responsiveBar}>
                     <div style={{ scale:'1.3',display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
                         <Link to="/" style={{ display: 'block' }}>
                             <img src="/logo.svg" alt="Logo" style={{ width: '100px', height: 'auto' }} />
@@ -56,41 +69,13 @@ export default function Sidebar() {
 
             {/* Handle */}
             <div
-                className="w-2 cursor-col-resize bg-gray-400"
+                className="w-4 cursor-col-resize bg-gray-100 flex justify-center items-center"
                 onMouseDown={() => {
                     isResized.current = true;
                 }}
-            />
+            >
+                <SideBarIcon />
+            </div>
         </div>
     );
 }
-
-
-// import React, {useEffect, useState} from 'react'
-// import styles from '../Sidebar.module.css'
-// import logoStyle from '../NavBar.module.css'
-// import '../App.css'
-// import ChatList from "./ChatList.jsx";
-// import './ChatButton.jsx'
-// import ChatCreateButton from "./ChatButton.jsx";
-// import NavBar from "./NavBar.jsx";
-// import {Link} from "react-router-dom";
-//
-// function Sidebar() {
-//     const [width, setWidth] = useState(450);
-//     return(
-//         <div style={{flex: 1}} className={`${styles.sidebar}`}>
-//             <div style={{display: 'flex', flexDirection: 'column', width: '100%', minHeight: '1080'}}>
-//                 <div style={{scale:'1.3', height: '100%'}} className={`${logoStyle.logo}`}>
-//                     {<Link to="/">
-//                         <img src="/logo.svg" alt="Logo" width="100px" height="40px"/>
-//                     </Link>}
-//                 </div>
-//                 <ChatCreateButton/>
-//                 <ChatList/>
-//             </div>
-//         </div>
-//     )
-// }
-//
-// export default Sidebar;

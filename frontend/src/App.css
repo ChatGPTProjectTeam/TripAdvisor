@@ -134,7 +134,7 @@
 }
 
 .button-80 {
-  background: #fff;
+  /*background: #fff;*/
   backface-visibility: hidden;
   border-radius: .375rem;
   border-style: solid;
@@ -225,7 +225,7 @@
   font-size: 18px;
   }
   .subPlaceTitle {
-  color: #FFFFFF;
+  /*color: #FFFFFF;*/
   font-size: 24px;
   }
 

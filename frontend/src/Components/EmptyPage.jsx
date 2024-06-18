@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 function EmptyPage() {
 
     return(
-        <div className="bg-neutral-700 h-full">
+        <div className="bg-grey-300 h-full">
             <div>
                 <h1>Wrong Path</h1>
                 <Link to="/"><h2>돌아가기</h2></Link>

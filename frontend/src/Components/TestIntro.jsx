@@ -4,7 +4,7 @@ import LoadingScreen from "./LoadingScreen.jsx";
 
 const TestIntro = () => {
     return (
-        <div className="bg-neutral-700 h-full">Main Content</div>
+        <div className="bg-grey-300 h-full">Main Content</div>
     )
 }
 

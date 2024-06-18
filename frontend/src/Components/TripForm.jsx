@@ -203,25 +203,27 @@ function TripForm() {
         <>
             {loading && <LoadingScreen />}
             {!loading && (
-                <form className={formStyles['formMain']} onSubmit={onSubmit}>
-                    <div style={{marginTop: '90px'}}>
+                <form className={formStyles.formMain} onSubmit={onSubmit} style={{overflowY: 'auto'}}>
+                    <div style={{marginTop: '90px', height: '100%'}}>
                         <h1 style={{fontSize: '30px', paddingBottom: '10px'}}>아래의 내용들을 선택 혹은 입력해주세요</h1>
                         <div className='sub-font'>
                             아래의 카테고리 중 하나 이상을 골라주세요
                         </div>
+
                         <div className="input_area">
                             <div style={{display: 'flex', justifyContent: 'center'}}>
                                 {categoryOptions.map((option, index) => (
-                                    <div key={index} style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
-                                    <input
-                                        type="checkbox"
-                                        id={`category-${index}`}
-                                        checked={selectedCategory.includes(option)}
-                                        onChange={() => handleCategorySelection(option)}
-                                    />
-                                    <label htmlFor={`category-${index}`}>{option}</label>
-                                </div>
-                            ))}
+                                    <div key={index} style={{paddingLeft: '10px'}}
+                                         className={formStyles["checkbox-wrapper-47"]}>
+                                        <input
+                                            type="checkbox"
+                                            id={`category-${index}`}
+                                            checked={selectedCategory.includes(option)}
+                                            onChange={() => handleCategorySelection(option)}
+                                        />
+                                        <label htmlFor={`category-${index}`}>{option}</label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         {errors.category && <div className="error">{errors.category}</div>}
@@ -234,7 +236,8 @@ function TripForm() {
                         <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                         <div className='second-option'>
                             {provinceLabels.map((label, index) => (
-                                <div key={index} style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
+                                <div key={index} style={{paddingLeft: '10px'}}
+                                     className={formStyles["checkbox-wrapper-47"]}>
                                     <input
                                         type="checkbox"
                                         id={`province-${index}`}
@@ -252,10 +255,12 @@ function TripForm() {
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className={formStyles["text-box"]}>
-                                <input type="text" className={formStyles["form__input"]} id="name-1" placeholder="ex:2박 => 2"
+                                <input type="text" className={formStyles["form__input"]} id="name-1"
+                                       placeholder="ex:2박 => 2"
                                        value={inputDay}
                                        required="" onChange={handleDayInput}/>
-                                <label htmlFor="name-1" className={formStyles["form__label"]} style={{fontSize: '10px'}}>숫자만 작성
+                                <label htmlFor="name-1" className={formStyles["form__label"]}
+                                       style={{fontSize: '10px'}}>숫자만 작성
                                     해주세요!</label>
                             </div>
                             <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
@@ -268,9 +273,11 @@ function TripForm() {
                         <div className={formStyles['sub-font']}>몇명이랑 가나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className="text-box">
-                                <input type="text" className={formStyles["form__input"]} id="name-2" placeholder="ex:3명 => 3"
+                                <input type="text" className={formStyles["form__input"]} id="name-2"
+                                       placeholder="ex:3명 => 3"
                                        value={inputPerson} required="" onChange={handlePersonInput}/>
-                                <label htmlFor="name-1" className={formStyles["form__label"]} style={{fontSize: '10px'}}>😏같이 갈사람
+                                <label htmlFor="name-1" className={formStyles["form__label"]}
+                                       style={{fontSize: '10px'}}>😏같이 갈사람
                                     없죠?</label>
                             </div>
                             <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
@@ -283,9 +290,11 @@ function TripForm() {
                         <div className='sub-font'>원하시는 여행 스타일이 있으신가요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className="text-box">
-                                <input type="text" className={formStyles["form__input"]} id="name-3" placeholder="ex: 맛집 위주"
+                                <input type="text" className={formStyles["form__input"]} id="name-3"
+                                       placeholder="ex: 맛집 위주"
                                        value={inputStyle} required="" onChange={handleStyleInput}/>
-                                <label htmlFor="name-3" className={formStyles["form__label"]} style={{fontSize: '10px'}}>원하시는 여행 스타일
+                                <label htmlFor="name-3" className={formStyles["form__label"]}
+                                       style={{fontSize: '10px'}}>원하시는 여행 스타일
                                     작성
                                     부탁드려요</label>
                             </div>
@@ -299,7 +308,7 @@ function TripForm() {
                         <div className='sub-font'>
                             밤에 출발하는 걸 선호하시나요 아니면 낮에 출발하는걸 선호 하시나요?
                         </div>
-                        <div className={formStyles["input_area"]} style={{display:'flex', justifyContent:'center'}}>
+                        <div className={formStyles["input_area"]} style={{display: 'flex', justifyContent: 'center'}}>
                             <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input
                                     type="checkbox"
@@ -321,7 +330,13 @@ function TripForm() {
                         </div>
 
                         {errors.launch && <div className={formStyles["error"]}>{errors.launch}</div>}
-                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            height: '100%',
+                            marginTop: '30px',
+                            marginBottom: '30px'
+                        }}>
                             <button className={formStyles["submitButton"]} type="submit ">코스 생성</button>
                         </div>
                     </div>

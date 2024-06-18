@@ -1,8 +1,8 @@
 .formMain {
   list-style-type: none;
   max-height: 950px;
-  overflow-y: auto;
-
+  /*overflow-y: auto;*/
+  margin-bottom: 80px;
 }
 
 .sub-font {
@@ -185,6 +185,10 @@
     line-height: 2;
     cursor: pointer;
     display: inline-flex;
+    border: 2px solid #FFFFFF;
+    /*temporal fix*/
+    border-radius: 4px;
+    margin-bottom: 4px;
   }
 
   .checkbox-wrapper-47 label:before {
@@ -196,7 +200,7 @@
     display: block;
     width: 1.4em;
     height: 1.4em;
-    border: 2px solid #9098A9;
+    border: 2px solid #000000;
     border-radius: 6px;
     z-index: -1;
   }
@@ -338,6 +342,13 @@
   box-shadow: none;
   transform: translateY(0);
 }
+
+
+
+
+
+
+
 
 
 
