@@ -52,7 +52,7 @@ export default function ChatList() {
             {target.plan_list.slice().reverse().map((plan) => (
                 <li key={plan.trip_plan_id}>
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
-                        <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
+                        <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton} bg-grey-300`}>
                             <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px'}}>
                                 <span className="text">Target: {plan.province}</span>
                                 {/*<span>생성일자: {dateFilter(plan.created_at)}</span> */}

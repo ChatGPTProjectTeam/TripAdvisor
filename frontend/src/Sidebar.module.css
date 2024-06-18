@@ -116,8 +116,10 @@
 
 }
 .sidebarLoadButton {
-  background-color: #FF8F8F; /* Bootstrap primary blue */
+  background-color: lightgray; /* Bootstrap primary blue */
   /*height: 80px;*/
+  border: 2px solid;
+
 }
 
 .sidebarNewChatBox {
