@@ -57,7 +57,7 @@ export default function ChatList() {
                                 <span className="text">Target: {plan.province}</span>
                                 {/*<span>생성일자: {dateFilter(plan.created_at)}</span> */}
                             </div>
-                            <div style={{color: '#ffffff', fontSize: '16px'}}>{plan.province} 여행코스</div>
+                            <div style={{color: '#ffffff', fontSize: '16px'}}>{plan.trip_plan_id}번째 여행코스</div>
                         </Link>
                     </div>
                 </li>

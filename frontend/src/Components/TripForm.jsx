@@ -236,9 +236,7 @@ function TripForm() {
 
                         </div>
                         {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
-                        {/*<div>*/}
-                        {/*    */}
-                        {/*</div>*/}
+
                         <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                         <div className={formStyles['second-option']}>
                             <div className={formStyles['checkbox-container']}>

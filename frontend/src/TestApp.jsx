@@ -15,6 +15,8 @@ export default function TestApp() {
                 <Routes>
                     <Route>
                         <Route path="/" element={<IntroPage/>}/>
+                        <Route path="/test" element={<TestIntro/>}/>
+
                         <Route path="/create_form" element={<MainFormContents/>}/>
                         <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                         <Route path="/create_chat" element={<CreateForm/>}/>

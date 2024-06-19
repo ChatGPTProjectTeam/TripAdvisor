@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import styles from '../Sidebar.module.css';
 import logoStyle from '../NavBar.module.css';
+import PopUp from "./PopUp.jsx";
 
 const [minWidth, maxWidth, defaultWidth] = [200, 500, 350];
 
@@ -64,6 +65,9 @@ export default function Sidebar() {
                     </div>
                     <ChatCreateButton />
                     <ChatList />
+                    <div style={{marginTop:'10px', marginBottom:'10px'}}>
+                        <PopUp/>
+                    </div>
                 </div>
             </div>
 
