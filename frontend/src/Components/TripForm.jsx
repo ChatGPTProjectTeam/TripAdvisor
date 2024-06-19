@@ -236,20 +236,24 @@ function TripForm() {
 
                         </div>
                         {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
+                        {/*<div>*/}
+                        {/*    */}
+                        {/*</div>*/}
                         <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
-                        <div className='second-option'>
-                            {provinceLabels.map((label, index) => (
-                                <div key={index} style={{paddingLeft: '10px'}}
-                                     className={formStyles["checkbox-wrapper-47"]}>
-                                    <input
-                                        type="checkbox"
-                                        id={`province-${index}`}
-                                        checked={selectedProvince === label}
-                                        onChange={() => setSelectedProvince(label)}
-                                    />
-                                    <label htmlFor={`province-${index}`}>{label}</label>
-                                </div>
-                            ))}
+                        <div className={formStyles['second-option']}>
+                            <div className={formStyles['checkbox-container']}>
+                                {provinceLabels.map((label, index) => (
+                                    <div key={index} className={formStyles["checkbox-wrapper-47"]}>
+                                        <input
+                                            type="checkbox"
+                                            id={`province-${index}`}
+                                            checked={selectedProvince === label}
+                                            onChange={() => setSelectedProvince(label)}
+                                        />
+                                        <label htmlFor={`province-${index}`}>{label}</label>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {errors.province && <div className={formStyles["error"]}>{errors.province}</div>}
                         <div className='japanMap' style={{marginTop: '10px'}}></div>
@@ -258,7 +262,7 @@ function TripForm() {
                         <div className='sub-font'>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className={formStyles["text-box"]}>
-                                <input type="text" className={formStyles["form__input"]} id="name-1"
+                            <input type="text" className={formStyles["form__input"]} id="name-1"
                                        placeholder="ex:2박 => 2"
                                        value={inputDay}
                                        required="" onChange={handleDayInput}/>
