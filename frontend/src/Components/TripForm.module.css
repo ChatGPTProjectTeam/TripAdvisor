@@ -185,6 +185,8 @@
   .checkbox-wrapper-47 input[type=checkbox]:checked + label {
     padding-left: 1em;
     color: #FFFFFF;
+    background-color: #6c767a;
+
   }
   .checkbox-wrapper-47 input[type=checkbox]:checked + label:before {
     top: 0;
