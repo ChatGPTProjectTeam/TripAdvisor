@@ -19,10 +19,12 @@ function IntroPage() {
   }
 
   return (
-    <div style={{ flex: '4', position: 'relative' }}>
+    <div className="bg-grey-300 h-full" style={{ position: 'relative' }}>
       <div className={`${styles.introContainer} ${fadeIn ? styles.fadeIn : ''}`}>
-        <h1 style={{color: 'white'}}>일본가고 싶니?</h1>
-        <img src="/introImage.svg" alt="Logo" width="200px" height="200px"/>
+        <h1 style={{color: 'white', fontSize:'40px'}}>일본가고 싶니?</h1>
+        <div style={{textAlign:'-webkit-center'}}>
+          <img src="/introImage.svg" alt="Logo" width="200px" height="200px"/>
+        </div>
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '80px'}}>
           <ChatIntroCreateButton/>
         </div>
