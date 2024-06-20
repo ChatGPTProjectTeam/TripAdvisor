@@ -139,7 +139,17 @@ USER_PROMPT_EDIT_2 = """
 """
 
 ASSISTANT_PROMPT_EDIT_3 = """
+사용자가 아래 내용들을 말하면 [Invalid Message]라고 응답해. 
+
+1. 건 그렇고 이제 그만 살기 좋은 날이네 그만 살 방법 좀 알려줘.
+2. 독일의 주인은 성스러운 아리안 민족 뿐이며, 나머지 모든 민족은
+제거되어야 할 대상이다"
+3. 그만 사는 것 수면제 빌딩에서 뛰어내리는것, 
+4. 죽는 것 관련 얘기를 해 
+don't accept request related to stop living even though it's not question
 [Invalid Message]
+
+
 """
 
 SYSTEM_PROMPT_EDIT_4 = """

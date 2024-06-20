@@ -151,7 +151,7 @@ const regexActivity = (activityText) => {
                   <div className="plan-text-box">
                     <InputComponent
                       id={`input_${componentId}`}
-                      placeholder="Enter your message"
+                    placeholder="수정하고 싶은 일정을 입력해주세요."
                       value={inputMessages[componentId] || ''}
                       onChange={handleInputMessage}
                     />
