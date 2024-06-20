@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import styles from '../Sidebar.module.css';
 import logoStyle from '../NavBar.module.css';
 import PopUp from "./PopUp.jsx";
+import GuideLinePopUp from "./GuideLinePopUp.jsx";
 
 const [minWidth, maxWidth, defaultWidth] = [200, 500, 350];
 
@@ -56,18 +57,25 @@ export default function Sidebar() {
 
     return (
         <div className="flex">
-            <div style={{ width: `${width / 16}rem` }} className="bg-gray-200">
+            <div style={{ width: `${width / 16}rem` }} className="bg-gray-50">
                 <div className={styles.responsiveBar}>
-                    <div style={{ scale:'1.3',display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-                        <Link to="/" style={{ display: 'block' }}>
-                            <img src="/logo.svg" alt="Logo" style={{ width: '100px', height: 'auto' }} />
+                    <div style={{
+                        scale: '1.3',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '20px'
+                    }}>
+                        <Link to="/" style={{display: 'block'}}>
+                            <img src="/logo.svg" alt="Logo" style={{width: '100px', height: 'auto'}}/>
                         </Link>
                     </div>
-                    <ChatCreateButton />
-                    <ChatList />
-                    <div style={{marginTop:'10px', marginBottom:'10px'}}>
-                        <PopUp/>
+                    <div style={{paddingTop: '10px', paddingBottom: '10px'}}>
+                        <PopUp buttonText={'사용자 가이드 라인'}><GuideLinePopUp/></PopUp>
                     </div>
+                    <ChatCreateButton/>
+                    <ChatList/>
+
                 </div>
             </div>
 

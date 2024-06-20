@@ -159,8 +159,13 @@ const regexActivity = (activityText) => {
                       <ReloadButton onClick={handleReloadClick} />
                     </div>
                   </div>
-                  <div style={{ marginTop: '30px' }}><h3>지도 정보</h3></div>
-                  <div style={{ marginTop: '20px',paddingLeft:'30px', paddingRight:'30px',maxWidth:'600px',maxHeight:'600px' }}>
+                  <div style={{marginTop: '30px'}} className={'title-container'}>
+                    <div><h3>지도 정보</h3></div>
+                  </div>
+                  <div style={{
+                    marginTop: '20px',
+                    paddingLeft: '30px',
+                    paddingRight:'30px',maxWidth:'600px',maxHeight:'600px' }}>
                     {!isLocationBlank ? (
                       <MapInfo  targetMapId={targetId} mapDataList={mapData}></MapInfo>
                     ) : (

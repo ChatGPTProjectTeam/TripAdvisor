@@ -11,7 +11,7 @@
 .sidebarChatList {
   list-style-type: none;
   height: 100%;
-  max-height: calc(100vh - 180px);
+  max-height: calc(100vh - 240px);
   overflow-y: auto;
 }
 
@@ -116,13 +116,14 @@
 
 }
 .sidebarLoadButton {
-  background-color: lightgray; /* Bootstrap primary blue */
+  background-color: #ede9fe;
   /*height: 80px;*/
-  border: 2px solid;
+  /*border: 2px solid;*/
 
 }
 
 .sidebarNewChatBox {
+  color:#c4b5fd;
   width: 100%;
   padding: 10px 20px;
   justify-content: center;
@@ -130,7 +131,7 @@
 
 .sidebarChatBox {
   width: 100%;
-  padding-top: 20px;
+  padding-top: 5px;
   justify-content: center;
 }
 .responsiveBar {

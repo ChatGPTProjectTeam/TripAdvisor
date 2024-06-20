@@ -6,7 +6,7 @@
 }
 .title-container {
     display: flex;
-    align-items: flex-start;
+    justify-content: center;
     background-color: #FFFFFF;
     padding-left: 5px;
     border-radius: 3px;

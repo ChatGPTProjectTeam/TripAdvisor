@@ -6,12 +6,13 @@ import EmptyPage from "./Components/EmptyPage.jsx";
 import MainPlanContents, {MainFormContents} from "./Components/MainContent.jsx";
 import {CreateForm} from "./Components/CreateForm.jsx";
 import FlightPlan from "./Components/FlightPlan.jsx";
+import PopUp from "./Components/PopUp.jsx";
 
 export default function TestApp() {
     return (
         <BrowserRouter>
-            <div className="w-full h-screen grid grid-cols-[max-content_auto] grid-rows-1 gap-y-2 bg-gray-300">
-                <Sidebar className="h-full" />
+            <div className="w-full h-screen grid grid-cols-[max-content_auto] grid-rows-1 bg-gray-300">
+                <Sidebar className="h-full"/>
                 <Routes>
                     <Route>
                         <Route path="/" element={<IntroPage/>}/>
@@ -26,6 +27,7 @@ export default function TestApp() {
                     </Route>
                     <Route path="*" element={<EmptyPage/>}/>
                 </Routes>
+
             </div>
         </BrowserRouter>
     );

@@ -206,7 +206,7 @@ function TripForm() {
                 <form className={formStyles.formMain} onSubmit={onSubmit} style={{overflowY: 'auto'}}>
                     <div style={{marginTop: '90px', height: '100%'}}>
                         <h1 style={{fontSize: '30px', paddingBottom: '10px'}}>아래의 내용들을 선택 혹은 입력해주세요</h1>
-                        <div className='sub-font'>
+                        <div className={formStyles['sub-font']}>
                             아래의 카테고리 중 하나 이상을 골라주세요
                         </div>
 
@@ -237,7 +237,7 @@ function TripForm() {
                         </div>
                         {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
 
-                        <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
+                        <div className={formStyles['sub-font']}>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
                         <div className={formStyles['second-option']}>
                             <div className={formStyles['checkbox-container']}>
                                 {provinceLabels.map((label, index) => (
@@ -257,7 +257,7 @@ function TripForm() {
                         <div className='japanMap' style={{marginTop: '10px'}}></div>
                         <PopUp buttonText="뭐가 뭔지 모르겠어요"><MapForForm/></PopUp>
                         {/*날짜*/}
-                        <div className='sub-font'>총 몇박을 원하나요?</div>
+                        <div className={formStyles['sub-font']}>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className={formStyles["text-box"]}>
                             <input type="text" className={formStyles["form__input"]} id="name-1"
@@ -292,7 +292,7 @@ function TripForm() {
                             </div>
                         </div>
                         {errors.person && <div className={formStyles["error"]}>{errors.person}</div>}
-                        <div className='sub-font'>원하시는 여행 스타일이 있으신가요?</div>
+                        <div className={formStyles['sub-font']}>원하시는 여행 스타일이 있으신가요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className="text-box">
                                 <input type="text" className={formStyles["form__input"]} id="name-3"
@@ -310,7 +310,7 @@ function TripForm() {
                             </div>
                         </div>
                         {errors.style && <div className={formStyles["error"]}>{errors.style}</div>}
-                        <div className='sub-font'>
+                        <div className={formStyles['sub-font']}>
                             밤에 출발하는 걸 선호하시나요 아니면 낮에 출발하는걸 선호 하시나요?
                         </div>
                         <div className={formStyles["input_area"]} style={{display: 'flex', justifyContent: 'center'}}>
