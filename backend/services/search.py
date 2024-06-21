@@ -22,10 +22,14 @@ class SearchService:
         self.model = DistilBertModel.from_pretrained("monologg/distilkobert")
 
     def search_category(self, categories: list[str], province: str) -> list[Location]:
+        q_list = [Q("match", province=province)]
+        if province != "일본 규슈":
+            q_list.append(Q("terms", category=categories))
+
         s = Search(index=INDEX_NAME).query(
             Q(
                 "bool",
-                must=[Q("match", province=province), Q("terms", category=categories)],
+                must=[*q_list],
             )
         )[:10]
         response = s.execute()
