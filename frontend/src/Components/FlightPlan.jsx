@@ -24,11 +24,18 @@ const FlightPlan = ({ component, courseId, index }) => {
                 <p>{plane_info.origin}</p>
                 <p>{plane_info.departure}</p>
             </div>
-            <div style={{ minWidth: '300px' }}>
-                {/* Assuming 'Plane' is a component */}
-                <Plane />
+            <div>
+                <div style={{minWidth: '300px'}}>
+                    {/* Assuming 'Plane' is a component */}
+                    <Plane/>
+                </div>
+                <div>
+                    <p style={{fontSize:'9px'}}>{plane_info.airline}</p>
+
+                </div>
             </div>
-            <div style={{ fontSize: '12px' }}>
+
+            <div style={{fontSize: '12px'}}>
                 <p>{plane_info.destination}</p>
                 <p>{plane_info.arrival}</p>
             </div>

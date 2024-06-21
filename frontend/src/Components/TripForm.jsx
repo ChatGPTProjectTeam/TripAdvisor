@@ -237,7 +237,10 @@ function TripForm() {
                         </div>
                         {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
 
-                        <div className={formStyles['sub-font']}>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
+                        <div className={formStyles['sub-font']}>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.
+                            <div style={{paddingTop:'6px',fontSize: '9px', color: 'red'}}>간토, 간사이, 오키나와 지역만 최신 여행지가 반영되어 있습니다.</div>
+                        </div>
+
                         <div className={formStyles['second-option']}>
                             <div className={formStyles['checkbox-container']}>
                                 {provinceLabels.map((label, index) => (
@@ -260,7 +263,7 @@ function TripForm() {
                         <div className={formStyles['sub-font']}>총 몇박을 원하나요?</div>
                         <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className={formStyles["text-box"]}>
-                            <input type="text" className={formStyles["form__input"]} id="name-1"
+                                <input type="text" className={formStyles["form__input"]} id="name-1"
                                        placeholder="ex:2박 => 2"
                                        value={inputDay}
                                        required="" onChange={handleDayInput}/>
