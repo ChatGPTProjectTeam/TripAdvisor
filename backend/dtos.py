@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -165,7 +165,7 @@ class TripInfo(BaseModel):
             trip_member_num = 1
 
         if not check_date_format(form_request_dto.start_date):
-            start_date = datetime.now().date() + 1
+            start_date = datetime.now().date() + timedelta(days=1)
         else:
             start_date = form_request_dto.start_date
 
