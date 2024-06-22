@@ -9,5 +9,19 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      function removeQueryParameterOnRefresh(paramName) {
+          const currentUrl = new URL(window.location.href);
+          const params = new URLSearchParams(currentUrl.search);
+
+          if (params.has(paramName)) {
+              params.delete(paramName);
+              const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${params.toString()}`;
+              window.location.href = newUrl.endsWith('?') ? newUrl.slice(0, -1) : newUrl;
+          }
+      }
+      const paramName = 'province';
+      removeQueryParameterOnRefresh(paramName);
+  </script>
   </body>
 </html>
