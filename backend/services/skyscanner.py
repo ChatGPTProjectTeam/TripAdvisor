@@ -10,6 +10,7 @@ from backend.dtos import PlaneInfoDTO, AccommodationInfoDTO, TripInfo
 from backend.models import PlaneInfo, AccommodationInfo
 from backend.settings import settings
 
+iter: int = 0
 
 class SkyscannerService:
     def create_plane_and_accommodation_info(
@@ -217,6 +218,9 @@ class SkyscannerService:
         # flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.\
         airport_id = self._search_airport(trip_info)
         
+        if iter > 5:
+            return None
+        
         if direction == 0:  # 가는 비행기
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
@@ -259,6 +263,7 @@ class SkyscannerService:
         total_results = data["data"]["context"]["totalResults"]
         if total_results < 10:
             # 한번 검색했을 때 결과 수가 0일 수도 있어서 예외처리
+            iter = iter + 1
             return self.create_plane_info_dto(trip_info, direction)
 
         flight = None

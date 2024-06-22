@@ -164,7 +164,7 @@ class TripInfo(BaseModel):
             trip_member_num = 1
 
         if not check_date_format(form_request_dto.start_date):
-            start_date = datetime.now().date()
+            start_date = datetime.now().date() + 1
         else:
             start_date = form_request_dto.start_date
 
