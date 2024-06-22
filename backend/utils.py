@@ -80,7 +80,7 @@ def convert_provinces(provinces: list[str]) -> list[str]:
         elif province == "간토":
             new_list.append("일본 간토 지방")
         elif province == "오키나와":
-            new_list.append("일본 오키나와 지방")
+            new_list.append("일본 오키나와")
         else:
             new_list.append(province)
     return new_list
