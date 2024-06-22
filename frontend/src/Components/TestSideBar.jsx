@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import ChatList from "./ChatList.jsx";
 import ChatCreateButton from "./ChatButton.jsx";
-import { Link } from "react-router-dom";
+import formStyles from './TripForm.module.css';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 
 import styles from '../Sidebar.module.css';
 import logoStyle from '../NavBar.module.css';
@@ -13,6 +15,11 @@ const [minWidth, maxWidth, defaultWidth] = [200, 500, 350];
 export default function Sidebar() {
     const [width, setWidth] = useState(defaultWidth);
     const isResized = useRef(false);
+    const provinceOptions = ["간사이", "간토", "오키나와"];
+    const [selectedProvince, setSelectedProvince] = useState([]);
+    const navigate = useNavigate(); // useNavigate 초기화
+    const location = useLocation(); // useLocation 초기화
+
 
     const SideBarIcon = () => {
     return (
@@ -74,6 +81,25 @@ export default function Sidebar() {
                         <PopUp buttonText={'사용자 가이드 라인'}><GuideLinePopUp/></PopUp>
                     </div>
                     <ChatCreateButton/>
+                    <div style={{paddingTop: '10px', paddingBottom: '10px'}}>
+                        필터하고 싶은 지역을 선택해주세요
+                    </div>
+                    <div className="input_area">
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                {provinceOptions.map((option, index) => (
+                                    <div key={index} style={{paddingLeft: '10px'}}
+                                         className={formStyles["checkbox-wrapper-47"]}>
+                                        <input
+                                            type="checkbox"
+                                            id={`province-sidebar-${index}`}
+                                            checked={selectedProvince.includes(option)}
+                                            onChange={() => handleProvinceSelection(option)}
+                                        />
+                                        <label htmlFor={`province-sidebar-${index}`}>{option}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     <ChatList/>
 
                 </div>
@@ -90,4 +116,23 @@ export default function Sidebar() {
             </div>
         </div>
     );
+
+    function handleProvinceSelection(option) {
+        setSelectedProvince(prevCategory => {
+            const newProvince = prevCategory.includes(option)
+                ? prevCategory.filter(category => category !== option)
+                : [...prevCategory, option];
+
+            // query parameter 업데이트
+            const queryParams = new URLSearchParams(location.search);
+            if (newProvince.length > 0) {
+                queryParams.set("province", newProvince.join(","));
+            } else {
+                queryParams.delete("province");
+            }
+            navigate(`?${queryParams.toString()}`);
+
+            return newProvince;
+        });
+    }
 }

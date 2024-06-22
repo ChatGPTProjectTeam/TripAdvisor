@@ -19,7 +19,8 @@ function dateFilter(dateString) {
 
 async function fetchPlans(pages) {
     try {
-        const response = await fetch('https://api.visit-with-tripper.site/api/v1/plans');
+        const response = await fetch(`https://api.visit-with-tripper.site/api/v1/plans${location.search}`);
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -34,7 +35,7 @@ async function fetchPlans(pages) {
 
 export default function ChatList() {
     const [plans, setPlans] = useState(null);
-    const { data: target, loading, error } = asyncFetch('https://api.visit-with-tripper.site/api/v1/plans');
+    const { data: target, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plans${location.search}`);
     // console.log("can you see this:" ,tripData);
     useEffect(() => {
         setPlans(target);

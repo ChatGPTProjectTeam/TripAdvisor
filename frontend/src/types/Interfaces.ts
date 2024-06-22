@@ -17,6 +17,7 @@ export interface PlanComponent {
 
 export interface FestivalInfo {
     festival_content?: string;
+    festival_content_markdown?: string;
     festival_photo?: string;
     latitude?: number;
     longitude?: number;

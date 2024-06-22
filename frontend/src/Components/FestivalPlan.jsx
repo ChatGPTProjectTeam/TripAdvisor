@@ -3,6 +3,7 @@ import styles from "./PopUp.module.css";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import asyncFetch from "../hooks/loadWaitData.jsx";
+import ReactMarkdown from 'react-markdown';
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
 import Markdown from 'react-markdown'
 
@@ -29,6 +30,8 @@ const FestivalPlan = ({ component, targetId }) => {
         navigate(`/chat/${targetId}`);
     };
 
+    console.log(festivalInfo.festival_content_markdown);
+    console.log("############");
     return (
         <div style={{ display: 'block' }}>
             <div className='title-container'><p> {provinceFileter} 행사 정보</p></div>
@@ -51,7 +54,12 @@ const FestivalPlan = ({ component, targetId }) => {
                     </div>
                     {!isFestivalBlank && festivalInfo.province && <p><strong>Province:</strong> {festivalInfo.province}</p>}
                     {!isFestivalBlank && festivalInfo.month && <p><strong>Month:</strong> {festivalInfo.month}</p>}
-                    {!isFestivalBlank && festivalInfo.festival_content && <p><strong>Details:</strong> {festivalInfo.festival_content}</p>}
+                    {!isFestivalBlank && festivalInfo.festival_content_markdown && (
+                        <div>
+                            <strong>Details:</strong> 
+                            <ReactMarkdown className="prose">{festivalInfo.festival_content_markdown}</ReactMarkdown>
+                        </div>
+                    )}
                     {!isFestivalBlank && festivalInfo.latitude && festivalInfo.longitude && (
                         <p><strong>Location:</strong> {festivalInfo.latitude}, {festivalInfo.longitude}</p>
                     )}
@@ -63,5 +71,6 @@ const FestivalPlan = ({ component, targetId }) => {
         </div>
     );
 }
+
 
 export default FestivalPlan;
