@@ -122,8 +122,8 @@ function TripForm() {
 
        const formattedDate = selectedDate.replace(/\//g, '-');
         const selectedDateObject = new Date(formattedDate);
-        if (selectedDate && selectedDateObject < presentDate) {
-        newErrors.date = '이전 날짜는 사용할 수 없습니다.';
+        if (selectedDate && selectedDateObject <= presentDate) {
+        newErrors.date = '이전 혹은 금일 날짜는 사용할 수 없습니다.';
         valid = false;
     }
 
