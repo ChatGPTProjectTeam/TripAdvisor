@@ -91,7 +91,7 @@ export default function Sidebar() {
                                          className={formStyles["checkbox-wrapper-47"]}>
                                         <input
                                             type="checkbox"
-                                            id={`category-${index}`}
+                                            id={`province-sidebar-${index}`}
                                             checked={selectedProvince.includes(option)}
                                             onChange={() => handleProvinceSelection(option)}
                                         />
@@ -119,20 +119,20 @@ export default function Sidebar() {
 
     function handleProvinceSelection(option) {
         setSelectedProvince(prevCategory => {
-            const newSelection = prevCategory.includes(option)
+            const newProvince = prevCategory.includes(option)
                 ? prevCategory.filter(category => category !== option)
                 : [...prevCategory, option];
 
             // query parameter 업데이트
             const queryParams = new URLSearchParams(location.search);
-            if (newSelection.length > 0) {
-                queryParams.set("province", newSelection.join(","));
+            if (newProvince.length > 0) {
+                queryParams.set("province", newProvince.join(","));
             } else {
                 queryParams.delete("province");
             }
             navigate(`?${queryParams.toString()}`);
 
-            return newSelection;
+            return newProvince;
         });
     }
 }
