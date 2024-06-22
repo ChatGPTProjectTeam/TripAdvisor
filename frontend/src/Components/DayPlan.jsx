@@ -41,7 +41,7 @@ const DayPlan = ({ locationComponent, component, targetId, componentId, mapData 
   const [isLoading, setIsLoading] = useState(false);
   const [locationPlan, setLocationPlan] = useState([]);
   const [festivalPlan, setFestivalPlan] = useState([]);
-  console.log(mapData)
+  // console.log(mapData)
 
   useEffect(() => {
     setActivityText(component.activity);

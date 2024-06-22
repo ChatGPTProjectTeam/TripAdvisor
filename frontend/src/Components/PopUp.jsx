@@ -44,7 +44,7 @@ export default function PopUp({ children, buttonText = "지도 보기" }) {
 export function InternalPopUp({ children, buttonText = "지도 보기", targetId }) {
     const [modal, setModal] = useState(false);
     const [fade, setFade] = useState(false);
-    console.log("targeto:",targetId);
+    // console.log("targeto:",targetId);
 
     const toggleModal = () => {
         if (modal) {

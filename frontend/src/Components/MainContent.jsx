@@ -93,7 +93,7 @@ export default function MainPlanContents() {
 // console.log('Coordinates:', coordinates);
 
 
-    console.log('check this data', filteredPlan);
+    // console.log('check this data', filteredPlan);
 
 
     if (loading || !filteredPlan) {

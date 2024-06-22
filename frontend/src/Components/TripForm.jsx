@@ -80,7 +80,7 @@ function TripForm() {
                 ? prevCategory.filter(category => category !== option)
                 : [...prevCategory, option]
         );
-        console.log(selectedCategory);
+        // console.log(selectedCategory);
     }
 
     function handleLaunchOption(value) {
@@ -172,9 +172,9 @@ function TripForm() {
                 return;
             }
 
-            console.log('Form submission:', selectedCategory, selectedDate, selectedProvince, selectedLaunch);
-            console.log('first input: ', inputPerson);
-            console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
+            // console.log('Form submission:', selectedCategory, selectedDate, selectedProvince, selectedLaunch);
+            // console.log('first input: ', inputPerson);
+            // console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
             // console.log('Data from fetch:', chats);
 
             const whenFilter = whenChecked ? '' : selectedDate
@@ -193,7 +193,7 @@ function TripForm() {
             };
             setLoading(true);
             const result = await CreateForm(formData);
-            console.log('check this out brother', result);
+            // console.log('check this out brother', result);
             window.location.href = '/';
             setLoading(false);
         }
