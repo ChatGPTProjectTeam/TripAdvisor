@@ -7,6 +7,8 @@ import MainPlanContents, {MainFormContents} from "./Components/MainContent.jsx";
 import {CreateForm} from "./Components/CreateForm.jsx";
 import FlightPlan from "./Components/FlightPlan.jsx";
 import PopUp from "./Components/PopUp.jsx";
+import LoadingForChange from "./Components/LoadingForChange.jsx";
+import DayPlanLoadingScreen from "./Components/DayPlanLoadingScreen.jsx";
 
 export default function TestApp() {
     return (
@@ -16,12 +18,12 @@ export default function TestApp() {
                 <Routes>
                     <Route>
                         <Route path="/" element={<IntroPage/>}/>
-                        <Route path="/test" element={<TestIntro/>}/>
 
                         <Route path="/create_form" element={<MainFormContents/>}/>
                         <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                         <Route path="/create_chat" element={<CreateForm/>}/>
                         <Route path="/flight" element={<FlightPlan/>}/>
+
                         {/*className="bg-neutral-700 h-full"*/}
 
                     </Route>

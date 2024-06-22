@@ -37,7 +37,7 @@ function App() {
                       {/*    <div style={{flex: '4', alignContent: 'center'}}>*/}
                       {/*        <MapInfo/>*/}
                       {/*    </div>}/>*/}
-                      <Route path="/test" element={<TestIntro/>}/>
+                        <Route path="/test" element={<LoadingForChange/>}/>
                       {/*<Route path="/intro" element={<IntroPage/>}/>*/}
                       <Route path="/map" element={<div style={{flex: '4', alignContent: 'center'}}><MapInfo/></div>}>
 
