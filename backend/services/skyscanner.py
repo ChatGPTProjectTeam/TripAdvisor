@@ -247,8 +247,8 @@ class SkyscannerService:
 
         if data is None:
             # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
-            while max_workers > 0:
-                max_retries = 2
+            max_retries = 2
+            while max_retries > 0 and data is None:
                 trip_info.start_date = trip_info.start_date + timedelta(days=1)
                 if direction == 0:
                     data = self._call_api(
@@ -281,7 +281,7 @@ class SkyscannerService:
         status = data["data"]["context"]["status"]
         if status == "failure":
             max_retries = 2
-            while max_retries > 0:
+            while max_retries > 0 and status == "failure":
                 trip_info.start_date = trip_info.start_date + timedelta(days=1)
                 if direction == 0:
                     data = self._call_api(
@@ -316,7 +316,7 @@ class SkyscannerService:
         if total_results == 0:
             # 한번 검색했을 때 결과 수가 0일 수도 있어서 예외처리
             max_retries = 2
-            while max_retries > 0:
+            while max_retries > 0 and total_results == 0:
                 if direction == 0:
                     data = self._call_api(
                         "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
