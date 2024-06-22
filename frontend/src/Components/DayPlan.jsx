@@ -115,7 +115,7 @@ const regexActivity = (activityText) => {
       <div style={{ marginTop: '20px', marginBottom: '20px' }}>
         <div className="day-plan-container" id={'plan'}>
           <div>
-            {!isLoading ? (
+            {isLoading ? (
               <div style={{maxWidth:'600px'}}>
                 <DayPlanLoadingScreen />
               </div>
