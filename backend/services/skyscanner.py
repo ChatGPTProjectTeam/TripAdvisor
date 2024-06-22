@@ -248,11 +248,24 @@ class SkyscannerService:
         if data == None:
             # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
             trip_info.start_date = trip_info.start_date + timedelta(days=1)
-            return self.create_plane_info_dto(trip_info, direction)
+            max_retries = 5
+            while max_retries:
+                result = self.create_plane_info_dto(trip_info, direction)
+                if result == None:
+                    max_retries -= 1
+                    continue
+                return result
 
         status = data["data"]["context"]["status"]
         if status == "failure":
             trip_info.start_date = trip_info.start_date + timedelta(days=1)
+            max_retries = 5
+            while max_retries:
+                result = self.create_plane_info_dto(trip_info, direction)
+                if result["data"]["context"]["status"] == "failure":
+                    max_retries -= 1
+                    continue
+                return result
             return self.create_plane_info_dto(trip_info, direction)
 
         total_results = data["data"]["context"]["totalResults"]
@@ -274,17 +287,17 @@ class SkyscannerService:
                 arrival_time = datetime.strptime(
                     itinerary["legs"][0]["arrival"], "%Y-%m-%dT%H:%M:%S"
                 )
-
+                
                 if direction == 0:
                     if arrival_time < datetime(
                         arrival_time.year, arrival_time.month, arrival_time.day, 10
                     ):
                         flight = itinerary
                         break
-
+                
         if flight == None:
-            flight = data["data"]["itineraries"][0]
-
+            flight = data["data"]["itineraries"][0]  
+        
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
             origin=flight["legs"][0]["origin"]["name"],
@@ -297,9 +310,9 @@ class SkyscannerService:
     def _search_airport(self, trip_info: TripInfo) -> str:
 
         airport_id = ""
-
+        
         if trip_info.province == "일본 홋카이도":
-            airport_id = "eyJlIjoiMTI4NjY4NDQ3IiwicyI6IkNUUyIsImgiOiIyNzUzNzU1MyIsInQiOiJBSVJQT1JUIn0="  # 홋카이도 신치토세 공항 = CTS 인데 오류 뜸
+            airport_id = "eyJlIjoiMTI4NjY4NDQ3IiwicyI6IkNUUyIsImgiOiIyNzUzNzU1MyIsInQiOiJBSVJQT1JUIn0="     # 홋카이도 신치토세 공항 = CTS 인데 오류 뜸
         elif trip_info.province == "일본 도호쿠 지방":
             airport_id = "FKS"
         elif trip_info.province == "일본 간사이 지방":
