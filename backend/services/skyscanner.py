@@ -245,104 +245,106 @@ class SkyscannerService:
                 },
             )
 
-        while data is None and max_retries > 0:
+        if data is None:
             # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
-            max_retries = 5
-            trip_info.start_date = trip_info.start_date + timedelta(days=1)
-            if direction == 0:
-                data = self._call_api(
-                    "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
-                    {
-                        "fromEntityId": "ICN",
-                        "toEntityId": airport_id,
-                        "departDate": trip_info.start_date,
-                        "market": "KR",
-                        "locale": "ko-KR",
-                        "currency": "KRW",
-                        "adults": trip_info.trip_member_num,
-                    },
-                )
-            elif direction == 1:
-                data = self._call_api(
-                    "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
-                    {
-                        "fromEntityId": airport_id,
-                        "toEntityId": "ICN",
-                        "departDate": return_date,
-                        "market": "KR",
-                        "locale": "ko-KR",
-                        "currency": "KRW",
-                        "adults": trip_info.trip_member_num,
-                    },
-                )
-            max_retries -= 1
+            while max_workers > 0:
+                max_retries = 2
+                trip_info.start_date = trip_info.start_date + timedelta(days=1)
+                if direction == 0:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": "ICN",
+                            "toEntityId": airport_id,
+                            "departDate": trip_info.start_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                elif direction == 1:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": airport_id,
+                            "toEntityId": "ICN",
+                            "departDate": return_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                max_retries -= 1
             
-
         status = data["data"]["context"]["status"]
-        while status == "failure" and max_retries > 0:
-            max_retries = 5
-            trip_info.start_date = trip_info.start_date + timedelta(days=1)
-            if direction == 0:
-                data = self._call_api(
-                    "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
-                    {
-                        "fromEntityId": "ICN",
-                        "toEntityId": airport_id,
-                        "departDate": trip_info.start_date,
-                        "market": "KR",
-                        "locale": "ko-KR",
-                        "currency": "KRW",
-                        "adults": trip_info.trip_member_num,
-                    },
-                )
-            elif direction == 1:
-                data = self._call_api(
-                    "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
-                    {
-                        "fromEntityId": airport_id,
-                        "toEntityId": "ICN",
-                        "departDate": return_date,
-                        "market": "KR",
-                        "locale": "ko-KR",
-                        "currency": "KRW",
-                        "adults": trip_info.trip_member_num,
-                    },
-                )
-            status = data["data"]["context"]["status"] 
-            max_retries -= 1
+        if status == "failure":
+            max_retries = 2
+            while max_retries > 0:
+                trip_info.start_date = trip_info.start_date + timedelta(days=1)
+                if direction == 0:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": "ICN",
+                            "toEntityId": airport_id,
+                            "departDate": trip_info.start_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                elif direction == 1:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": airport_id,
+                            "toEntityId": "ICN",
+                            "departDate": return_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                status = data["data"]["context"]["status"] 
+                max_retries -= 1
 
         total_results = data["data"]["context"]["totalResults"]
-        while total_results == 0 and max_retries > 0:
+        if total_results == 0:
             # 한번 검색했을 때 결과 수가 0일 수도 있어서 예외처리
-            max_retries = 5
-            if direction == 0:
-                data = self._call_api(
-                    "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
-                    {
-                        "fromEntityId": "ICN",
-                        "toEntityId": airport_id,
-                        "departDate": trip_info.start_date,
-                        "market": "KR",
-                        "locale": "ko-KR",
-                        "currency": "KRW",
-                        "adults": trip_info.trip_member_num,
-                    },
-                )
-            elif direction == 1:
-                data = self._call_api(
-                    "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
-                    {
-                        "fromEntityId": airport_id,
-                        "toEntityId": "ICN",
-                        "departDate": return_date,
-                        "market": "KR",
-                        "locale": "ko-KR",
-                        "currency": "KRW",
-                        "adults": trip_info.trip_member_num,
-                    },
-                )
-            total_results = data["data"]["context"]["totalResults"]
-            max_retries -= 1
+            max_retries = 2
+            while max_retries > 0:
+                if direction == 0:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": "ICN",
+                            "toEntityId": airport_id,
+                            "departDate": trip_info.start_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                elif direction == 1:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": airport_id,
+                            "toEntityId": "ICN",
+                            "departDate": return_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                total_results = data["data"]["context"]["totalResults"]
+                max_retries -= 1
 
         flight = None
         # 가는 비행기면 오전 10시 이전에 도착하는 비행기만 조회
