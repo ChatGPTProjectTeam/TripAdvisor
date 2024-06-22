@@ -95,7 +95,7 @@ export default function Sidebar() {
                                             checked={selectedProvince.includes(option)}
                                             onChange={() => handleProvinceSelection(option)}
                                         />
-                                        <label htmlFor={`category-${index}`}>{option}</label>
+                                        <label htmlFor={`province-sidebar-${index}`}>{option}</label>
                                     </div>
                                 ))}
                             </div>
