@@ -68,6 +68,7 @@ class FestivalInfo(Base):
     province = Column(String(50))
     month = Column(Integer, nullable=False)
     festival_content = Column(String(5000))
+    festival_content_markdown = Column(String(5000))
     festival_photo = Column(String(2048), nullable=True)
     latitude = Column(String(50), nullable=True)
     longitude = Column(String(50), nullable=True)
