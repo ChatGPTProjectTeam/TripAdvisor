@@ -126,7 +126,7 @@ const regexActivity = (activityText) => {
                   <React.Fragment key={index}>
                     <div style={{width:'100%'}}>
                       <p className="day-plan-info">
-                        <ReactMarkdown>{activity}</ReactMarkdown>
+                        <ReactMarkdown className="prose">{activity}</ReactMarkdown>
                       </p>
                     </div>
 
