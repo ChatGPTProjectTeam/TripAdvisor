@@ -46,10 +46,14 @@ if settings.ELASTIC_CLUSTER_ENDPOINT and settings.ELASTIC_PASSWORD:
 
 
 @app.get("/api/v1/plans")
-def get_plans() -> PlanListResponseDTO:
+def get_plans(province=None) -> PlanListResponseDTO:
     from backend.services import plan_service
 
-    plan_list = plan_service.get_plans()
+    if province:
+        provinces = province.split(",")
+    else:
+        provinces = []
+    plan_list = plan_service.get_plans(provinces=provinces)
 
     return PlanListResponseDTO(plan_list=plan_list)
 

@@ -13,7 +13,7 @@ from backend.models import (
     AccommodationInfo,
     FestivalInfo,
 )
-from backend.utils import is_search_enabled_province
+from backend.utils import is_search_enabled_province, convert_provinces
 
 if TYPE_CHECKING:
     from backend.services import (
@@ -37,9 +37,13 @@ class PlanService:
         self.gpt_service = gpt_service
         self.festival_service = festival_service
 
-    def get_plans(self) -> list[PlanListDTO]:
+    def get_plans(self, provinces: list[str]) -> list[PlanListDTO]:
         with SessionLocal() as session:
-            plans = session.query(Plan).all()
+            if provinces:
+                provinces = convert_provinces(provinces)
+                plans = session.query(Plan).filter(Plan.province.in_(provinces)).all()
+            else:
+                plans = session.query(Plan).all()
             plan_list = [PlanListDTO.from_orm(plan) for plan in plans]
         return plan_list
 

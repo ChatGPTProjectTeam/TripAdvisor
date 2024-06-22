@@ -70,3 +70,17 @@ def get_category(category: str) -> str:
     ]:
         return "문화"
     return f"NO CATEGORY - {category}"
+
+
+def convert_provinces(provinces: list[str]) -> list[str]:
+    new_list = []
+    for province in provinces:
+        if province == "간사이":
+            new_list.append("간사이 지방")
+        elif province == "관동":
+            new_list.append("관동 지방")
+        elif province == "오키나와":
+            new_list.append("오키나와 지방")
+        else:
+            new_list.append(province)
+    return new_list
