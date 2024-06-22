@@ -238,7 +238,7 @@ function TripForm() {
                         {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
 
                         <div className={formStyles['sub-font']}>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.
-                            <div style={{paddingTop:'6px',fontSize: '9px', color: 'red'}}>간토, 간사이, 오키나와 지역만 최신 여행지가 반영되어 있습니다.</div>
+                            <div style={{paddingTop:'6px',fontSize: '9px', color: 'red'}}>간토, 간사이, 규슈, 오키나와 지역만 최신 여행지가 반영되어 있습니다.</div>
                         </div>
 
                         <div className={formStyles['second-option']}>
