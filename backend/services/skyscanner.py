@@ -277,11 +277,8 @@ class SkyscannerService:
                         flight = itinerary
                         break
                 
-                flight = data["data"]["itineraries"][0]      
-                
         if flight == None:
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
-            return self.create_plane_info_dto(trip_info, direction)
+            flight = data["data"]["itineraries"][0]  
         
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),
