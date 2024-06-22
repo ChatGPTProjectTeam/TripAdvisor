@@ -23,6 +23,7 @@ export default function TestApp() {
                         <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                         <Route path="/create_chat" element={<CreateForm/>}/>
                         <Route path="/flight" element={<FlightPlan/>}/>
+                        <Route path="/test" element={<TestIntro/>}/>
 
                         {/*className="bg-neutral-700 h-full"*/}
 

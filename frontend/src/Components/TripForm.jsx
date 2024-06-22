@@ -200,6 +200,7 @@ function TripForm() {
         <>
             {loading && <LoadingScreen />}
             {!loading && (
+
                 <form className={formStyles.formMain} onSubmit={onSubmit} style={{overflowY: 'auto'}}>
                     <div style={{marginTop: '90px', height: '100%'}}>
                         <h1 style={{fontSize: '30px', paddingBottom: '10px'}}>아래의 내용들을 선택 혹은 입력해주세요</h1>

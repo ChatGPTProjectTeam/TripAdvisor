@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import asyncFetch from "../hooks/loadWaitData.jsx";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
+import Markdown from 'react-markdown'
 
 const FestivalPlan = ({ component, targetId }) => {
     const navigate = useNavigate();
