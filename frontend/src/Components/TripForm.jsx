@@ -46,7 +46,6 @@ function TripForm() {
     });
 
 
-
     function handleDayInput(event) {
         const inputValue = event.target.value;
         if (isNaN(inputValue)) {
@@ -87,19 +86,16 @@ function TripForm() {
         setSelectedLaunch(value);
     }
     const handleDateSelect = (date) => {
-    let selectedDate;
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 1);
-
-    if (!date) {
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const day = String(currentDate.getDate()).padStart(2, '0');
-        selectedDate = `${year}/${month}/${day}`;
-    } else {
-        selectedDate = date.replace("/", "-").replace("/", "-");
-    }
-    setSelectedDate(selectedDate);
+        let selectedDate;
+        if (!date) {
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            selectedDate = `${year}/${month}/${day}`;
+        } else {
+            selectedDate = date.replace("/", "-").replace("/", "-");
+        }
+        setSelectedDate(selectedDate);
     }
 
     if (loading) {
