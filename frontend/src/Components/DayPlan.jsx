@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import DayPlanLoadingScreen from "./DayPlanLoadingScreen.jsx";
 import MapInfo from "./MapInfo.jsx";
 import festivalPlan from "./FestivalPlan.jsx";
+import remarkGfm from 'remark-gfm'
+
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -126,7 +128,7 @@ const regexActivity = (activityText) => {
                   <React.Fragment key={index}>
                     <div style={{width:'100%'}}>
                       <p className="day-plan-info">
-                        <ReactMarkdown className="prose">{activity}</ReactMarkdown>
+                        <ReactMarkdown className="prose" remarkPlugins={[remarkGfm]}>{activity}</ReactMarkdown>
                       </p>
                     </div>
 
