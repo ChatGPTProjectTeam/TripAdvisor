@@ -89,6 +89,7 @@ function TripForm() {
     const handleDateSelect = (date) => {
     let selectedDate;
     const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1);
 
     if (!date) {
         const year = currentDate.getFullYear();
