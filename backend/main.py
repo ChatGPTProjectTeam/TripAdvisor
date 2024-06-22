@@ -73,6 +73,9 @@ def get_plan(plan_id: int) -> PlanDTO:
 def create_plan(form_request_dto: FormRequestDTO, trigger_skyscanner: bool = True):
     from backend.services import plan_service
 
+    if form_request_dto.trip_member_num and form_request_dto.trip_member_num > 8:
+        raise HTTPException(status_code=400, detail="최대 8명까지만 가능합니다.")
+
     trip_info = TripInfo.from_form_request_dto(form_request_dto)
     plan_service.initiate_plan(trip_info, trigger_skyscanner)
     return {}
