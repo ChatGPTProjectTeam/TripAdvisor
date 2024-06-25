@@ -50,7 +50,7 @@
 .chatLoadBtn {
   align-items: center;
   /*background-image: linear-gradient(144deg, #50C878, #FF007F 50%, #FFA500);*/
-  background-color: #f09cc9;
+  background-color: lightgray;
   /*background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);*/
   border: 0;
   border-radius: 8px;
@@ -88,7 +88,7 @@
 .button-64 {
   align-items: center;
   /*background-image: linear-gradient(144deg, #50C878, #FF007F 50%, #FFA500);*/
-  background-color: #f09cc9;
+  background-color: #c4b5fd;
   /*background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);*/
   border: 0;
   border-radius: 8px;
@@ -134,7 +134,7 @@
 }
 
 .button-80 {
-  background: #fff;
+  /*background: #fff;*/
   backface-visibility: hidden;
   border-radius: .375rem;
   border-style: solid;
@@ -225,7 +225,7 @@
   font-size: 18px;
   }
   .subPlaceTitle {
-  color: #FFFFFF;
+  /*color: #FFFFFF;*/
   font-size: 24px;
   }
 

@@ -17,8 +17,6 @@ const Plane = () => {
                 transform="rotate(90)"
             ></path>
         </svg>
-
-
     </div>
   );
 };

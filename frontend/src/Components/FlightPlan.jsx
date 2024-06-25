@@ -24,11 +24,18 @@ const FlightPlan = ({ component, courseId, index }) => {
                 <p>{plane_info.origin}</p>
                 <p>{plane_info.departure}</p>
             </div>
-            <div style={{ minWidth: '300px' }}>
-                {/* Assuming 'Plane' is a component */}
-                <Plane />
+            <div>
+                <div style={{minWidth: '300px'}}>
+                    {/* Assuming 'Plane' is a component */}
+                    <Plane/>
+                </div>
+                <div>
+                    <p style={{fontSize:'9px'}}>{plane_info.airline}</p>
+
+                </div>
             </div>
-            <div style={{ fontSize: '12px' }}>
+
+            <div style={{fontSize: '12px'}}>
                 <p>{plane_info.destination}</p>
                 <p>{plane_info.arrival}</p>
             </div>
@@ -42,8 +49,9 @@ const FlightPlan = ({ component, courseId, index }) => {
             {flightInfoSection}
             {/* Conditional rendering for "Sorry!" message */}
             {isDataBlank && (
-                <div style={{marginTop: '20px', marginBottom: '20px'}}>
-                    <img src="/construction.svg" alt="Logo" width="100px" height="40px"/>
+                <div style={{marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column'}}>
+                    <div style={{margin: 'auto'}}><img src="/construction.svg" alt="Logo" width="100px" height="40px"/>
+                    </div>
                     <h3>정보를 불러올 수가 없어요</h3>
                 </div>
             )}

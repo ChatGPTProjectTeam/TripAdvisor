@@ -57,10 +57,10 @@ function MapInfo({ mapDataList, targetMapId }) {
                                         onCloseClick={() => setOpenInfoWindowId(null)}
                                     >
                                         <div>
-                                            <p><strong>Type:</strong> {marker.type}</p>
-                                            <p><strong>Description 1:</strong> {marker.descriptionOne}</p>
-                                            <p><strong>Description 2:</strong> {marker.descriptionTwo}</p>
-                                            <p><strong>Location:</strong> {marker.lat}, {marker.lon}</p>
+                                            <p><strong>유형:</strong> {marker.type}</p>
+                                            <p><strong>주소:</strong> {marker.descriptionOne}</p>
+                                            <p><strong>정보:</strong> {marker.descriptionTwo}</p>
+                                            <p><strong>위치:</strong> {marker.lat}, {marker.lon}</p>
                                         </div>
                                     </InfoWindow>
                                 )

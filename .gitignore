@@ -109,3 +109,5 @@ venv.bak/
 t_prompt/paper_values.json
 
 *여행정보.json
+
+backend/trip/
