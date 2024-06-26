@@ -6,8 +6,14 @@ from typing import TYPE_CHECKING
 from backend.database import SessionLocal
 from backend.dtos import TripInfo, PlanDTO, Location, PlanListDTO
 from backend.exceptions import PlanNotFound
-from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo, FestivalInfo
-from backend.utils import is_search_enabled_province
+from backend.models import (
+    Plan,
+    PlanComponent,
+    PlaneInfo,
+    AccommodationInfo,
+    FestivalInfo,
+)
+from backend.utils import is_search_enabled_province, convert_provinces
 
 if TYPE_CHECKING:
     from backend.services import (
@@ -31,9 +37,13 @@ class PlanService:
         self.gpt_service = gpt_service
         self.festival_service = festival_service
 
-    def get_plans(self) -> list[PlanListDTO]:
+    def get_plans(self, provinces: list[str]) -> list[PlanListDTO]:
         with SessionLocal() as session:
-            plans = session.query(Plan).all()
+            if provinces:
+                provinces = convert_provinces(provinces)
+                plans = session.query(Plan).filter(Plan.province.in_(provinces)).all()
+            else:
+                plans = session.query(Plan).all()
             plan_list = [PlanListDTO.from_orm(plan) for plan in plans]
         return plan_list
 
@@ -66,7 +76,6 @@ class PlanService:
         self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
     ) -> list[Location]:
         if is_search_enabled_province(trip_info.province):
-            print("searching locations...")
             locations = self.search_service.search_category(
                 categories=trip_info.categories,
                 province=trip_info.province,
@@ -79,11 +88,6 @@ class PlanService:
                     f"LAT: {location.lat}, LON: {location.lon}, "
                     "\n"
                 )
-                # search_result += (
-                #     f"여행지 사진: {location.image_url}\n"
-                #     if location.image_url
-                #     else "\n"
-                # )
         else:
             search_result = ""
             locations = []
@@ -97,7 +101,7 @@ class PlanService:
                 festival_content="",
                 festival_photo=None,
                 latitude=None,
-                longitude=None
+                longitude=None,
             )
 
         with ThreadPoolExecutor(max_workers=2) as executor:
@@ -207,12 +211,10 @@ class PlanService:
         return locations
 
     def update_plan(self, plan_id: int, msg: str) -> bool:
-        
-        if (self.gpt_service.moderation(msg)):
+        if self.gpt_service.moderation(msg):
             return True
 
         with SessionLocal() as session:
-            # plan = session.query(Plan).filter(Plan.id == plan_id).one()
             components = (
                 session.query(PlanComponent)
                 .filter(PlanComponent.trip_plan_id == plan_id)
@@ -223,7 +225,7 @@ class PlanService:
                     activity_component = component
                 elif component.component_type == "festival_info":
                     festival_component = component
-            
+
             festival_info = festival_component.festival_info
             plan = activity_component.plan
             locations = plan.locations
@@ -238,11 +240,6 @@ class PlanService:
                         f"LAT: {location['lat']}, LON: {location['lon']}, "
                         "\n"
                     )
-                    # search_result += (
-                    #     f"여행지 사진: {location.image_url}\n"
-                    #     if location.image_url
-                    #     else "\n"
-                    # )
             else:
                 search_result = ""
 
@@ -263,12 +260,12 @@ class PlanService:
                     component = components[0]
                     component.activity = new_activity
                     session.commit()
-                    
+
                     # original_locations = (
                     #     session.query(Plan.locations)
                     #     .filter(Plan.trip_plan_id == plan_id)
                     #     .all()
                     # )
                 return False
-        
+
         return True

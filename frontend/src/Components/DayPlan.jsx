@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import DayPlanLoadingScreen from "./DayPlanLoadingScreen.jsx";
 import MapInfo from "./MapInfo.jsx";
 import festivalPlan from "./FestivalPlan.jsx";
+import remarkGfm from 'remark-gfm'
+
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -41,7 +43,7 @@ const DayPlan = ({ locationComponent, component, targetId, componentId, mapData 
   const [isLoading, setIsLoading] = useState(false);
   const [locationPlan, setLocationPlan] = useState([]);
   const [festivalPlan, setFestivalPlan] = useState([]);
-  console.log(mapData)
+  // console.log(mapData)
 
   useEffect(() => {
     setActivityText(component.activity);
@@ -116,19 +118,22 @@ const regexActivity = (activityText) => {
         <div className="day-plan-container" id={'plan'}>
           <div>
             {isLoading ? (
-              <div>
+              <div style={{maxWidth:'600px'}}>
                 <DayPlanLoadingScreen />
               </div>
             ) : (
               <>
-                <div style={{paddingLeft:'30px', paddingRight:'30px'}}>
+                <div style={{paddingLeft:'30px', paddingRight:'30px', display:'flex', flexDirection:'column',maxWidth:'600px'}}>
                 {activities.map((activity, index) => (
                   <React.Fragment key={index}>
-                    <p className="day-plan-info">
-                      <ReactMarkdown>{activity}</ReactMarkdown>
-                    </p>
+                    <div style={{width:'100%'}}>
+                      <p className="day-plan-info">
+                        <ReactMarkdown className="prose" remarkPlugins={[remarkGfm]}>{activity}</ReactMarkdown>
+                      </p>
+                    </div>
 
-                    <div style={{ display: 'flex' }}>
+
+                    <div style={{display: 'flex'}}>
                       {index < activities.length && (
                         <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto', marginBottom: '20px', width: '200px' }}>
                           {/*<Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton} ${styles.festivalButton}`}>*/}
@@ -143,28 +148,37 @@ const regexActivity = (activityText) => {
                   </React.Fragment>
                 ))}
               </div>
-                <div className="plan-text-box">
-                  <InputComponent
-                    id={`input_${componentId}`}
+                <div style={{maxWidth:'600px'}}>
+
+                  <div className="plan-text-box">
+                    <InputComponent
+                      id={`input_${componentId}`}
                     placeholder="수정하고 싶은 일정을 입력해주세요."
-                    value={inputMessages[componentId] || ''}
-                    onChange={handleInputMessage}
-                  />
-                  <div>
-                    <ReloadButton onClick={handleReloadClick} />
-                  </div>
-                </div>
-                <div style={{ marginTop: '30px' }}><h3>지도 정보</h3></div>
-                <div style={{ marginTop: '20px',paddingLeft:'30px', paddingRight:'30px' }}>
-                  {!isLocationBlank ? (
-                    <MapInfo  targetMapId={targetId} mapDataList={mapData}></MapInfo>
-                  ) : (
-                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                      <img src="/construction.svg" alt="Logo" width="100px" height="40px" />
-                      <h3>정보를 불러올 수가 없어요</h3>
+                      value={inputMessages[componentId] || ''}
+                      onChange={handleInputMessage}
+                    />
+                    <div>
+                      <ReloadButton onClick={handleReloadClick} />
                     </div>
-                  )}
-                  {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
+                  </div>
+                  <div style={{marginTop: '30px'}} className={'title-container'}>
+                    <div><h3>지도 정보</h3></div>
+                  </div>
+                  <div style={{
+                    marginTop: '20px',
+                    paddingLeft: '30px',
+                    paddingRight:'30px',maxWidth:'600px',maxHeight:'600px' }}>
+                    {!isLocationBlank ? (
+                      <MapInfo  targetMapId={targetId} mapDataList={mapData}></MapInfo>
+                    ) : (
+                        <div style={{marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column'}}>
+                          <div style={{margin: 'auto'}}><img src="/construction.svg" alt="Logo" width="100px"
+                                                             height="40px"/></div>
+                          <h3>정보를 불러올 수가 없어요</h3>
+                        </div>
+                    )}
+                    {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
+                  </div>
                 </div>
               </>
             )}

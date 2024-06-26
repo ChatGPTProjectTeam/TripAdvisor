@@ -1,6 +1,6 @@
 .sidebar {
   width: 250px; /* Set the width of the sidebar */
-  height: 1080px; /* Full-view height */
+  height: 100%; /* Full-view height */
   background-color: #FFFFFF; /* Light grey background */
   /*border-left: solid black;*/
   border-right: solid black;
@@ -10,129 +10,146 @@
 
 .sidebarChatList {
   list-style-type: none;
-  max-height: 980px;
+  height: 100%;
+  max-height: calc(100vh - 240px);
   overflow-y: auto;
 }
-@media (min-width: 610px) {
-  .sidebar {
-    z-index: 0;
-  }
-}
-@media (min-width: 1300px) and (min-height: 800px) {
-  .sidebar {
-    height: 1000px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 780px; /* Adjust the height as needed */
-  }
-}
 
-@media (min-height: 900px) {
-  .sidebar {
-    height: 1000px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 880px; /* Adjust the height as needed */
-  }
+/*@media (min-width: 610px) {*/
+/*  .sidebar {*/
+/*    z-index: 0;*/
+/*  }*/
+/*}*/
+/*@media (min-width: 1300px) and (min-height: 800px) {*/
+/*  !*.sidebar {*!*/
+/*  !*  height: 1000px; !* Adjust the height as needed *!*!*/
+/*  !*}*!*/
+/*  !*.sidebarChatList {*!*/
+/*  !*  height: 780px; !* Adjust the height as needed *!*!*/
+/*  !*}*!*/
+/*}*/
 
-}
+/*@media (min-height: 900px) {*/
+/*  .sidebar {*/
+/*    height: 1000px; !* Adjust the height as needed *!*/
+/*  }*/
+/*  .sidebarChatList {*/
+/*    height: 880px; !* Adjust the height as needed *!*/
+/*  }*/
 
-@media (min-height: 1000px) {
-  .sidebar {
-    height: 1100px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 980px; /* Adjust the height as needed */
-  }
+/*}*/
 
-}
-@media (min-height: 1100px) {
-  .sidebar {
-    height: 1200px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 1080px; /* Adjust the height as needed */
-  }
-}
+/*@media (min-height: 1000px) {*/
+/*  .sidebar {*/
+/*    height: 1100px; !* Adjust the height as needed *!*/
+/*  }*/
+/*  .sidebarChatList {*/
+/*    height: 980px; !* Adjust the height as needed *!*/
+/*  }*/
 
-@media (min-height: 1200px) {
-  .sidebar {
-    height: 1300px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 1180px; /* Adjust the height as needed */
-  }
-}
+/*}*/
+/*@media (min-height: 1100px) {*/
+/*  .sidebar {*/
+/*    height: 1200px; !* Adjust the height as needed *!*/
+/*  }*/
+/*  .sidebarChatList {*/
+/*    height: 1080px; !* Adjust the height as needed *!*/
+/*  }*/
+/*}*/
 
-@media (min-height: 1300px) {
-  .sidebar {
-    height: 1400px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 1280px; /* Adjust the height as needed */
-  }
-}
+/*@media (min-height: 1200px) {*/
+/*  .sidebar {*/
+/*    height: 1300px; !* Adjust the height as needed *!*/
+/*  }*/
+/*  .sidebarChatList {*/
+/*    height: 1180px; !* Adjust the height as needed *!*/
+/*  }*/
+/*}*/
 
-@media (min-height: 1400px) {
-  .sidebar {
-    height: 1500px; /* Adjust the height as needed */
-  }
-  .sidebarChatList {
-    height: 1380px; /* Adjust the height as needed */
-  }
-}
+/*@media (min-height: 1300px) {*/
+/*  .sidebar {*/
+/*    height: 1400px; !* Adjust the height as needed *!*/
+/*  }*/
+/*  .sidebarChatList {*/
+/*    height: 1280px; !* Adjust the height as needed *!*/
+/*  }*/
+/*}*/
 
-@media (min-height: 1500px) {
-  .sidebar {
-    height: 1600px; /* Adjust the height as needed */
-  }
+/*@media (min-height: 1400px) {*/
+/*  .sidebar {*/
+/*    height: 1500px; !* Adjust the height as needed *!*/
+/*  }*/
+/*  .sidebarChatList {*/
+/*    height: 1380px; !* Adjust the height as needed *!*/
+/*  }*/
+/*}*/
 
-  .sidebarChatList {
-    height: 1480px; /* Adjust the height as needed */
-  }
-}
+/*@media (min-height: 1500px) {*/
+/*  .sidebar {*/
+/*    height: 1600px; !* Adjust the height as needed *!*/
+/*  }*/
 
-@media (min-width: 1980px) {
-  .sidebar {
-    height: 1200px;
-  }
-}
+/*  .sidebarChatList {*/
+/*    height: 1480px; !* Adjust the height as needed *!*/
+/*  }*/
+/*}*/
 
-@media (min-width: 2560px) and (min-height: 1440px) {
-  .sidebar {
-    height: 1440px;
-  }
-}
+/*@media (min-width: 1980px) {*/
+/*  .sidebar {*/
+/*    height: 1200px;*/
+/*  }*/
+/*}*/
 
-@media (min-width: 3840px) and (min-height: 2160px) {
-  .sidebar {
-    height: 2160px;
-  }
-}
+/*@media (min-width: 2560px) and (min-height: 1440px) {*/
+/*  .sidebar {*/
+/*    height: 1440px;*/
+/*  }*/
+/*}*/
+
+/*@media (min-width: 3840px) and (min-height: 2160px) {*/
+/*  .sidebar {*/
+/*    height: 2160px;*/
+/*  }*/
+/*}*/
 .sidebarButton {
   background-color: #FFC3C3; /* Bootstrap primary blue */
 
 }
 .sidebarLoadButton {
-  background-color: #FF8F8F; /* Bootstrap primary blue */
+  background-color: #ede9fe;
+  /*height: 80px;*/
+  /*border: 2px solid;*/
 
 }
 
 .sidebarNewChatBox {
+  color:#c4b5fd;
   width: 100%;
-  padding: 10px 25px;
-  border-bottom: 2px solid black;
+  padding: 10px 20px;
   justify-content: center;
 }
 
 .sidebarChatBox {
   width: 100%;
-  padding-top: 20px;
+  padding-top: 5px;
   justify-content: center;
+}
+.responsiveBar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .festivalButton {
   padding: 6px;
 }
 
-/*this is for 1980x1080*/
+
+/*@media (min-width: 450px) {*/
+/*  .responsiveBar {*/
+/*    flex-direction: row;*/
+/*  }*/
+/*}*/
+
+
+
