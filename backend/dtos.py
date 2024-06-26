@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -59,9 +59,10 @@ class FestivalInfoDTO(BaseModel):
     province: str = Field(description="지역")
     month: int = Field(description="축제가 열리는 달")
     festival_content: str = Field(description="축제 내용")
+    festival_content_markdown: str | None = Field(description="축제 내용 마크다운")
     festival_photo: str | None = Field(description="축제 사진")
-    latitude: str = Field(description="위도")
-    longitude: str = Field(description="경도")
+    latitude: str | None = Field(description="위도")
+    longitude: str | None = Field(description="경도")
 
     class Config:
         from_attributes = True
@@ -164,7 +165,7 @@ class TripInfo(BaseModel):
             trip_member_num = 1
 
         if not check_date_format(form_request_dto.start_date):
-            start_date = datetime.now().date()
+            start_date = datetime.now().date() + timedelta(days=1)
         else:
             start_date = form_request_dto.start_date
 

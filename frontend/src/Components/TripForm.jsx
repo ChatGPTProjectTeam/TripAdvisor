@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import dummy from '../frontDB/chatLog.json';
-import './TripForm.css';
+import formStyles from './TripForm.module.css';
 import useFetch from "../hooks/loadData.jsx";
 import styles from "../Sidebar.module.css";
 import '../App.css';
@@ -46,7 +46,6 @@ function TripForm() {
     });
 
 
-
     function handleDayInput(event) {
         const inputValue = event.target.value;
         if (isNaN(inputValue)) {
@@ -80,25 +79,23 @@ function TripForm() {
                 ? prevCategory.filter(category => category !== option)
                 : [...prevCategory, option]
         );
-        console.log(selectedCategory);
+        // console.log(selectedCategory);
     }
 
     function handleLaunchOption(value) {
         setSelectedLaunch(value);
     }
     const handleDateSelect = (date) => {
-    let selectedDate;
-    const currentDate = new Date();
-
-    if (!date) {
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const day = String(currentDate.getDate()).padStart(2, '0');
-        selectedDate = `${year}/${month}/${day}`;
-    } else {
-        selectedDate = date.replace("/", "-").replace("/", "-");
-    }
-    setSelectedDate(selectedDate);
+        let selectedDate;
+        if (!date) {
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            selectedDate = `${year}/${month}/${day}`;
+        } else {
+            selectedDate = date.replace("/", "-").replace("/", "-");
+        }
+        setSelectedDate(selectedDate);
     }
 
     if (loading) {
@@ -125,8 +122,8 @@ function TripForm() {
 
        const formattedDate = selectedDate.replace(/\//g, '-');
         const selectedDateObject = new Date(formattedDate);
-        if (selectedDate && selectedDateObject < presentDate) {
-        newErrors.date = '이전 날짜는 사용할 수 없습니다.';
+        if (selectedDate && selectedDateObject <= presentDate) {
+        newErrors.date = '이전 혹은 금일 날짜는 사용할 수 없습니다.';
         valid = false;
     }
 
@@ -172,9 +169,9 @@ function TripForm() {
                 return;
             }
 
-            console.log('Form submission:', selectedCategory, selectedDate, selectedProvince, selectedLaunch);
-            console.log('first input: ', inputPerson);
-            console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
+            // console.log('Form submission:', selectedCategory, selectedDate, selectedProvince, selectedLaunch);
+            // console.log('first input: ', inputPerson);
+            // console.log('Checkbox states:', whenChecked, dayChecked, personChecked, styleChecked);
             // console.log('Data from fetch:', chats);
 
             const whenFilter = whenChecked ? '' : selectedDate
@@ -193,7 +190,7 @@ function TripForm() {
             };
             setLoading(true);
             const result = await CreateForm(formData);
-            console.log('check this out brother', result);
+            // console.log('check this out brother', result);
             window.location.href = '/';
             setLoading(false);
         }
@@ -203,104 +200,122 @@ function TripForm() {
         <>
             {loading && <LoadingScreen />}
             {!loading && (
-                <form className='formMain' onSubmit={onSubmit}>
-                    <div style={{marginTop: '90px'}}>
+
+                <form className={formStyles.formMain} onSubmit={onSubmit} style={{overflowY: 'auto'}}>
+                    <div style={{marginTop: '90px', height: '100%'}}>
                         <h1 style={{fontSize: '30px', paddingBottom: '10px'}}>아래의 내용들을 선택 혹은 입력해주세요</h1>
-                        <div className='sub-font'>
+                        <div className={formStyles['sub-font']}>
                             아래의 카테고리 중 하나 이상을 골라주세요
                         </div>
+
                         <div className="input_area">
                             <div style={{display: 'flex', justifyContent: 'center'}}>
                                 {categoryOptions.map((option, index) => (
-                                    <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
-                                    <input
-                                        type="checkbox"
-                                        id={`category-${index}`}
-                                        checked={selectedCategory.includes(option)}
-                                        onChange={() => handleCategorySelection(option)}
-                                    />
-                                    <label htmlFor={`category-${index}`}>{option}</label>
-                                </div>
-                            ))}
+                                    <div key={index} style={{paddingLeft: '10px'}}
+                                         className={formStyles["checkbox-wrapper-47"]}>
+                                        <input
+                                            type="checkbox"
+                                            id={`category-${index}`}
+                                            checked={selectedCategory.includes(option)}
+                                            onChange={() => handleCategorySelection(option)}
+                                        />
+                                        <label htmlFor={`category-${index}`}>{option}</label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         {errors.category && <div className="error">{errors.category}</div>}
                         {/*날짜*/}
-                        <div className='sub-font'>언제 출발하는 걸 선호 하시나요?</div>
-                        <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
+                        <div className={formStyles['sub-font']}>언제 출발하는 걸 선호 하시나요?</div>
+                        <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <CalendarComp onSelect={handleDateSelect}/>
                         </div>
-                        {errors.date && <div className="error">{errors.date}</div>}
-                        <div className='sub-font'>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.</div>
-                        <div className='second-option'>
-                            {provinceLabels.map((label, index) => (
-                                <div key={index} style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
-                                    <input
-                                        type="checkbox"
-                                        id={`province-${index}`}
-                                        checked={selectedProvince === label}
-                                        onChange={() => setSelectedProvince(label)}
-                                    />
-                                    <label htmlFor={`province-${index}`}>{label}</label>
-                                </div>
-                            ))}
+                        <div style={{display: 'flex', justifyContent: 'center'}}>
+
                         </div>
-                        {errors.province && <div className="error">{errors.province}</div>}
+                        {errors.date && <div className={formStyles["error"]}>{errors.date}</div>}
+
+                        <div className={formStyles['sub-font']}>해당 지역중 원하는 지역을 골라 주시면 좀 더 나은 결과를 제공하겠습니다.
+                            <div style={{paddingTop:'6px',fontSize: '9px', color: 'red'}}>간토, 간사이, 규슈, 오키나와 지역만 최신 여행지가 반영되어 있습니다.</div>
+                        </div>
+
+                        <div className={formStyles['second-option']}>
+                            <div className={formStyles['checkbox-container']}>
+                                {provinceLabels.map((label, index) => (
+                                    <div key={index} className={formStyles["checkbox-wrapper-47"]}>
+                                        <input
+                                            type="checkbox"
+                                            id={`province-${index}`}
+                                            checked={selectedProvince === label}
+                                            onChange={() => setSelectedProvince(label)}
+                                        />
+                                        <label htmlFor={`province-${index}`}>{label}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        {errors.province && <div className={formStyles["error"]}>{errors.province}</div>}
                         <div className='japanMap' style={{marginTop: '10px'}}></div>
                         <PopUp buttonText="뭐가 뭔지 모르겠어요"><MapForForm/></PopUp>
                         {/*날짜*/}
-                        <div className='sub-font'>총 몇박을 원하나요?</div>
-                        <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
-                            <div className="text-box">
-                                <input type="text" className="form__input" id="name-1" placeholder="ex:2박 => 2"
+                        <div className={formStyles['sub-font']}>총 몇박을 원하나요?</div>
+                        <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
+                            <div className={formStyles["text-box"]}>
+                                <input type="text" className={formStyles["form__input"]} id="name-1"
+                                       placeholder="ex:2박 => 2"
                                        value={inputDay}
                                        required="" onChange={handleDayInput}/>
-                                <label htmlFor="name-1" className="form__label" style={{fontSize: '10px'}}>숫자만 작성
+                                <label htmlFor="name-1" className={formStyles["form__label"]}
+                                       style={{fontSize: '10px'}}>숫자만 작성
                                     해주세요!</label>
                             </div>
-                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                            <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input type="checkbox" name="day" id="cb-day" checked={dayChecked}
                                        onChange={() => setDayChecked(!dayChecked)}/>
                                 <label htmlFor="cb-day">너가 정해</label>
                             </div>
                         </div>
-                        {errors.day && <div className="error">{errors.day}</div>}
-                        <div className='sub-font'>몇명이랑 가나요?</div>
-                        <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
+                        {errors.day && <div className={formStyles["error"]}>{errors.day}</div>}
+                        <div className={formStyles['sub-font']}>몇명이랑 가나요?</div>
+                        <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className="text-box">
-                                <input type="text" className="form__input" id="name-2" placeholder="ex:3명 => 3"
+                                <input type="text" className={formStyles["form__input"]} id="name-2"
+                                       placeholder="ex:3명 => 3"
                                        value={inputPerson} required="" onChange={handlePersonInput}/>
-                                <label htmlFor="name-1" className="form__label" style={{fontSize: '10px'}}>😏같이 갈사람
+                                <label htmlFor="name-1" className={formStyles["form__label"]}
+                                       style={{fontSize: '10px'}}>😏같이 갈사람
                                     없죠?</label>
                             </div>
-                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                            <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input type="checkbox" name="person" id="cb-person" checked={personChecked}
                                        onChange={() => setPersonChecked(!personChecked)}/>
                                 <label htmlFor="cb-person">나 혼자 가</label>
                             </div>
                         </div>
-                        {errors.person && <div className="error">{errors.person}</div>}
-                        <div className='sub-font'>원하시는 여행 스타일이 있으신가요?</div>
-                        <div style={{display: 'flex', justifyContent: 'center'}} className="input_area">
+                        {errors.person && <div className={formStyles["error"]}>{errors.person}</div>}
+                        <div className={formStyles['sub-font']}>원하시는 여행 스타일이 있으신가요?</div>
+                        <div style={{display: 'flex', justifyContent: 'center'}} className={formStyles["input_area"]}>
                             <div className="text-box">
-                                <input type="text" className="form__input" id="name-3" placeholder="ex: 맛집 위주"
+                                <input type="text" className={formStyles["form__input"]} id="name-3"
+                                       placeholder="ex: 맛집 위주"
                                        value={inputStyle} required="" onChange={handleStyleInput}/>
-                                <label htmlFor="name-3" className="form__label" style={{fontSize: '10px'}}>원하시는 여행 스타일
+                                <label htmlFor="name-3" className={formStyles["form__label"]}
+                                       style={{fontSize: '10px'}}>원하시는 여행 스타일
                                     작성
                                     부탁드려요</label>
                             </div>
-                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                            <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input type="checkbox" name="style" id="cb-style" checked={styleChecked}
                                        onChange={() => setStyleChecked(!styleChecked)}/>
                                 <label htmlFor="cb-style">너가 정해</label>
                             </div>
                         </div>
-                        {errors.style && <div className="error">{errors.style}</div>}
-                        <div className='sub-font'>
+                        {errors.style && <div className={formStyles["error"]}>{errors.style}</div>}
+                        <div className={formStyles['sub-font']}>
                             밤에 출발하는 걸 선호하시나요 아니면 낮에 출발하는걸 선호 하시나요?
                         </div>
-                        <div className="input_area" style={{display:'flex', justifyContent:'center'}}>
-                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                        <div className={formStyles["input_area"]} style={{display: 'flex', justifyContent: 'center'}}>
+                            <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input
                                     type="checkbox"
                                     id="launch-day"
@@ -309,7 +324,7 @@ function TripForm() {
                                 />
                                 <label htmlFor="launch-day">낮</label>
                             </div>
-                            <div style={{paddingLeft: '10px'}} className="checkbox-wrapper-47">
+                            <div style={{paddingLeft: '10px'}} className={formStyles["checkbox-wrapper-47"]}>
                                 <input
                                     type="checkbox"
                                     id="launch-night"
@@ -320,9 +335,15 @@ function TripForm() {
                             </div>
                         </div>
 
-                        {errors.launch && <div className="error">{errors.launch}</div>}
-                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                            <button className="submitButton" type="submit ">코스 생성</button>
+                        {errors.launch && <div className={formStyles["error"]}>{errors.launch}</div>}
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            height: '100%',
+                            marginTop: '30px',
+                            marginBottom: '30px'
+                        }}>
+                            <button className={formStyles["submitButton"]} type="submit ">코스 생성</button>
                         </div>
                     </div>
                 </form>

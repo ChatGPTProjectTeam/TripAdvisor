@@ -17,7 +17,8 @@ import Footer from "./Components/Footer.jsx";
 import LoadingForChange from "./Components/LoadingForChange.jsx";
 import {InternalPopUp} from "./Components/PopUp.jsx";
 import MapInfo from "./Components/MapInfo.jsx";
-import FestivalInfo from "./Components/FestivalInfo.jsx";
+import FestivalPlan from "./Components/FestivalPlan.jsx";
+import TestIntro from "./Components/TestIntro.jsx";
 function App() {
   return (
       <BrowserRouter>
@@ -26,18 +27,20 @@ function App() {
               <div style={{display: "flex"}}>
                   <SideBar/>
                   <Routes>
-                      <Route path="/" element={<IntroPage/>}/>
+                      {/*<Route path="/" element={<IntroPage/>}/>*/}
                       <Route path="/create_form" element={<MainFormContents/>}/>
                       <Route path="/chat/:targetId" element={<MainPlanContents/>}/>
                       <Route path="/create_chat" element={<CreateForm/>}/>
                       <Route path="/flight" element={<FlightPlan/>}/>
-                      <Route path="/festival/:targetId"
-                             element={
-                          <div style={{flex: '4', alignContent: 'center'}}>
-                              <MapInfo/>
-                          </div>}/>
-                      <Route path="/intro" element={<IntroPage/>}/>
-                      <Route path="/info/:targetId" element={<div style={{flex: '4', alignContent: 'center'}}><FestivalInfo/></div>}>
+                      {/*<Route path="/festival/:targetId"*/}
+                      {/*       element={*/}
+                      {/*    <div style={{flex: '4', alignContent: 'center'}}>*/}
+                      {/*        <MapInfo/>*/}
+                      {/*    </div>}/>*/}
+                        <Route path="/test" element={<LoadingForChange/>}/>
+                      {/*<Route path="/intro" element={<IntroPage/>}/>*/}
+                      <Route path="/map" element={<div style={{flex: '4', alignContent: 'center'}}><MapInfo/></div>}>
+
                       </Route>
                           <Route path="*" element={<EmptyPage/>}/>
                   </Routes>

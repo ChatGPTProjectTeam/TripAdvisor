@@ -46,10 +46,14 @@ if settings.ELASTIC_CLUSTER_ENDPOINT and settings.ELASTIC_PASSWORD:
 
 
 @app.get("/api/v1/plans")
-def get_plans() -> PlanListResponseDTO:
+def get_plans(province=None) -> PlanListResponseDTO:
     from backend.services import plan_service
 
-    plan_list = plan_service.get_plans()
+    if province:
+        provinces = province.split(",")
+    else:
+        provinces = []
+    plan_list = plan_service.get_plans(provinces=provinces)
 
     return PlanListResponseDTO(plan_list=plan_list)
 
@@ -68,6 +72,15 @@ def get_plan(plan_id: int) -> PlanDTO:
 @app.post("/api/v1/plans")
 def create_plan(form_request_dto: FormRequestDTO, trigger_skyscanner: bool = True):
     from backend.services import plan_service
+
+    try:
+        trip_member_num = form_request_dto.trip_member_num
+        trip_member_num = int(trip_member_num)
+    except ValueError:
+        trip_member_num = 1
+
+    if trip_member_num > 8:
+        raise HTTPException(status_code=400, detail="최대 8명까지만 가능합니다.")
 
     trip_info = TripInfo.from_form_request_dto(form_request_dto)
     plan_service.initiate_plan(trip_info, trigger_skyscanner)

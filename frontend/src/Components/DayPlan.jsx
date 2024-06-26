@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import useFetch from "../hooks/loadData.jsx";
 import ReloadIcon from '../icons/reload-button-icon.svg';
 import { SendChat } from "./SendChat.jsx";
 import ReactMarkdown from 'react-markdown';
-import {Link, useNavigate} from "react-router-dom";
-import LoadingForChange from "./LoadingForChange.jsx";
-import {InternalPopUp} from "./PopUp.jsx";
-import styles from "../Sidebar.module.css";
+import { useNavigate } from "react-router-dom";
 import DayPlanLoadingScreen from "./DayPlanLoadingScreen.jsx";
-import MapForForm from "./MapForForm.jsx";
-import FestivalInfo from "./FestivalInfo.jsx";
+import MapInfo from "./MapInfo.jsx";
+import festivalPlan from "./FestivalPlan.jsx";
+import remarkGfm from 'remark-gfm'
+
 
 const InputComponent = ({ id, value, placeholder, onChange }) => {
   const handleInputChange = (event) => {
@@ -31,30 +29,42 @@ const InputComponent = ({ id, value, placeholder, onChange }) => {
 
 const ReloadButton = ({ onClick }) => {
   return (
-    <button onClick={onClick} className="reload-button" style={{ border: 'none', background: 'none', color:'black'}}>
+    <button onClick={onClick} className="reload-button" style={{ border: 'none', background: 'none', color: 'black' }}>
       <img src={ReloadIcon} alt="Reload" style={{ width: 20, height: 20 }} />
     </button>
   );
 };
 
-const DayPlan = ({ component, targetId, componentId }) => {
+const DayPlan = ({ locationComponent, component, targetId, componentId, mapData }) => {
   const [inputMessages, setInputMessages] = useState({});
   const [activityText, setActivityText] = useState(component.activity);
   const [originalActivityText, setOriginalActivityText] = useState(component.activity);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [locationPlan, setLocationPlan] = useState([]);
+  const [festivalPlan, setFestivalPlan] = useState([]);
+  // console.log(mapData)
 
   useEffect(() => {
     setActivityText(component.activity);
     setOriginalActivityText(component.activity);
   }, [component.activity, targetId]);
+    useEffect(() => {
+      if (component.festival_info){
+            setFestivalPlan(component.festival_info);
+      }
+  }, [component.festival_info, targetId]);
+
+  useEffect(() => {
+    setLocationPlan(locationComponent);
+  }, [locationComponent, targetId]);
 
   useEffect(() => {
     setInputMessages({});
   }, [targetId], [activityText]);
 
   if (component.component_type !== 'activity') {
-    return null;
+      return null;
   }
 
   const handleInputMessage = (value) => {
@@ -64,13 +74,15 @@ const DayPlan = ({ component, targetId, componentId }) => {
     }));
   };
 
-  const regexActivity = (activityText) => {
+const regexActivity = (activityText) => {
     if (activityText) {
       const regex = /(\*\*\d+일차.*?\*\*|\#\# \d+일차.*?)[\s\S]*?(?=\*\*\d+일차.*?\*\*|\#\# \d+일차.*?|$)/g;
       return activityText.match(regex) || [];
     }
     return [];
   };
+
+
 
   const handleReloadClick = async () => {
     if (!inputMessages[componentId] || inputMessages[componentId].trim() === "") {
@@ -93,6 +105,8 @@ const DayPlan = ({ component, targetId, componentId }) => {
     }
   };
 
+  const isLocationBlank = mapData.length === 0;
+
   const activities = regexActivity(activityText);
 
   return (
@@ -104,48 +118,69 @@ const DayPlan = ({ component, targetId, componentId }) => {
         <div className="day-plan-container" id={'plan'}>
           <div>
             {isLoading ? (
-              <div>
-                <DayPlanLoadingScreen/>
+              <div style={{maxWidth:'600px'}}>
+                <DayPlanLoadingScreen />
               </div>
             ) : (
               <>
+                <div style={{paddingLeft:'30px', paddingRight:'30px', display:'flex', flexDirection:'column',maxWidth:'600px'}}>
                 {activities.map((activity, index) => (
                   <React.Fragment key={index}>
-                    <p className="day-plan-info">
-                      <ReactMarkdown>{activity}</ReactMarkdown>
-                    </p>
-                    <div style={{display:'flex'}}>
-                    {index < activities.length &&
-                        <div style={{display:'flex', justifyContent:'center' ,margin:'auto',marginBottom: '20px', width:'200px'}}>
+                    <div style={{width:'100%'}}>
+                      <p className="day-plan-info">
+                        <ReactMarkdown className="prose" remarkPlugins={[remarkGfm]}>{activity}</ReactMarkdown>
+                      </p>
+                    </div>
+
+
+                    <div style={{display: 'flex'}}>
+                      {index < activities.length && (
+                        <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto', marginBottom: '20px', width: '200px' }}>
                           {/*<Link to={`/info/{id}`} className={`button-80 ${styles.sidebarLoadButton} ${styles.festivalButton}`}>*/}
                           {/*  <div style={{textAlign:'center', fontSize:'16px'}}>행사일정 보기</div>*/}
                           {/*</Link>*/}
                           {/*    <FestivalPopUp buttonText="지도보기" targetId={targetId}><MapForForm/></FestivalPopUp>*/}
-                              {/*<img src="/logo.svg" alt="Logo" width="100px" height="40px"/>*/}
+                          {/*<img src="/logo.svg" alt="Logo" width="100px" height="40px"/>*/}
                           {/*<div>지도</div>*/}
-
-                        </div>}
+                        </div>
+                      )}
                     </div>
                   </React.Fragment>
                 ))}
-                <div className="plan-text-box">
-                  <InputComponent
-                    id={`input_${componentId}`}
-                    placeholder="Enter your message"
-                    value={inputMessages[componentId] || ''}
-                    onChange={handleInputMessage}
-                  />
-                  <div>
-                    <ReloadButton onClick={handleReloadClick} />
+              </div>
+                <div style={{maxWidth:'600px'}}>
+
+                  <div className="plan-text-box">
+                    <InputComponent
+                      id={`input_${componentId}`}
+                    placeholder="수정하고 싶은 일정을 입력해주세요."
+                      value={inputMessages[componentId] || ''}
+                      onChange={handleInputMessage}
+                    />
+                    <div>
+                      <ReloadButton onClick={handleReloadClick} />
+                    </div>
+                  </div>
+                  <div style={{marginTop: '30px'}} className={'title-container'}>
+                    <div><h3>지도 정보</h3></div>
+                  </div>
+                  <div style={{
+                    marginTop: '20px',
+                    paddingLeft: '30px',
+                    paddingRight:'30px',maxWidth:'600px',maxHeight:'600px' }}>
+                    {!isLocationBlank ? (
+                      <MapInfo  targetMapId={targetId} mapDataList={mapData}></MapInfo>
+                    ) : (
+                        <div style={{marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column'}}>
+                          <div style={{margin: 'auto'}}><img src="/construction.svg" alt="Logo" width="100px"
+                                                             height="40px"/></div>
+                          <h3>정보를 불러올 수가 없어요</h3>
+                        </div>
+                    )}
+                    {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
                   </div>
                 </div>
-                <div style={{marginTop:'20px'}}>
-                  <div>지도여기</div>
-                  {/*<InternalPopUp buttonText="여행 기간에 갈 수 있는 행사가 있어요" targetId={parseInt(targetId)}/>*/}
-                </div>
-
               </>
-
             )}
           </div>
         </div>

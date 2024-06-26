@@ -20,7 +20,6 @@ class FestivalService:
                 .filter(FestivalInfo.province == province, FestivalInfo.month == month)
                 .first()
             )
-        print(festival)
         if not festival:
             return None
 

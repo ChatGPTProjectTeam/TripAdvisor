@@ -74,7 +74,7 @@ class SkyscannerService:
                 rating="",
                 location="",
                 latitude="",
-                longitude=""
+                longitude="",
             )
         else:
             accommodation_info = AccommodationInfo(
@@ -84,7 +84,7 @@ class SkyscannerService:
                 rating=accommodation_info_data.rating,
                 location=accommodation_info_data.location,
                 latitude=accommodation_info_data.latitude,
-                longitude=accommodation_info_data.longitude
+                longitude=accommodation_info_data.longitude,
             )
 
         with SessionLocal() as session:
@@ -134,12 +134,12 @@ class SkyscannerService:
         accommodation = data["data"]["results"]["hotelCards"][0]
         if accommodation is None:
             return None
-        
+
         if accommodation["reviewsSummary"] == None:
             accommodation_rating = ""
         else:
             accommodation_rating = str(accommodation["reviewsSummary"]["score"])
-        
+
         accommodation_id = accommodation["id"]
 
         # check-in time, check-out time, location
@@ -159,7 +159,7 @@ class SkyscannerService:
             rating=accommodation_rating,
             location=detailed_data["data"]["location"]["address"],
             latitude=str(accommodation["coordinates"]["latitude"]),
-            longitude=str(accommodation["coordinates"]["longitude"])
+            longitude=str(accommodation["coordinates"]["longitude"]),
             # accommodation_image = data["data"]["result"]["hotelCards"][0]["images"]  # list of image urls
         )
 
@@ -179,15 +179,15 @@ class SkyscannerService:
                 "market": "KR",
                 "locale": "ko-KR",
                 "currency": "KRW",
-                "sorting": "-rating",  # Default value: -relevance
+                # "sorting": "-rating",  # Default value: -relevance
             },
         )
         return response
 
     def _search_location(self, trip_info: TripInfo) -> str:
-        
+
         location_id = ""
-        
+
         if trip_info.province == "일본 홋카이도":
             location_id = "27537553"
         elif trip_info.province == "일본 도호쿠 지방":
@@ -208,7 +208,7 @@ class SkyscannerService:
             location_id = "27540768"
         else:
             location_id = "27542089"
-        
+
         return location_id
 
     def create_plane_info_dto(
@@ -216,14 +216,13 @@ class SkyscannerService:
     ) -> PlaneInfoDTO:
         # flights/search-one-way api 에 해당합니다. 편도 비행기표를 찾습니다.\
         airport_id = self._search_airport(trip_info)
-        
         if direction == 0:  # 가는 비행기
             data = self._call_api(
                 "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
                 {
                     "fromEntityId": "ICN",
                     "toEntityId": airport_id,
-                    "departDate": trip_info.start_date, 
+                    "departDate": trip_info.start_date,
                     "market": "KR",
                     "locale": "ko-KR",
                     "currency": "KRW",
@@ -245,21 +244,43 @@ class SkyscannerService:
                     "adults": trip_info.trip_member_num,
                 },
             )
-            
-        if data == None:
-            # 해당 날짜에 맞는 비행기가 없거나 input 값이 올바르지 않음
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
-            return self.create_plane_info_dto(trip_info, direction)
-        
-        status = data["data"]["context"]["status"]
-        if status == "failure":
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
-            return self.create_plane_info_dto(trip_info, direction)
-        
+
+        if data is None:
+            return None
+
         total_results = data["data"]["context"]["totalResults"]
-        if total_results < 10:
+        if total_results == 0:
             # 한번 검색했을 때 결과 수가 0일 수도 있어서 예외처리
-            return self.create_plane_info_dto(trip_info, direction)
+            max_retries = 2
+            while max_retries > 0 and total_results == 0:
+                if direction == 0:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": "ICN",
+                            "toEntityId": airport_id,
+                            "departDate": trip_info.start_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                elif direction == 1:
+                    data = self._call_api(
+                        "https://sky-scanner3.p.rapidapi.com/flights/search-one-way",
+                        {
+                            "fromEntityId": airport_id,
+                            "toEntityId": "ICN",
+                            "departDate": return_date,
+                            "market": "KR",
+                            "locale": "ko-KR",
+                            "currency": "KRW",
+                            "adults": trip_info.trip_member_num,
+                        },
+                    )
+                total_results = data["data"]["context"]["totalResults"]
+                max_retries -= 1
 
         flight = None
         # 가는 비행기면 오전 10시 이전에 도착하는 비행기만 조회
@@ -277,11 +298,8 @@ class SkyscannerService:
                         flight = itinerary
                         break
                 
-                flight = data["data"]["itineraries"][0]      
-                
         if flight == None:
-            trip_info.start_date = trip_info.start_date + timedelta(days = 1)
-            return self.create_plane_info_dto(trip_info, direction)
+            flight = data["data"]["itineraries"][0]  
         
         return PlaneInfoDTO(
             price=str(flight["price"]["formatted"]),

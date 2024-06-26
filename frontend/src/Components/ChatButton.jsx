@@ -16,8 +16,8 @@ export default function ChatCreateButton() {
     }
 
     return (
-        <div style={{display: 'flex'}} className={`${styles.sidebarNewChatBox}`}>
-            <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
+        <div style={{display: 'flex',color:'#c4b5fd'}} className={`${styles.sidebarNewChatBox}`}>
+            <button onClick={handleCreateChat} style={{color:'#c4b5fd'}} className={`button-64 ${styles.sidebarButton}`}>
                 <span className="text">일정 추가</span>
             </button>
         </div>
@@ -33,7 +33,7 @@ export function ChatIntroCreateButton() {
 
     return (
         <div style={{display: 'flex'}}>
-            <button onClick={handleCreateChat} className={`button-64 ${styles.sidebarButton}`}>
+            <button onClick={handleCreateChat}  style={{color:'#c4b5fd'}} className={`button-64 ${styles.sidebarButton}`}>
                 <span className="text">일정 추가</span>
             </button>
         </div>

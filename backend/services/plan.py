@@ -6,8 +6,14 @@ from typing import TYPE_CHECKING
 from backend.database import SessionLocal
 from backend.dtos import TripInfo, PlanDTO, Location, PlanListDTO
 from backend.exceptions import PlanNotFound
-from backend.models import Plan, PlanComponent, PlaneInfo, AccommodationInfo
-from backend.utils import is_search_enabled_province
+from backend.models import (
+    Plan,
+    PlanComponent,
+    PlaneInfo,
+    AccommodationInfo,
+    FestivalInfo,
+)
+from backend.utils import is_search_enabled_province, convert_provinces
 
 if TYPE_CHECKING:
     from backend.services import (
@@ -31,9 +37,13 @@ class PlanService:
         self.gpt_service = gpt_service
         self.festival_service = festival_service
 
-    def get_plans(self) -> list[PlanListDTO]:
+    def get_plans(self, provinces: list[str]) -> list[PlanListDTO]:
         with SessionLocal() as session:
-            plans = session.query(Plan).all()
+            if provinces:
+                provinces = convert_provinces(provinces)
+                plans = session.query(Plan).filter(Plan.province.in_(provinces)).all()
+            else:
+                plans = session.query(Plan).all()
             plan_list = [PlanListDTO.from_orm(plan) for plan in plans]
         return plan_list
 
@@ -66,7 +76,6 @@ class PlanService:
         self, plan: Plan, trip_info: TripInfo, trigger_skyscanner: bool = True
     ) -> list[Location]:
         if is_search_enabled_province(trip_info.province):
-            print("searching locations...")
             locations = self.search_service.search_category(
                 categories=trip_info.categories,
                 province=trip_info.province,
@@ -77,19 +86,23 @@ class PlanService:
                     f"추천 여행지 TITLE: {location.name}, "
                     f"DESCRIPTION: {location.description}, "
                     f"LAT: {location.lat}, LON: {location.lon}, "
+                    "\n"
                 )
-                search_result += (
-                    f"여행지 사진: {location.image_url}\n"
-                    if location.image_url
-                    else "\n"
-                )
-            print("search_result: ", search_result)
-            print("locations: ", locations)
         else:
             search_result = ""
             locations = []
 
         festival_info = self.festival_service.get_festival_info(trip_info)
+        if festival_info is None:
+            festival_info = FestivalInfo(
+                title="축제 정보가 없습니다.",
+                province=trip_info.province,
+                month=0,
+                festival_content="",
+                festival_photo=None,
+                latitude=None,
+                longitude=None,
+            )
 
         with ThreadPoolExecutor(max_workers=2) as executor:
             if trigger_skyscanner:
@@ -101,7 +114,10 @@ class PlanService:
                 skyscanner_result = None
 
             activities = executor.submit(
-                self.gpt_service.generate_activities, trip_info, search_result
+                self.gpt_service.generate_activities,
+                trip_info,
+                search_result,
+                festival_info,
             )
         try:
             from_plane_info, to_plane_info, accommodation_info = (
@@ -187,7 +203,6 @@ class PlanService:
             session.add(from_plane_component)
             session.add(accommodation_component)
             session.add(activity_component)
-
             session.add(festival_component)
             session.add(to_plane_component)
             session.commit()
@@ -196,46 +211,61 @@ class PlanService:
         return locations
 
     def update_plan(self, plan_id: int, msg: str) -> bool:
-        harmful: bool = self.gpt_service.moderation(msg)
+        if self.gpt_service.moderation(msg):
+            return True
 
-        if not harmful:
-            with SessionLocal() as session:
-                # plan = session.query(Plan).filter(Plan.id == plan_id).one()
-                components = (
-                    session.query(PlanComponent)
-                    .filter(PlanComponent.trip_plan_id == plan_id)
-                    .filter(PlanComponent.component_type == "activity")
-                    .all()
-                )
-                component = components[0]
-                plan = component.plan
-            if component:
-                province = plan.province
-                previous_activity = component.activity
-                if is_search_enabled_province(province):
-                    search_result = self.search_service.search_query(
-                        query=msg, province=province
+        with SessionLocal() as session:
+            components = (
+                session.query(PlanComponent)
+                .filter(PlanComponent.trip_plan_id == plan_id)
+                .all()
+            )
+            for component in components:
+                if component.component_type == "activity":
+                    activity_component = component
+                elif component.component_type == "festival_info":
+                    festival_component = component
+
+            festival_info = festival_component.festival_info
+            plan = activity_component.plan
+            locations = plan.locations
+        if components:
+            previous_activity = activity_component.activity
+            if locations:
+                search_result = ""
+                for location in locations:
+                    search_result += (
+                        f"추천 여행지 TITLE: {location['name']}, "
+                        f"DESCRIPTION: {location['description']}, "
+                        f"LAT: {location['lat']}, LON: {location['lon']}, "
+                        "\n"
                     )
-                else:
-                    search_result = ""
-                new_activity = self.gpt_service.edit_activity(
-                    previous_activity, msg, search_result
-                )
+            else:
+                search_result = ""
 
-                p = re.compile(".Invalid.")
-                check = p.match(new_activity)
-                if check is None:
-                    with SessionLocal() as session:
-                        components = (
-                            session.query(PlanComponent)
-                            .filter(PlanComponent.trip_plan_id == plan_id)
-                            .filter(PlanComponent.component_type == "activity")
-                            .all()
-                        )
-                        component = components[0]
-                        component.activity = new_activity
-                        session.commit()
-                else:
-                    harmful = True
+            new_activity = self.gpt_service.edit_activity(
+                previous_activity, msg, search_result, festival_info
+            )
 
-        return harmful
+            p = re.compile(".Invalid.")
+            check = p.match(new_activity)
+            if check is None:
+                with SessionLocal() as session:
+                    components = (
+                        session.query(PlanComponent)
+                        .filter(PlanComponent.trip_plan_id == plan_id)
+                        .filter(PlanComponent.component_type == "activity")
+                        .all()
+                    )
+                    component = components[0]
+                    component.activity = new_activity
+                    session.commit()
+
+                    # original_locations = (
+                    #     session.query(Plan.locations)
+                    #     .filter(Plan.trip_plan_id == plan_id)
+                    #     .all()
+                    # )
+                return False
+
+        return True

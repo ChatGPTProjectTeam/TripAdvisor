@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import useFetch from '../hooks/loadData.jsx';
 import FlightPlan from "./FlightPlan.jsx";
 import TripForm from "./TripForm.jsx";
@@ -9,35 +9,99 @@ import LoadingScreen from "./LoadingScreen.jsx";
 import './MainContent.css'
 import asyncFetch from '../hooks/loadWaitData.jsx'
 import {InternalPopUp} from "./PopUp.jsx";
+import FestivalPlan from "./FestivalPlan.jsx";
+import MapInfo from "./MapInfo.jsx";
 
 export default function MainPlanContents() {
-    const { targetId } = useParams();
+    const {targetId} = useParams();
     //THIS IS TEMPORAL JSON SERVER DATA
     //YOU MUST ADJUST THIS API FOR DEMO!!!
     // const tripData = useFetch(`https://api.visit-with-tripper.site/api/v1/plans`);
     const [filteredPlan, setFilteredPlan] = useState([]);
-    const { data: tripData, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
+    const {data: tripData, loading, error} = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plan/${targetId}`);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [startAnimation, setStartAnimation] = useState(false);
+    const [coordinates, setCoordinates] = useState([]);
+    const [festivalPlan, setFestivalPlan] = useState([]);
 
     useEffect(() => {
         // Filter plans only after the data has been loaded and is not null
         setFilteredPlan(tripData);
         setTimeout(() => {
-                setStartAnimation(!loading ? true : false);
-            }, 50);
+            setStartAnimation(!loading ? true : false);
+        }, 50);
 
     }, [tripData, targetId]);
 
-    console.log('check this data', filteredPlan);
+    useEffect(() => {
+    if (!tripData || loading) {
+        return;
+    }
+
+    const { locations, plan_component_list } = tripData;
+    const coords = [];
+
+    // Extract from locations
+    locations?.filter(location => location.lat && location.lon)
+        .forEach(location => {
+            coords.push({
+                lat: location.lat,
+                lon: location.lon,
+                type: 'location',
+                descriptionOne: location.name || '',
+                descriptionTwo: location.description || ''
+            });
+        });
+
+    // Extract from plan components
+    plan_component_list?.forEach(component => {
+        if (component.accommodation_info) {
+            const lat = parseFloat(component.accommodation_info.latitude);
+            const lon = parseFloat(component.accommodation_info.longitude);
+            if (!isNaN(lat) && !isNaN(lon)) {
+                coords.push({
+                    lat,
+                    lon,
+                    type: 'accommodation',
+                    descriptionOne: component.accommodation_info.location ?? '',
+                    descriptionTwo: component.accommodation_info.lowest_price ?? '' // Add description for accommodation
+                });
+            }
+        }
+
+        if (component.festival_info) {
+            const lat = parseFloat(component.festival_info.latitude);
+            const lon = parseFloat(component.festival_info.longitude);
+            if (!isNaN(lat) && !isNaN(lon)) {
+                coords.push({
+                    lat,
+                    lon,
+                    type: 'festival',
+                    descriptionOne: component.festival_info.title ?? '',
+                    descriptionTwo: component.festival_info.festival_content ?? '' // Add description for festival
+                });
+            }
+        }
+    });
+
+    setCoordinates(coords);
+    setFilteredPlan(tripData);
+    setStartAnimation(true);
+}, [tripData, loading, targetId]);
+
+
+// console.log('Coordinates:', coordinates);
+
+
+    // console.log('check this data', filteredPlan);
 
 
     if (loading || !filteredPlan) {
-        return <LoadingScreen />; // Display loading spinner while loading
+        return <LoadingScreen/>; // Display loading spinner while loading
     }
 
     const PlanTitleLogo = () => (
-        <div style={{display:'flex', alignItems:'center', marginLeft:'5px',marginRight:'5px'}}>
+        <div style={{display: 'flex', alignItems: 'center', marginLeft: '5px', marginRight: '5px'}}>
             <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_3_202)">
                     <path
@@ -56,9 +120,15 @@ export default function MainPlanContents() {
         </div>
     );
     return (
-        <section className={`main-plan-container ${ startAnimation ? 'show-animate' : ''}`}>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                <div style={{display: "flex", justifyContent: 'center', maxWidth: '980px', marginBottom: '20px', flexDirection:'column'}}>
+        <section className={`main-plan-container ${startAnimation ? 'show-animate' : ''}`}>
+            <div style={{display: 'flex', justifyContent: 'center', marginLeft: '20px', marginRight: '20px'}}>
+                <div style={{
+                    display: "flex",
+                    justifyContent: 'center',
+                    maxWidth: '600px',
+                    marginBottom: '20px',
+                    flexDirection: 'column'
+                }}>
                     <div style={{display: "flex", justifyContent: 'center', maxWidth: '980px', marginBottom: '20px'}}>
                         <PlanTitleLogo/>
                         <h1 style={{fontSize: '30px'}}> {filteredPlan.province} Plan</h1>
@@ -76,7 +146,14 @@ export default function MainPlanContents() {
                             {/*    )}*/}
                             <FlightPlan component={component} targetId={targetId} index={index}/>
                             <AccommodationPlan component={component} targetId={targetId}/>
-                            <DayPlan component={component} targetId={targetId} componentId={index + 1}/>
+                            <DayPlan locationComponent={filteredPlan.locations} component={component}
+                                     targetId={targetId} componentId={index + 1} mapData={coordinates}/>
+                            <FestivalPlan component={component} targetId={targetId}/>
+                            {/*{component.festival_info && (*/}
+                            {/*    <div>*/}
+                            {/*        <p>Flight Price: {component.festival_info.title}</p>*/}
+                            {/*    </div>*/}
+                            {/*)}*/}
                         </div>
                     ))}
                 </div>
@@ -88,8 +165,11 @@ export default function MainPlanContents() {
 
 export function MainFormContents() {
     return (
-        <div style={{flex: 4, marginTop: '40px', overflowY: "auto"}}>
+        <div className="bg-grey-300 h-full" style={{ overflowY: "auto"}}>
             <TripForm/>
         </div>
     );
 }
+
+
+

@@ -19,7 +19,8 @@ function dateFilter(dateString) {
 
 async function fetchPlans(pages) {
     try {
-        const response = await fetch('https://api.visit-with-tripper.site/api/v1/plans');
+        const response = await fetch(`https://api.visit-with-tripper.site/api/v1/plans${location.search}`);
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -34,7 +35,7 @@ async function fetchPlans(pages) {
 
 export default function ChatList() {
     const [plans, setPlans] = useState(null);
-    const { data: target, loading, error } = asyncFetch('https://api.visit-with-tripper.site/api/v1/plans');
+    const { data: target, loading, error } = asyncFetch(`https://api.visit-with-tripper.site/api/v1/plans${location.search}`);
     // console.log("can you see this:" ,tripData);
     useEffect(() => {
         setPlans(target);
@@ -47,16 +48,17 @@ export default function ChatList() {
     // console.log("what's in it:", plans)
 
     return (
+        // <ul className={`${styles.sidebarChatList}`}>
         <ul className={`${styles.sidebarChatList}`}>
             {target.plan_list.slice().reverse().map((plan) => (
                 <li key={plan.trip_plan_id}>
                     <div style={{display: 'flex'}} className={`${styles.sidebarChatBox}`}>
-                        <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton}`}>
-                            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px'}}>
-                                <span className="text">Target: {plan.province}</span>
-                                <span>생성일자: {dateFilter(plan.created_at)}</span> {/* You might want to replace ??시간 with actual dynamic data if available */}
+                        <Link to={`/chat/${plan.trip_plan_id}`} className={`button-80 ${styles.sidebarLoadButton} bg-sky-100`}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '12px',color:'#374151'}}>
+                                <span style={{color:'#374151'}} className="text">여행지 : {plan.province}</span>
+                                {/*<span>생성일자: {dateFilter(plan.created_at)}</span> */}
                             </div>
-                            <div style={{color: '#ffffff', fontSize: '16px'}}>{plan.province} 여행코스</div>
+                            <div style={{color: '#6b7280', fontSize: '16px'}}>{plan.trip_plan_id}번째 여행코스</div>
                         </Link>
                     </div>
                 </li>

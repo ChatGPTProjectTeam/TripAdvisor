@@ -13,7 +13,6 @@ const AccommodationPlan = ({ component, targetId }) => {
     // Check if any of the required data fields are blank
     const isDataBlank = (
         accommodation_info.name.trim() === '' ||
-        accommodation_info.rating.trim() === '' ||
         accommodation_info.location.trim() === ''
     );
 
@@ -22,18 +21,18 @@ const AccommodationPlan = ({ component, targetId }) => {
             <div style={{marginBottom:'20px'}}>
                 <div className='title-container'><p>숙소 정보</p></div>
                 {/* Render accommodation information if data is not blank */}
-                {!isDataBlank && (
+                {!isDataBlank ? (
                     <>
                         <p className='place-name'>{accommodation_info.name}</p>
-                        <p className='place-location'>Rating: {accommodation_info.rating}</p>
+                        <p className='place-rating'>Rating: {accommodation_info.rating}</p>
                         <p className='place-location'>Location: {accommodation_info.location}</p>
                         {/*<div style={{paddingTop:'10px'}}><InternalPopUp buttonText='숙소 정보 보기'></InternalPopUp></div>*/}
                     </>
-                )}
-                {/* Conditional rendering for "Sorry!" message */}
-                {isDataBlank && (
-                    <div style={{marginTop: '20px', marginBottom: '20px'}}>
-                        <img src="/construction.svg" alt="Logo" width="100px" height="40px"/>
+                ) : (
+                    <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ margin: 'auto' }}>
+                            <img src="/construction.svg" alt="Construction icon" width="100px" height="40px" />
+                        </div>
                         <h3>정보를 불러올 수가 없어요</h3>
                     </div>
                 )}

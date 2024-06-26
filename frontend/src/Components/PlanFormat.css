@@ -6,8 +6,8 @@
 }
 .title-container {
     display: flex;
-    align-items: flex-start;
-    background-color: #F68080;
+    justify-content: center;
+    background-color: #FFFFFF;
     padding-left: 5px;
     border-radius: 3px;
 }
@@ -59,7 +59,7 @@
 .day-plan-container {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    min-width: 800px;
     margin: 0 auto;
     justify-content: flex-start;
 
@@ -77,6 +77,7 @@
     flex-direction: column;
     margin-bottom: 10px;
     text-align: left;
+
 }
 
 .message__label {
