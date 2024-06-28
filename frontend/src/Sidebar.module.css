@@ -11,7 +11,7 @@
 .sidebarChatList {
   list-style-type: none;
   height: 100%;
-  max-height: calc(100vh - 240px);
+  max-height: calc(100vh - 300px);
   overflow-y: auto;
 }
 

@@ -30,8 +30,8 @@ const FestivalPlan = ({ component, targetId }) => {
         navigate(`/chat/${targetId}`);
     };
 
-    console.log(festivalInfo.festival_content_markdown);
-    console.log("############");
+    // console.log(festivalInfo.festival_content_markdown);
+    // console.log("############");
     return (
         <div style={{ display: 'block' }}>
             <div className='title-container'><p> {provinceFileter} 행사 정보</p></div>
