@@ -64,7 +64,8 @@ export default function Sidebar() {
 
     return (
         <div className="flex">
-            <div style={{ width: `${width / 16}rem` }} className="bg-gray-50">
+            <div style={{ width: `${width / 16 <= 23 ? 23 : width / 16}rem` }} className="bg-gray-50">
+
                 <div className={styles.responsiveBar}>
                     <div style={{
                         scale: '1.3',
@@ -88,7 +89,7 @@ export default function Sidebar() {
                             <div style={{display: 'flex', justifyContent: 'center'}}>
                                 {provinceOptions.map((option, index) => (
                                     <div key={index} style={{paddingLeft: '10px'}}
-                                         className={formStyles["checkbox-wrapper-47"]}>
+                                         className={`${formStyles["checkbox-wrapper-47"]} ${formStyles["province-sidebar-box"]}`}>
                                         <input
                                             type="checkbox"
                                             id={`province-sidebar-${index}`}
